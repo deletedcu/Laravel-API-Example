@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class OAuthController extends Controller
 {
-    private $guzzle;
+    protected $guzzle;
 
     public function __construct()
     {
