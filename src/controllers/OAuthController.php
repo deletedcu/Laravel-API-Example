@@ -4,8 +4,9 @@ namespace BohSchu\Exact\Controllers;
 
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller as BaseController;
 
-class OAuthController extends Controller
+class OAuthController extends BaseController
 {
     protected $guzzle;
 
