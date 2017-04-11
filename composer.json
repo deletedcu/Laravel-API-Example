@@ -1,0 +1,21 @@
+{
+    "name": "bohmeyer-schuster-gmbh/laravel-exact",
+    "description": "Laravel - Exact ERP Connector",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marc Trösken",
+            "email": "m.troesken@bohmeyer-schuster.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "illuminate/support": "^5.4",
+        "guzzlehttp/guzzle": "^6.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "BohSchu\\Exact\\": "src/"
+        }
+    }
+}
