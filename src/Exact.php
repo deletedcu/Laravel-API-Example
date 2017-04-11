@@ -18,31 +18,22 @@ class Exact
 
     public function createSalesOrder()
     {
-        dd(config('exact.base_uri'));
         $this->checkToken();
     }
 
     protected function checkToken()
     {
-        try {
-            $response = $this->client->request('GET', '/api/v1/current/Me', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'authorization' => 'Bearer ' . Cache::get(Auth::id() . '.access_token')
-                ]
-            ]);
-        } catch (ClientException $e) {
-            dd($e->getResponse());
-            if ($e->getResponse()->getStatusCode() == 401 && Cache::get(Auth::id() . '.refresh_token')) {
-                $this->refreshToken();
-            } else {
-                $uri = '/api/oauth2/auth?client_id='
-                    . env('CLIENT_ID')
-                    . '&redirect_uri=' . env('REDIRECT_URI')
-                    . '&response_type=code';
+        if (Cache::get(Auth::id() . '.access_token')) {
+            return true;
+        } else if(Cache::get(Auth::id() . '.refresh_token')) {
+            $this->refreshToken();
+        } else {
+            $uri = '/api/oauth2/auth?client_id='
+                . env('CLIENT_ID')
+                . '&redirect_uri=' . env('REDIRECT_URI')
+                . '&response_type=code';
 
-                return redirect()->to(config('exact.base_uri') . $uri);
-            }
+            return redirect()->to(config('exact.base_uri') . $uri);
         }
     }
 
