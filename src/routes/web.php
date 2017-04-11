@@ -1,5 +1,4 @@
 <?php
 
-Route::get('/oauth2/callback', function() {
-    dd(request()->all());
-});
+Route::get('/exact/login', 'OAuthController@login');
+Route::get('/exact/callback', 'OAuthController@callback');

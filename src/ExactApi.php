@@ -18,15 +18,7 @@ class ExactApi
 
     public function createSalesOrder()
     {
-        if (! $this->checkToken()) {
-            $uri = '/api/oauth2/auth?client_id=' . env('CLIENT_ID')
-                . '&redirect_uri=' . env('REDIRECT_URI')
-                . '&response_type=code';
-
-            echo 'redirect';
-            header('Location: ' . config('exact.base_uri') . $uri, TRUE, 302);
-            die('baam');
-        }
+        this->checkToken();
     }
 
     protected function checkToken()
@@ -38,7 +30,11 @@ class ExactApi
             dd('need refresh');
             $this->refreshToken();
         } else {
-            return false;
+           $uri = '/api/oauth2/auth?client_id=' . env('CLIENT_ID')
+               . '&redirect_uri=' . env('REDIRECT_URI')
+               . '&response_type=code';
+
+           header('Location: ' . config('exact.base_uri') . $uri, TRUE, 302);
         }
     }
 
