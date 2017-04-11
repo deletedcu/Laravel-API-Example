@@ -23,7 +23,9 @@ class ExactApi
                 . '&redirect_uri=' . env('REDIRECT_URI')
                 . '&response_type=code';
 
-            header(config('exact.base_uri') . $uri);
+            echo 'redirect';
+            header('Location: ' . config('exact.base_uri') . $uri, TRUE, 302);
+            die('baam');
         }
     }
 
