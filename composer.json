@@ -10,7 +10,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "illuminate/support": "^5.4",
+        "illuminate/support": "^5.3",
         "guzzlehttp/guzzle": "^6.2"
     },
     "autoload": {
