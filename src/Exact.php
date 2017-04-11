@@ -31,7 +31,7 @@ class Exact
                 ]
             ]);
         } catch (ClientException $e) {
-            dd($e);
+            dd($e->getResponse());
             if ($e->getResponse()->getStatusCode() == 401 && Cache::get(Auth::id() . '.refresh_token')) {
                 $this->refreshToken();
             } else {
