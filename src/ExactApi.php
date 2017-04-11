@@ -7,7 +7,7 @@ use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
-class Exact
+class ExactApi
 {
     private $client;
 
@@ -18,7 +18,13 @@ class Exact
 
     public function createSalesOrder()
     {
-        $this->checkToken();
+        if (! $this->checkToken()) {
+            $uri = '/api/oauth2/auth?client_id=' . env('CLIENT_ID')
+                . '&redirect_uri=' . env('REDIRECT_URI')
+                . '&response_type=code';
+
+            return redirect()->to(config('exact.base_uri') . $uri);
+        }
     }
 
     protected function checkToken()
@@ -30,13 +36,7 @@ class Exact
             dd('need refresh');
             $this->refreshToken();
         } else {
-            dd('login');
-            $uri = '/api/oauth2/auth?client_id='
-                . env('CLIENT_ID')
-                . '&redirect_uri=' . env('REDIRECT_URI')
-                . '&response_type=code';
-
-            return redirect()->to(config('exact.base_uri') . $uri);
+            return false;
         }
     }
 
