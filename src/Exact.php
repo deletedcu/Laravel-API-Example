@@ -24,10 +24,13 @@ class Exact
     protected function checkToken()
     {
         if (Cache::get(Auth::id() . '.access_token')) {
+            dd('hat token');
             return true;
         } else if(Cache::get(Auth::id() . '.refresh_token')) {
+            dd('need refresh');
             $this->refreshToken();
         } else {
+            dd('login');
             $uri = '/api/oauth2/auth?client_id='
                 . env('CLIENT_ID')
                 . '&redirect_uri=' . env('REDIRECT_URI')
