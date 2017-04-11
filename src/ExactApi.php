@@ -23,7 +23,7 @@ class ExactApi
                 . '&redirect_uri=' . env('REDIRECT_URI')
                 . '&response_type=code';
 
-            return redirect()->to(config('exact.base_uri') . $uri);
+            header(config('exact.base_uri') . $uri);
         }
     }
 
