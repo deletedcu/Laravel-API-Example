@@ -17,6 +17,10 @@ class OAuthController extends BaseController
 
     public function login()
     {
+        if (session()->get('access_token') || session()->get('refresh_token')) {
+            return redirect()->to('/dashboard');
+        }
+
         $uri = '/api/oauth2/auth?client_id=' . env('CLIENT_ID')
                . '&redirect_uri=' . env('REDIRECT_URI')
                . '&response_type=code';
