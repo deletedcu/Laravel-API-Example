@@ -8,7 +8,7 @@ class SalesOrder
 {
     private $client;
 
-    public function __construct($client)
+    public function __construct()
     {
         $this->client = new Client(['base_uri' => config('exact.base_uri')]);
     }
