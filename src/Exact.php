@@ -18,6 +18,7 @@ class Exact
 
     public function createSalesOrder()
     {
+        dd(config('exact.base_uri'));
         $this->checkToken();
     }
 
