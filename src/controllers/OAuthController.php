@@ -53,9 +53,21 @@ class OAuthController extends BaseController
 
         $body = json_decode($body->getBody());
 
+        $this->authenticateUser($body->access_token);
+
         Cache::put(Auth::id() . '.access_token', $body->access_token, $body->expires_in / 60);
         Cache::forever(Auth::id() . '.refresh_token', $body->refresh_token);
 
         return redirect()->to('/dashboard');
+    }
+
+    protected function authenticateUser($token)
+    {
+        $user = $this->guzzle->get('/api/v1/current/Me', [
+            'Accept' => 'application/json',
+            'authorization' => 'Bearer ' . $token
+        ]);
+
+        dd($user);
     }
 }
