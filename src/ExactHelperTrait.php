@@ -210,13 +210,16 @@ trait ExactHelperTrait
         return json_decode($response->getBody());
     }
 
-    protected function post($uri, $data)
+    protected function post($uri, $data, $type = 'json')
     {
         try {
-            $response = $this->client->request('POST', $uri, $data, [
-                'Accept' => 'application/json',
-                'authorization' => 'Bearer ' . Cache::get(Auth::id() . '.access_token')
-            ], 'json');
+            $response = $this->client->request('POST', $uri, [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'authorization' => 'Bearer ' . Cache::get(Auth::id() . '.access_token')
+                ],
+                $type => $data
+            ]);
         } catch (ClientException $e) {
             dd(\GuzzleHttp\Psr7\str($e->getResponse()));
         } catch (ServerException $e) {
@@ -248,13 +251,16 @@ trait ExactHelperTrait
     {
         try {
             $body = $this->client->request('POST', '/api/oauth2/token', [
-                'refresh_token' => Cache::get(Auth::id() . '.refresh_token'),
-                'grant_type' => 'refresh_token',
-                'client_id' => env('CLIENT_ID'),
-                'client_secret' => env('CLIENT_SECRET')
-            ], [
-                'Accept' => 'application/json',
-            ], 'json');
+                'headers' =>  [
+                    'Accept' => 'application/json',
+                ],
+                'form_params' => [
+                    'refresh_token' => Cache::get(Auth::id() . '.refresh_token'),
+                    'grant_type' => 'refresh_token',
+                    'client_id' => env('CLIENT_ID'),
+                    'client_secret' => env('CLIENT_SECRET')
+                ]
+            ]);
         } catch (ClientException $e) {
             dd(\GuzzleHttp\Psr7\str($e->getResponse()));
         } catch (ServerException $e) {
