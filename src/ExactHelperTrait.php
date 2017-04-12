@@ -24,7 +24,9 @@ trait ExactHelperTrait
             . $this->division .'/crm/Accounts?$filter=startswith(trim(Code),' . "'" . $id . "') "
             . 'eq true&$select=ID';
 
-        return $this->get($uri)->d->results[0]->ID;
+        $results = $this->get($uri)->d->results;
+
+        return $results ? $results[0]->ID : false;
     }
 
     /**
@@ -40,7 +42,9 @@ trait ExactHelperTrait
             . ' and LastName eq ' . "'" . $contact->last_name . "'"
             . ' and FirstName eq ' . "'" . $contact->first_name . "'" . '&$select=ID';
 
-        return $this->get($uri)->d->results[0]->ID;
+        $results = $this->get($uri)->d->results;
+
+        return $results ? $results[0]->ID : false;
     }
 
     /**
@@ -58,7 +62,9 @@ trait ExactHelperTrait
             . "'" . $address->delivery_street . $address->delivery_house_number . "') " . 'eq true'
             .' and Postcode eq '. "'" . $address->delivery_zip_code . "'" . '&$select=ID';
 
-        return $this->get($uri)->d->results[0]->ID;
+        $results = $this->get($uri)->d->results;
+
+        return $results ? $results[0]->ID : false;
     }
 
     /**
@@ -159,7 +165,9 @@ trait ExactHelperTrait
         $uri = '/api/v1/'. $this->division .'/sales/PriceLists?$filter=Description eq '
             . "'" . $name . "'";
 
-        return $this->get($uri)->d->results[0]->ID;
+        $results = $this->get($uri)->d->results;
+
+        return $results ? $results[0]->ID : false;
     }
 
     /**
