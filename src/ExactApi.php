@@ -3,12 +3,15 @@
 namespace BohSchu\Exact;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
+use BohSchu\Exact\ExactHelperTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use GuzzleHttp\Exception\ClientException;
 
 class ExactApi
 {
+    use ExactHelperTrait;
+
     private $client;
 
     public function __construct()

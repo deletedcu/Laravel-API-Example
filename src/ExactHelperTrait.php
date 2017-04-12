@@ -8,7 +8,7 @@ use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 
-trait ExactHelperTraint
+trait ExactHelperTrait
 {
     /**
      * Fetch company guid by code
