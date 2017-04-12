@@ -51,7 +51,7 @@ class OAuthController extends BaseController
             ]
         ]);
 
-        dd($body);
+        dd(json_decode($body));
 
         Cache::put(Auth::id() . '.access_token', $body['access_token'], 10);
         Cache::put(Auth::id() . '.refresh_token', $body['refresh_token'], 10);
