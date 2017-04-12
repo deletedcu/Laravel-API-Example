@@ -59,7 +59,7 @@ trait ExactHelperTrait
         $uri = '/api/v1/'. $this->division
             .'/crm/Addresses?$filter=Account eq guid' . "'" . $accountId . "'"
             .' and startswith(trim(AddressLine1),'
-            . "'" . $address->delivery_street . $address->delivery_house_number . "') " . 'eq true'
+            . "'" . $address->delivery_street "') " . 'eq true'
             .' and Postcode eq '. "'" . $address->delivery_zip_code . "'" . '&$select=ID';
 
         $results = $this->get($uri)->d->results;
