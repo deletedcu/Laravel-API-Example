@@ -54,7 +54,7 @@ class OAuthController extends BaseController
 
         $body = json_decode($body->getBody());
 
-        $this->authenticateUser($body->access_token);
+        dd($this->authenticateUser($body->access_token));
 
         Cache::put(Auth::id() . '.access_token', $body->access_token, $body->expires_in / 60);
         Cache::forever(Auth::id() . '.refresh_token', $body->refresh_token);
@@ -72,7 +72,8 @@ class OAuthController extends BaseController
         ]);
 
         $body = json_decode($body->getBody());
-        $user = User::whereEmail($body->d->results[0]->Email)->first();
+        $user = User::where('email', $body->d->results[0]->Email)->first();
+        dump($user);
 
         return Auth::loginUsingId($user->id);
     }
