@@ -16,8 +16,6 @@ class ExactServiceProvider extends ServiceProvider {
         $this->publishes([
             __DIR__.'/config/exact.php' => config_path('exact.php')
         ]);
-
-        $this->loadRoutesFrom(__DIR__.'/routes/web.php');
     }
 
     /**
