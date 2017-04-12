@@ -57,11 +57,10 @@ class OAuthController extends BaseController
 
         $this->authenticateUser($body->access_token);
 
-        // Cache::put(Auth::id() . '.access_token', $body->access_token, $body->expires_in / 60);
-        // Cache::forever(Auth::id() . '.refresh_token', $body->refresh_token);
+        Cache::put(Auth::id() . '.access_token', $body->access_token, $body->expires_in / 60);
+        Cache::forever(Auth::id() . '.refresh_token', $body->refresh_token);
 
-        dd(Auth::user()->email);
-        return redirect()->to('/dashboard');
+        return redirect()->to('http://backend.schilder-versand.dev/dashboard');
     }
 
     protected function authenticateUser($token)
