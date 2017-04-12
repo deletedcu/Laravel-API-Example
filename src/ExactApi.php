@@ -77,6 +77,8 @@ class ExactApi
     {
         $accounting = $this->getAccountingCodes($account->language->code);
 
+        dd($accounting);
+
         $data = [
             'Code' => strlen($account->id) == 5 ? '10' . (string) $account->id : $account->id,
             'Name' => $account->name,

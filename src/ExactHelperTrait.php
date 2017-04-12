@@ -131,7 +131,7 @@ trait ExactHelperTrait
     /**
      * Define accounting information for account
      *
-     * @param $languageCode
+     * @param $countryCode
      * @return Array
      */
     protected function getAccountingCodes($countryCode)
