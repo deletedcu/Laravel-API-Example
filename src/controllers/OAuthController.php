@@ -51,11 +51,11 @@ class OAuthController extends BaseController
             ]
         ]);
 
-        dd(json_decode($body->getBody()));
+        $body = json_decode($body->getBody());
 
-        Cache::put(Auth::id() . '.access_token', $body['access_token'], 10);
-        Cache::put(Auth::id() . '.refresh_token', $body['refresh_token'], 10);
+        Cache::put(Auth::id() . '.access_token', $body->access_token, $body->expires_in / 60);
+        Cache::forever(Auth::id() . '.refresh_token', $body->refresh_token);
 
-        return redirect()->to('/orders/transfer');
+        return redirect()->to('/dashboard');
     }
 }
