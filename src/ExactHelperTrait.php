@@ -231,8 +231,10 @@ trait ExactHelperTrait
     protected function checkToken()
     {
         if (Cache::get(Auth::id() . '.access_token')) {
+            dd('noch da');
             return true;
         } else if(Cache::get(Auth::id() . '.refresh_token')) {
+            dd(neu machen);
             return $this->refreshTokens();
         } else {
             return false;

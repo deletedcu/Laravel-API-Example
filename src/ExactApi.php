@@ -23,7 +23,6 @@ class ExactApi
 
     public function createSalesOrder($order)
     {
-        dd('hier');
         if ($this->checkToken() == false) {
             return false;
         }
