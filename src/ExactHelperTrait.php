@@ -55,8 +55,8 @@ trait ExactHelperTrait
         $uri = '/api/v1/'. $this->division
             .'/crm/Addresses?$filter=Account eq guid' . "'" . $accountId . "'"
             .' and startswith(trim(AddressLine1),'
-            . "'" . $delivery->delivery_street . $delivery->delivery_house_number . "') " . 'eq true'
-            .' and Postcode eq '. "'" . $delivery->delivery_zip_code . "'" . '&$select=ID';
+            . "'" . $address->delivery_street . $address->delivery_house_number . "') " . 'eq true'
+            .' and Postcode eq '. "'" . $address->delivery_zip_code . "'" . '&$select=ID';
 
         return $this->get($uri)->d->results[0]->ID;
     }
