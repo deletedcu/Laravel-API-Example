@@ -74,6 +74,6 @@ class OAuthController extends BaseController
         $body = json_decode($body->getBody());
         $user = User::whereEmail($body->d->results[0]->Email);
 
-        return Auth::login($user);
+        return Auth::loginUsingId($user->id);
     }
 }
