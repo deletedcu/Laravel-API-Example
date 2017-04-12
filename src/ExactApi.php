@@ -60,7 +60,7 @@ class ExactApi
             'YourRef' => $order->id,
             'Remarks' => $order->comments,
             'PaymentCondition' => $paymentCondition,
-            'PaymentReference' => $digitalBill ? 'eRg.' : '',
+            'PaymentReference' => $order->digital_bill ? 'eRg.' : '',
             'SalesOrderLines' => $salesOrderLines
         ];
 
