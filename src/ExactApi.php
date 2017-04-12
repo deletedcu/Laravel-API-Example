@@ -54,8 +54,8 @@ class ExactApi
 
         $data = [
             'OrderDate' => $order->created_at,
-            'OrderedBy' => $company,
-            'OrderedByContactPerson' => $user,
+            'OrderedBy' => $account,
+            'OrderedByContactPerson' => $contact,
             'DeliveryAddress' => $address,
             'YourRef' => $order->id,
             'Remarks' => $order->comments,
