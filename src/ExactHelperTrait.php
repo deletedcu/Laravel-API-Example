@@ -23,6 +23,7 @@ trait ExactHelperTrait
         $uri = '/api/v1/'
             . $this->division .'/crm/Accounts?$filter=startswith(trim(Code),' . "'" . $id . "') "
             . 'eq true&$select=ID';
+        dd($uri);
 
         return $this->get($uri)->d->results[0]->ID;
     }
