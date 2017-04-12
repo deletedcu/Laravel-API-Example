@@ -57,8 +57,6 @@ class OAuthController extends BaseController
         Cache::put(Auth::id() . '.access_token', $body->access_token, $body->expires_in / 60);
         Cache::forever(Auth::id() . '.refresh_token', $body->refresh_token);
 
-        dd(Cache::get(Auth::id() . '.access_token'));
-
         return redirect()->to('/dashboard');
     }
 
