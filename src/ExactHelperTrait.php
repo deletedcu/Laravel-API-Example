@@ -79,7 +79,7 @@ trait ExactHelperTrait
     {
         $return = [];
 
-        foreach ($details as $key => $value) {
+        foreach ($products as $key => $value) {
             $uri = '/api/v1/'. $this->division .'/logistics/Items?$filter=trim(Code) eq ' . "'" . $value->variant->sku . "'" . '&$select=ID';
             $itemId = $this->get($uri)->d->results;
 
