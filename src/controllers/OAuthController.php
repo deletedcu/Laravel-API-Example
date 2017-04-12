@@ -4,9 +4,9 @@ namespace BohSchu\Exact\Controllers;
 
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Routing\Controller as BaseController;
 
 class OAuthController extends BaseController
 {
@@ -69,7 +69,9 @@ class OAuthController extends BaseController
         ]);
 
         $body = json_decode($body->getBody());
+        $user = User::whereEmail($body->Email);
+        dd($user);
 
-        dd($body);
+        Auth::login($user);
     }
 }
