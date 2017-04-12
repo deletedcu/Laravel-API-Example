@@ -13,9 +13,11 @@ class ExactApi
     use ExactHelperTrait;
 
     private $client;
+    private $division;
 
     public function __construct()
     {
+        $this->division = env('DIVISION_CODE');
         $this->client = new Client(['base_uri' => config('exact.base_uri')]);
     }
 
