@@ -36,6 +36,8 @@ class ExactApi
         $address = $this->getAddressId($order->delivery, $account)
                 ?? $this->createAddress($order->delivery, $account);
 
+        dd($address);
+
         $paymentCondition = $this->getPaymentCondition($order->payment_method);
 
         $salesOrderLines = $this->getItemIds(
@@ -75,7 +77,6 @@ class ExactApi
      */
     public function createAccount($account, $digitalBill = false)
     {
-        dd('neu');
         $accounting = $this->getAccountingCodes($account->language->code);
 
         $data = [
