@@ -14,7 +14,7 @@ class OAuthController extends BaseController
 
     public function __construct()
     {
-        $this->guzzle = new Client();
+        $this->guzzle = new Client(['base_uri' => config('exact.base_uri')]);
     }
 
     public function login()
