@@ -29,7 +29,6 @@ class ExactApi
 
         $account = $this->getAccountId($order->company, $order->digital_bill)
                 ?? $this->createAccount($order->company, $order->digital_bill);
-        dd($account);
 
         $contact = $this->getContactId($order->user, $account)
                 ?? $this->createContact($order->user, $account);

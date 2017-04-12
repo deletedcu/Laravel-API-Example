@@ -231,10 +231,8 @@ trait ExactHelperTrait
     protected function checkToken()
     {
         if (Cache::get(Auth::id() . '.access_token')) {
-            dd('noch da');
             return true;
         } else if(Cache::get(Auth::id() . '.refresh_token')) {
-            dd(neu machen);
             return $this->refreshTokens();
         } else {
             return false;
@@ -254,7 +252,9 @@ trait ExactHelperTrait
                 'grant_type' => 'refresh_token',
                 'client_id' => env('CLIENT_ID'),
                 'client_secret' => env('CLIENT_SECRET')
-            ]);
+            ], [
+                'Accept' => 'application/json',
+            ], 'json');
         } catch (ClientException $e) {
             dd(\GuzzleHttp\Psr7\str($e->getResponse()));
         } catch (ServerException $e) {
