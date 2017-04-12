@@ -37,10 +37,89 @@ trait ExactHelperTrait
     {
         $uri = '/api/v1/'. $this->division
             .'/crm/Contacts?$filter=Account eq guid' . "'" . $accountId . "'"
-            . 'and LastName eq ' . "'" . $contact->last_name . "' "
-            . 'and FirstName eq ' . "'" . $contact->first_name . "'" . '&$select=ID';
+            . ' and LastName eq ' . "'" . $contact->last_name . "'"
+            . ' and FirstName eq ' . "'" . $contact->first_name . "'" . '&$select=ID';
 
         return $this->get($uri)->d->results[0]->ID;
+    }
+
+    /**
+     * Fetch company delivery adress guid by adress
+     *
+     * @param $address
+     * @param $accountId
+     * @return String
+     */
+    protected function getAddressId($address, $accountId)
+    {
+        $uri = '/api/v1/'. $this->division
+            .'/crm/Addresses?$filter=Account eq guid' . "'" . $accountId . "'"
+            .' and startswith(trim(AddressLine1),'
+            . "'" . $delivery->delivery_street . $delivery->delivery_house_number . "') " . 'eq true'
+            .' and Postcode eq '. "'" . $delivery->delivery_zip_code . "'" . '&$select=ID';
+
+        return $this->get($uri)->d->results[0]->ID;
+    }
+
+    /**
+     * Fetch product guid for salesOrderLines
+     *
+     * @param  $products
+     * @param  $countryCode
+     * @param  $deliveryCountryCode
+     * @return Array
+     */
+    protected function getItemIds($products, $countryCode, $deliveryCountryCode)
+    {
+        $return = [];
+
+        foreach ($details as $key => $value) {
+            $uri = '/api/v1/'. $this->division .'/logistics/Items?$filter=trim(Code) eq ' . "'" . $value->variant->sku . "'" . '&$select=ID';
+            $itemId = $this->get($uri)->d->results;
+
+            if(isset($itemId[0]->ID)) {
+                $return[$key]['Item'] = $itemId[0]->ID;
+                $return[$key]['Quantity'] = $value->amount;
+                $return[$key]['Notes'] = $value->individualized;
+
+                if (isset($value->price)) {
+                    $return[$key]['NetPrice'] = $value->price;
+                }
+            }
+
+            if ($countryCode != 'DE' && $deliveryCountryCode == 'DE') {
+                $return[$key]['VATCode'] = 3;
+            }
+        }
+
+        return $return;
+    }
+
+    /**
+     * Return the right delivery costs
+     *
+     * @param $cost
+     * @param $countryCode
+     * @param $deliveryCountryCode
+     * @return Array
+     */
+    protected function getDeliveryCosts($cost, $countryCode, $deliveryCountryCode)
+    {
+        $uri = '/api/v1/'. $this->division
+            .'/logistics/Items?$filter=trim(Code) eq '
+            . "'Versand " . $deliveryCountryCode . "'" . '&$select=ID';
+
+        $return = [
+            'Item' => $this->get($uri)->d->results[0]->ID,
+            'Quantity' => 1,
+            'NetPrice' => (float) $cost
+        ];
+
+        if ($countryCode != 'DE' && $deliveryCountryCode == 'DE') {
+            $return['VATCode'] = 3;
+        }
+
+        return $return;
     }
 
     /**
@@ -147,7 +226,7 @@ trait ExactHelperTrait
         } else if(Cache::get(Auth::id() . '.refresh_token')) {
             return $this->refreshTokens();
         } else {
-           return false;
+            return false;
         }
     }
 

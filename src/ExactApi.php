@@ -21,8 +21,6 @@ class ExactApi
 
     public function createSalesOrder($order)
     {
-        dd($this->getPaymentCondition($order->payment_method));
-
         if (! $this->checkToken()) {
             return false;
         }
@@ -33,35 +31,38 @@ class ExactApi
         $contact = $this->getContactId($order->user, $account)
                 ?? $this->createContact($order->user, $account);
 
+        $address = $this->getAddressId($order->delivery, $account)
+                ?? $this->createAddress($order->delivery, $account);
+
         $paymentCondition = $this->getPaymentCondition($order->payment_method);
 
         $salesOrderLines = $this->getItemIds(
-            $prder->details,
-            $prder->company->language->code,
-            $prder->delivery->language->code
+            $order->details,
+            $order->company->language->code,
+            $order->delivery->language->code
         );
 
         if ($order->delivery_costs != '0.00' || $order->delivery_costs != '') {
             $salesOrderLines[] = $this->getDeliveryCosts(
-                $order->company->language->code,
                 $order->delivery_costs,
+                $order->company->language->code,
                 $order->delivery->language->code
             );
         }
 
-        $dataToTransfer = [
+        $data = [
             'OrderDate' => $prder->created_at,
             'OrderedBy' => $company,
             'OrderedByContactPerson' => $user,
+            'DeliveryAddress' => $address,
             'YourRef' => $order->id,
             'Remarks' => $order->comments,
             'PaymentCondition' => $paymentCondition,
             'PaymentReference' => $digitalBill ? 'eRg.' : '',
-            'SalesOrderLines' => $salesOrderLines,
-            // 'WarehouseID' => '0c5b86c7-1e97-4ea4-b334-a6235c0718fa'
+            'SalesOrderLines' => $salesOrderLines
         ];
 
-        $dataToTransfer['DeliveryAddress'] = $this->getCompanyDeliveryId($order->delivery, $company);
+        return $this->post('/api/v1/'. $this->division .'/salesorder/SalesOrders', $data)->d->OrderNumber;
     }
 
     /**
@@ -89,7 +90,6 @@ class ExactApi
             'Country' => $account->language->code,
             'SalesVATCode' => $accounting->vatCode,
             'GLAccountSales' => $accounting->accountSales,
-            // 'Classification2' => $this->getClassification($company['customer_type']),
             'PriceList' => $this->getPriceListId('VK Preisliste Shop')
         ];
 
@@ -107,7 +107,7 @@ class ExactApi
      * @param  $accountId
      * @return String
      */
-    protected function createContact($contact, $accountId)
+    public function createContact($contact, $accountId)
     {
         $data = [
             'Account' => $accountId,
@@ -120,5 +120,28 @@ class ExactApi
         ];
 
         return $this->post('/api/v1/'. $this->division .'/crm/Contacts', $data)->d->ID;
+    }
+
+    /**
+     * Create a new address in exact
+     *
+     * @param $address
+     * @param $accountId
+     * @return String
+     */
+    public function createAddress($address, $accountId)
+    {
+        $data = [
+            'Account' => $accountId,
+            'AddressLine1' => $address->delivery_street . ' ' . $address->delivery_house_number,
+            'AddressLine2' => $address->delivery_additional,
+            'AddressLine3' => $address->delivery_name,
+            'Postcode' => $address->delivery_zip_code,
+            'City' => $address->delivery_city,
+            'Country' => $address->language->code ?? 'DE',
+            'Type' => 4
+        ];
+
+        return $this->post('/api/v1/'. $this->division .'/crm/Addresses', $data)->d->ID;
     }
 }
