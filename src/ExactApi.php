@@ -36,8 +36,6 @@ class ExactApi
         $address = $this->getAddressId($order->delivery, $account)
                 ?? $this->createAddress($order->delivery, $account);
 
-        dd($address);
-
         $paymentCondition = $this->getPaymentCondition($order->payment_method);
 
         $salesOrderLines = $this->getItemIds(
@@ -135,7 +133,6 @@ class ExactApi
      */
     public function createAddress($address, $accountId)
     {
-        dd('create');
         $data = [
             'Account' => $accountId,
             'AddressLine1' => $address->delivery_street . ' ' . $address->delivery_house_number,
