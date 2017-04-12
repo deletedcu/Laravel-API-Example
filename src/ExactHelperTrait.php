@@ -23,7 +23,6 @@ trait ExactHelperTrait
         $uri = '/api/v1/'
             . $this->division .'/crm/Accounts?$filter=startswith(trim(Code),' . "'" . $id . "') "
             . 'eq true&$select=ID';
-        dd($uri);
 
         return $this->get($uri)->d->results[0]->ID;
     }
@@ -188,7 +187,7 @@ trait ExactHelperTrait
            $response = $this->client->request('GET', $uri, [
                'headers' => [
                    'Accept' => 'application/json',
-                   'authorization' => 'Bearer ' . Cache::get('access_token')
+                   'authorization' => 'Bearer ' . Cache::get(Auth::id() . '.access_token')
                ]
            ]);
         } catch (ClientException $e) {
@@ -207,7 +206,7 @@ trait ExactHelperTrait
         try {
             $response = $this->client->request('POST', $uri, $data, [
                 'Accept' => 'application/json',
-                'authorization' => 'Bearer ' . Cache::get('access_token')
+                'authorization' => 'Bearer ' . Cache::get(Auth::id() . '.access_token')
             ], 'json');
         } catch (ClientException $e) {
             dd(\GuzzleHttp\Psr7\str($e->getResponse()));
