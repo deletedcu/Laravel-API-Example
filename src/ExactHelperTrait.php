@@ -99,7 +99,7 @@ trait ExactHelperTrait
             'Sofortüberweisung' => 'SO'
         ])->filter(function($code, $condition) use ($paymentMethod) {
             return $condition == $paymentMethod;
-        });
+        })->$paymentMethod;
     }
 
     protected function get($uri)
