@@ -21,6 +21,7 @@ class OAuthController extends BaseController
     public function login()
     {
         if (Cache::get(Auth::id() . '.access_token') || Cache::get(Auth::id() . '.refresh_token')) {
+            $this->authenticateUser(Cache::get(Auth::id() . '.access_token'));
             return redirect()->to('/dashboard');
         }
 
