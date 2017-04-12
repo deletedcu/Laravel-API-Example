@@ -21,7 +21,7 @@ class ExactApi
 
     public function createSalesOrder($order)
     {
-        if (! $this->checkToken()) {
+        if ($this->checkToken() == false) {
             return false;
         }
 
