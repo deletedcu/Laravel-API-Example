@@ -63,6 +63,7 @@ class OAuthController extends BaseController
 
     protected function authenticateUser($token)
     {
+        dd($token);
         $user = $this->guzzle->get('/api/v1/current/Me', [
             'Accept' => 'application/json',
             'authorization' => 'Bearer ' . $token
