@@ -18,6 +18,7 @@ trait ExactHelperTrait
      */
     protected function getAccountId($account, $digitalBill)
     {
+        dd('getid');
         $id = strlen($account['id']) == 5 ? '10' . (string) $account['id'] : $account['id'];
 
         $uri = '/api/v1/'

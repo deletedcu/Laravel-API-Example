@@ -76,6 +76,7 @@ class ExactApi
      */
     public function createAccount($account, $digitalBill = false)
     {
+        dd('neu');
         $accounting = $this->getAccountingCodes($account->language->code);
 
         $data = [
