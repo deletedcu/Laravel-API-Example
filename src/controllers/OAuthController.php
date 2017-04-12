@@ -4,6 +4,7 @@ namespace BohSchu\Exact\Controllers;
 
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use App\Backend\Users\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Routing\Controller as BaseController;
