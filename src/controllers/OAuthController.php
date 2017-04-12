@@ -22,7 +22,7 @@ class OAuthController extends BaseController
     {
         if (Cache::get(Auth::id() . '.access_token') || Cache::get(Auth::id() . '.refresh_token')) {
             $this->authenticateUser(Cache::get(Auth::id() . '.access_token'));
-            return redirect()->to('/dashboard');
+            return redirect()->to('http://backend.schilder-versand.dev/dashboard');
         }
 
         $uri = '/api/oauth2/auth?client_id=' . env('CLIENT_ID')
