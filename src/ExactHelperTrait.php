@@ -26,7 +26,7 @@ trait ExactHelperTrait
 
         $results = $this->get($uri)->d->results;
 
-        return $results ? $results[0]->ID : false;
+        return $results ? $results[0]->ID : '';
     }
 
     /**
@@ -44,7 +44,7 @@ trait ExactHelperTrait
 
         $results = $this->get($uri)->d->results;
 
-        return $results ? $results[0]->ID : false;
+        return $results ? $results[0]->ID : '';
     }
 
     /**
@@ -64,7 +64,7 @@ trait ExactHelperTrait
 
         $results = $this->get($uri)->d->results;
 
-        return $results ? $results[0]->ID : false;
+        return $results ? $results[0]->ID : '';
     }
 
     /**
@@ -167,7 +167,7 @@ trait ExactHelperTrait
 
         $results = $this->get($uri)->d->results;
 
-        return $results ? $results[0]->ID : false;
+        return $results ? $results[0]->ID : '';
     }
 
     /**
