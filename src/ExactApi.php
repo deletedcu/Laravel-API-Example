@@ -2,12 +2,12 @@
 
 namespace BohSchu\Exact;
 
-use BohSchu\Exact\ExactHelperTrait;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
+use BohSchu\Exact\ExactHelperTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use GuzzleHttp\Exception\ClientException;
 
 class ExactApi
 {
@@ -27,6 +27,9 @@ class ExactApi
      */
     private $division;
 
+    /**
+     * Instanciate the guzzle http client and set division code
+     */
     public function __construct()
     {
         $this->division = env('DIVISION_CODE');

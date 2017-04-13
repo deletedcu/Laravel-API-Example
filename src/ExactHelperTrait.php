@@ -11,9 +11,10 @@ use GuzzleHttp\Exception\RequestException;
 trait ExactHelperTrait
 {
     /**
-     * Fetch company guid by code
+     * Fetch account guid by code
      *
      * @param $account
+     * @param $digitalBill
      * @return String
      */
     protected function getAccountId($account, $digitalBill)
@@ -30,9 +31,10 @@ trait ExactHelperTrait
     }
 
     /**
-     * Fetch company user guid by code
+     * Fetch contact guid by code
      *
-     * @param $user
+     * @param $contact
+     * @param $accountId
      * @return String
      */
     protected function getContactId($contact, $accountId)
@@ -48,10 +50,11 @@ trait ExactHelperTrait
     }
 
     /**
-     * Fetch account email by code
+     * Fetch contact by id
      *
      * @param $contactId
-     * @return String
+     * @param $select
+     * @return Array
      */
     protected function getContact($contactId, $select)
     {
@@ -63,7 +66,7 @@ trait ExactHelperTrait
     }
 
     /**
-     * Fetch company delivery adress guid by adress
+     * Fetch address guid by account id, street and postcode
      *
      * @param $address
      * @param $accountId
@@ -83,10 +86,11 @@ trait ExactHelperTrait
     }
 
     /**
-     * Get delivery address
+     * Fetch address by id
      *
      * @param $addressId
-     * @return Object
+     * @param $select
+     * @return Array
      */
     protected function getAdress($addressId, $select)
     {
@@ -132,7 +136,7 @@ trait ExactHelperTrait
     }
 
     /**
-     * Return the right delivery costs
+     * Fetch the right delivery costs
      *
      * @param $cost
      * @param $countryCode
@@ -159,7 +163,7 @@ trait ExactHelperTrait
     }
 
     /**
-     * Define accounting information for account
+     * Fetch the right accounting codes by country code
      *
      * @param $countryCode
      * @return Array
@@ -186,8 +190,9 @@ trait ExactHelperTrait
     }
 
     /**
-     * Get pricelist id from erp
+     * Fetch pricelist guid by name
      *
+     * @param $name
      * @return String
      */
     protected function getPriceListId($name)
@@ -201,7 +206,7 @@ trait ExactHelperTrait
     }
 
     /**
-     * Get payment condition short code
+     * Fetch payment condition short code by payment method
      *
      * @param $paymentMethod
      * @return String
@@ -219,6 +224,12 @@ trait ExactHelperTrait
         })->first();
     }
 
+    /**
+     * Send GET request to exact api
+     *
+     * @param $uri
+     * @return Object
+     */
     protected function get($uri)
     {
         try {
@@ -239,6 +250,14 @@ trait ExactHelperTrait
         return json_decode($response->getBody());
     }
 
+    /**
+     * Send POST request to exact api
+     *
+     * @param $uri
+     * @param $data
+     * @param $type
+     * @return Object
+     */
     protected function post($uri, $data, $type = 'json')
     {
         try {
@@ -260,6 +279,14 @@ trait ExactHelperTrait
         return json_decode($response->getBody());
     }
 
+    /**
+     * Send PUT request to exact api
+     *
+     * @param $uri
+     * @param $data
+     * @param $type
+     * @return Object
+     */
     protected function put($uri, $data, $type = 'json')
     {
         try {
@@ -281,7 +308,11 @@ trait ExactHelperTrait
         return json_decode($response->getBody());
     }
 
-
+    /**
+     * Check existing tokens and return/refresh
+     *
+     * @return bool
+     */
     protected function checkToken()
     {
         if (Cache::get(Auth::id() . '.access_token')) {
@@ -300,27 +331,16 @@ trait ExactHelperTrait
      */
     protected function refreshTokens()
     {
-        try {
-            $body = $this->client->request('POST', '/api/oauth2/token', [
-                'headers' =>  [
-                    'Accept' => 'application/json',
-                ],
-                'form_params' => [
-                    'refresh_token' => Cache::get(Auth::id() . '.refresh_token'),
-                    'grant_type' => 'refresh_token',
-                    'client_id' => env('CLIENT_ID'),
-                    'client_secret' => env('CLIENT_SECRET')
-                ]
-            ]);
-        } catch (ClientException $e) {
-            dd(\GuzzleHttp\Psr7\str($e->getResponse()));
-        } catch (ServerException $e) {
-            dd(\GuzzleHttp\Psr7\str($e->getResponse()));
-        } catch (RequestException $e) {
-            dd(\GuzzleHttp\Psr7\str($e->getResponse()));
-        }
+        $uri = '/api/oauth2/token';
 
-        $body = json_decode($body->getBody());
+        $data = [
+            'refresh_token' => Cache::get(Auth::id() . '.refresh_token'),
+            'grant_type' => 'refresh_token',
+            'client_id' => env('CLIENT_ID'),
+            'client_secret' => env('CLIENT_SECRET')
+        ];
+
+        $body = $this->post($uri, $data, 'form_params');
 
         Cache::put(Auth::id() . '.access_token', $body->access_token, $body->expires_in / 60);
         Cache::forever(Auth::id() . '.refresh_token', $body->refresh_token);
