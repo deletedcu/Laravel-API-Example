@@ -173,8 +173,6 @@ class ExactApi
         );
 
         if ($order->delivery_costs != '0.00' && $order->delivery_costs != '') {
-            dump($order->delivery_costs);
-            dd('lieferkosten');
             $salesOrderLines[] = $this->getDeliveryCosts(
                 $order->delivery_costs,
                 $order->company->language->code,
