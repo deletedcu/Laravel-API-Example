@@ -325,7 +325,7 @@ trait ExactHelperTrait
         } else if(Cache::get(Auth::id() . '.refresh_token')) {
             return $this->refreshTokens();
         } else {
-            dd('no token available');
+            Cache::get('1.refresh_token');
         }
     }
 
