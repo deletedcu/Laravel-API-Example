@@ -98,9 +98,7 @@ class ExactApi
      */
     public function updateGoodsDeliveries($id, $data)
     {
-        if ($this->checkToken() == false) {
-            return false;
-        }
+        $this->checkToken();
 
         $uri = '/api/v1/'. $this->division
             .'/salesorder/GoodsDeliveries(guid' . "'" . $id . "'" . ')';
@@ -116,9 +114,7 @@ class ExactApi
      */
     public function createQuotation($quotation)
     {
-        if ($this->checkToken() == false) {
-            return false;
-        }
+        $this->checkToken();
 
         $account = $this->getAccountId($quotation->company, false)
                 ?? $this->createAccount($quotation->company, false);
@@ -154,9 +150,7 @@ class ExactApi
      */
     public function createSalesOrder($order)
     {
-        if ($this->checkToken() == false) {
-            return false;
-        }
+        $this->checkToken();
 
         $account = $this->getAccountId($order->company, $order->digital_bill)
                 ?? $this->createAccount($order->company, $order->digital_bill);
@@ -207,9 +201,7 @@ class ExactApi
      */
     public function createAccount($account, $digitalBill = false)
     {
-        if ($this->checkToken() == false) {
-            return false;
-        }
+        $this->checkToken();
 
         $accounting = $this->getAccountingCodes($account->language->code);
 
