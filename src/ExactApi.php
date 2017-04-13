@@ -24,6 +24,10 @@ class ExactApi
 
     public function getGoodsDeliveries($shippingMethod)
     {
+        if ($this->checkToken() == false) {
+            return false;
+        }
+
         $uri = '/api/v1/'. $this->division .'/salesorder/GoodsDeliveries'
         . '?$filter=trim(ShippingMethodCode) eq ' . "'" . $shippingMethod . "'"
         . ' and substringof(' . "'Gedruckt'" . ',Remarks) eq false'
