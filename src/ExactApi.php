@@ -24,6 +24,10 @@ class ExactApi
 
     public function getPurchaseOrdersBySupplier($supplierCode, $select)
     {
+        if ($this->checkToken() == false) {
+            return false;
+        }
+
         $uri = '/api/v1/'. $this->division
             .'/purchaseorder/PurchaseOrders?'
             . '$filter=trim(SupplierCode) eq ' . "'" . $supplierCode . "'"
