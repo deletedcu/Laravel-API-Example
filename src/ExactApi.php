@@ -13,8 +13,18 @@ class ExactApi
 {
     use ExactHelperTrait;
 
+    /**
+     * Guzzle Client
+     *
+     * @var $client
+     */
     private $client;
 
+    /**
+     * Exact ERP Division Number
+     *
+     * @var $division
+     */
     private $division;
 
     public function __construct()
@@ -23,11 +33,16 @@ class ExactApi
         $this->client = new Client(['base_uri' => config('exact.base_uri')]);
     }
 
+    /**
+     * Get all purchase orders by its supplier code (Supplier Orders)
+     *
+     * @param $supplierCode
+     * @param $select
+     * @return Array
+     */
     public function getPurchaseOrdersBySupplier($supplierCode, $select)
     {
-        if ($this->checkToken() == false) {
-            return false;
-        }
+        $this->checkToken();
 
         $uri = '/api/v1/'. $this->division
             .'/purchaseorder/PurchaseOrders?'
@@ -39,6 +54,12 @@ class ExactApi
         return $this->get($uri)->d->results;
     }
 
+    /**
+     * Get all goods deliveries by its shipping method
+     *
+     * @param $shippingMethod
+     * @return Collection
+     */
     public function getGoodsDeliveries($shippingMethod)
     {
         if ($this->checkToken() == false) {
@@ -68,6 +89,13 @@ class ExactApi
         });
     }
 
+    /**
+     * Update a goods delivery by its id and given data
+     *
+     * @param $id
+     * @param $data
+     * @return Array
+     */
     public function updateGoodsDeliveries($id, $data)
     {
         if ($this->checkToken() == false) {
@@ -80,6 +108,12 @@ class ExactApi
         return $this->put($uri, $data);
     }
 
+    /**
+     * Create a new quotation
+     *
+     * @param $quotation
+     * @return Array
+     */
     public function createQuotation($quotation)
     {
         if ($this->checkToken() == false) {
@@ -109,9 +143,15 @@ class ExactApi
             'QuotationLines' => $quotationLines
         ];
 
-        return $this->post('/api/v1/'. $this->division .'/crm/Quotations', $data)->d;
+        return $this->post('/api/v1/'. $this->division .'/crm/Quotations', $data);
     }
 
+    /**
+     * Create a new sales order (Customer Order)
+     *
+     * @param $order
+     * @return Array
+     */
     public function createSalesOrder($order)
     {
         if ($this->checkToken() == false) {
@@ -159,9 +199,10 @@ class ExactApi
     }
 
     /**
-     * Create a new account in exact
+     * Create a new account (Customer)
      *
      * @param  $account
+     * @param  $gititalBill
      * @return String
      */
     public function createAccount($account, $digitalBill = false)
@@ -198,7 +239,7 @@ class ExactApi
     }
 
     /**
-     * Create a new contact in exact
+     * Create a new contact (Customer User)
      *
      * @param  $contact
      * @param  $accountId
@@ -220,7 +261,7 @@ class ExactApi
     }
 
     /**
-     * Create a new address in exact
+     * Create a new address (Customer Delivery Address)
      *
      * @param $address
      * @param $accountId
