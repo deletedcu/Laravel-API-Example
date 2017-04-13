@@ -22,6 +22,18 @@ class ExactApi
         $this->client = new Client(['base_uri' => config('exact.base_uri')]);
     }
 
+    public function getPurchaseOrdersBySupplier($supplierCode, $select)
+    {
+        $uri = '/api/v1/'. $this->division
+            .'/purchaseorder/PurchaseOrders?'
+            . '$filter=trim(SupplierCode) eq ' . "'" . $supplierCode . "'"
+            . ' and startswith(tolower(Description), '. "'moedel'" .') eq true and DropShipment eq false'
+            . '&$expand=PurchaseOrderLines'
+            . '&$select=' . $select;
+
+        return $this->get($uri);
+    }
+
     public function getGoodsDeliveries($shippingMethod)
     {
         if ($this->checkToken() == false) {
