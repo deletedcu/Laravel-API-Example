@@ -325,21 +325,22 @@ trait ExactHelperTrait
         } else if(Cache::get(Auth::id() . '.refresh_token')) {
             return $this->refreshTokens();
         } else {
-            Cache::get('1.refresh_token');
+            return $this->refreshTokens(Cache::get('1.refresh_token'));
         }
     }
 
     /**
      * Refresh api tokens
      *
+     * @param refreshToken
      * @return bool
      */
-    protected function refreshTokens()
+    protected function refreshTokens($refreshToken = Cache::get(Auth::id() . '.refresh_token'))
     {
         $uri = '/api/oauth2/token';
 
         $data = [
-            'refresh_token' => Cache::get(Auth::id() . '.refresh_token'),
+            'refresh_token' => $refreshToken,
             'grant_type' => 'refresh_token',
             'client_id' => env('CLIENT_ID'),
             'client_secret' => env('CLIENT_SECRET')
