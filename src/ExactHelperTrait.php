@@ -258,14 +258,18 @@ trait ExactHelperTrait
      * @param $type
      * @return Object
      */
-    protected function post($uri, $data, $type = 'json')
+    protected function post($uri, $data, $type = 'json', $token = true)
     {
+        $headers = [
+            'Accept' => 'application/json',
+            'authorization' => 'Bearer ' . Cache::get(Auth::id() . '.access_token')
+        ];
+
+        if (!$token)  array_pop($headers);
+
         try {
             $response = $this->client->request('POST', $uri, [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'authorization' => 'Bearer ' . Cache::get(Auth::id() . '.access_token')
-                ],
+                'headers' => $headers,
                 $type => $data
             ]);
         } catch (ClientException $e) {
@@ -332,7 +336,6 @@ trait ExactHelperTrait
     protected function refreshTokens()
     {
         $uri = '/api/oauth2/token';
-
         $data = [
             'refresh_token' => Cache::get(Auth::id() . '.refresh_token'),
             'grant_type' => 'refresh_token',
@@ -340,7 +343,9 @@ trait ExactHelperTrait
             'client_secret' => env('CLIENT_SECRET')
         ];
 
-        $body = $this->post($uri, $data, 'form_params');
+        $body = $this->post($uri, $data, 'form_params', false);
+
+        $body = json_decode($body->getBody());
 
         Cache::put(Auth::id() . '.access_token', $body->access_token, $body->expires_in / 60);
         Cache::forever(Auth::id() . '.refresh_token', $body->refresh_token);
