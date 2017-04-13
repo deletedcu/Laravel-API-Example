@@ -256,6 +256,7 @@ trait ExactHelperTrait
      * @param $uri
      * @param $data
      * @param $type
+     * @param $token
      * @return Object
      */
     protected function post($uri, $data, $type = 'json', $token = true)
@@ -336,6 +337,7 @@ trait ExactHelperTrait
     protected function refreshTokens()
     {
         $uri = '/api/oauth2/token';
+
         $data = [
             'refresh_token' => Cache::get(Auth::id() . '.refresh_token'),
             'grant_type' => 'refresh_token',
