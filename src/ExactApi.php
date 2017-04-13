@@ -51,6 +51,18 @@ class ExactApi
         });
     }
 
+    public function updateGoodsDeliveries($id, $data)
+    {
+        if ($this->checkToken() == false) {
+            return false;
+        }
+
+        $uri = '/api/v1/'. $this->division
+            .'/salesorder/GoodsDeliveries(guid' . "'" . $id . "'" . ')';
+
+        return $this->put($uri, $data);
+    }
+
     public function createSalesOrder($order)
     {
         if ($this->checkToken() == false) {

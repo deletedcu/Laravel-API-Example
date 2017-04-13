@@ -260,6 +260,28 @@ trait ExactHelperTrait
         return json_decode($response->getBody());
     }
 
+    protected function put($uri, $data, $type = 'json')
+    {
+        try {
+            $response = $this->client->request('PUT', $uri, [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'authorization' => 'Bearer ' . Cache::get(Auth::id() . '.access_token')
+                ],
+                $type => $data
+            ]);
+        } catch (ClientException $e) {
+            dd(\GuzzleHttp\Psr7\str($e->getResponse()));
+        } catch (ServerException $e) {
+            dd(\GuzzleHttp\Psr7\str($e->getResponse()));
+        } catch (RequestException $e) {
+            dd(\GuzzleHttp\Psr7\str($e->getResponse()));
+        }
+
+        return json_decode($response->getBody());
+    }
+
+
     protected function checkToken()
     {
         if (Cache::get(Auth::id() . '.access_token')) {
