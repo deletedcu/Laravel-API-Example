@@ -35,7 +35,7 @@ class ExactApi
             . '&$expand=PurchaseOrderLines'
             . '&$select=' . $select;
 
-        return $this->get($uri);
+        return $this->get($uri)->d->results;
     }
 
     public function getGoodsDeliveries($shippingMethod)
