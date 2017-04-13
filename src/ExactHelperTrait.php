@@ -48,6 +48,21 @@ trait ExactHelperTrait
     }
 
     /**
+     * Fetch account email by code
+     *
+     * @param $contactId
+     * @return String
+     */
+    protected function getContact($contactId, $select)
+    {
+        $uri = '/api/v1/'. $this->division
+            .'/crm/Contacts?$filter=ID eq guid' . "'" . $contactId . "'"
+            . '&$select=' . $select;
+
+        return $this->get($uri)->d->results;
+    }
+
+    /**
      * Fetch company delivery adress guid by adress
      *
      * @param $address
@@ -65,6 +80,21 @@ trait ExactHelperTrait
         $results = $this->get($uri)->d->results;
 
         return count($results) > 0 ? $results[0]->ID : null;
+    }
+
+    /**
+     * Get delivery address
+     *
+     * @param $addressId
+     * @return Object
+     */
+    protected function getAdress($addressId, $select)
+    {
+        $uri = '/api/v1/'. $this->division
+            .'/crm/Addresses?$filter=ID eq guid' . "'" . $addressId . "'"
+            . '&$select=' . $select;
+
+        return $this->get($uri)->d->results;
     }
 
     /**

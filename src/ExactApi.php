@@ -29,14 +29,28 @@ class ExactApi
         }
 
         $uri = '/api/v1/'. $this->division .'/salesorder/GoodsDeliveries'
-        . '?$filter=trim(ShippingMethodCode) eq ' . "'" . $shippingMethod . "'"
-        . ' and substringof(' . "'Gedruckt'" . ',Remarks) eq false'
-        . ' or Remarks eq null and trim(ShippingMethodCode) eq ' . "'" . $shippingMethod . "'"
-        . '&$select=EntryID,DeliveryAccountName, DeliveryAddress,DeliveryContact,Description,DeliveryNumber,ShippingMethodCode,Remarks';
+            . '?$filter=trim(ShippingMethodCode) eq ' . "'" . $shippingMethod . "'"
+            . ' and substringof(' . "'Gedruckt'" . ',Remarks) eq false'
+            . ' or Remarks eq null and trim(ShippingMethodCode) eq ' . "'" . $shippingMethod . "'"
+            . '&$select=EntryID,DeliveryAccountName, DeliveryAddress,DeliveryContact,Description,DeliveryNumber,ShippingMethodCode,Remarks';
 
-        $results = $this->get($uri);
+        $results = $this->get($uri)->d->results;
 
-        dd($results);
+        $deliveries = collect($results)->map(function($delivery) {
+            $contact = $this->getContact($delivery->DeliveryContact, 'Email,Phone');
+
+            $delivery->address = $this->getAdress(
+                $delivery->DeliveryAddress,
+                'AccountName,AddressLine1,AddressLine2,AddressLine3,City,ContactName,Country,Postcode'
+            );
+
+            $delivery->Email = $contact->Email ?? '';
+            $delivery->Phone = $contact->Phone ?? '';
+
+            return $delivery;
+        });
+
+        dd($deliveries);
     }
 
     public function createSalesOrder($order)
