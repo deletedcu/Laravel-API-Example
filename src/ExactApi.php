@@ -38,6 +38,7 @@ class ExactApi
 
         $deliveries = collect($results)->map(function($delivery) {
             $contact = $this->getContact($delivery->DeliveryContact, 'Email,Phone');
+            dd($contact);
 
             $delivery->address = $this->getAdress(
                 $delivery->DeliveryAddress,
