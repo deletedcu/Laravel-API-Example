@@ -13,12 +13,26 @@ class ExactApi
     use ExactHelperTrait;
 
     private $client;
+
     private $division;
 
     public function __construct()
     {
         $this->division = env('DIVISION_CODE');
         $this->client = new Client(['base_uri' => config('exact.base_uri')]);
+    }
+
+    public function getGoodsDeliveries($shippingMethod)
+    {
+        $uri = '/api/v1/'. $this->division .'/salesorder/GoodsDeliveries'
+        . '?$filter=trim(ShippingMethodCode) eq ' . "'" . $shippingMethod . "'"
+        . ' and substringof(' . "'Gedruckt'" . ',Remarks) eq false'
+        . ' or Remarks eq null and trim(ShippingMethodCode) eq ' . "'" . $shippingMethod . "'"
+        . '&$select=EntryID,DeliveryAccountName, DeliveryAddress,DeliveryContact,Description,DeliveryNumber,ShippingMethodCode,Remarks';
+
+        $results = $this->get($uri);
+
+        dd($results);
     }
 
     public function createSalesOrder($order)
@@ -75,6 +89,10 @@ class ExactApi
      */
     public function createAccount($account, $digitalBill = false)
     {
+        if ($this->checkToken() == false) {
+            return false;
+        }
+
         $accounting = $this->getAccountingCodes($account->language->code);
 
         $data = [
