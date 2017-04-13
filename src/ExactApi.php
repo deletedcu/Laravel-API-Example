@@ -2,11 +2,12 @@
 
 namespace BohSchu\Exact;
 
-use GuzzleHttp\Client;
 use BohSchu\Exact\ExactHelperTrait;
+use Carbon\Carbon;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use GuzzleHttp\Exception\ClientException;
 
 class ExactApi
 {
@@ -77,6 +78,38 @@ class ExactApi
             .'/salesorder/GoodsDeliveries(guid' . "'" . $id . "'" . ')';
 
         return $this->put($uri, $data);
+    }
+
+    public function createQuotation($quotation)
+    {
+        if ($this->checkToken() == false) {
+            return false;
+        }
+
+        $account = $this->getAccountId($quotation->company, false)
+                ?? $this->createAccount($quotation->company, false);
+
+        $contact = $this->getContactId($quotation->user, $account)
+                ?? $this->createContact($quotation->user, $account);
+
+        $address = $this->getAddressId($quotation->delivery, $account)
+                ?? $this->createAddress($quotation->delivery, $account);
+
+        $quotationLines = $this->getItemIds(
+            $quotation->details,
+            $quotation->company->language->code,
+            $quotation->delivery->language->code
+        );
+
+        $data = [
+            'OrderAccount' => $account,
+            'OrderAccountContact' => $contact,
+            'DeliveryAddress' => $address,
+            'Description' => 'Angebotsanfrage ' . Carbon::now()->format('d.m.Y'),
+            'QuotationLines' => $quotationLines
+        ];
+
+        return $this->post('/api/v1/'. $this->division .'/crm/Quotations', $data)->d;
     }
 
     public function createSalesOrder($order)
