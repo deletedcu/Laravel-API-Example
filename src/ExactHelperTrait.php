@@ -332,12 +332,13 @@ trait ExactHelperTrait
     /**
      * Refresh api tokens
      *
-     * @param refreshToken
+     * @param $token
      * @return bool
      */
-    protected function refreshTokens($refreshToken = Cache::get(Auth::id() . '.refresh_token'))
+    protected function refreshTokens($token = null)
     {
         $uri = '/api/oauth2/token';
+        $refreshToken = $token ? $token : Cache::get(Auth::id() . '.refresh_token');
 
         $data = [
             'refresh_token' => $refreshToken,
