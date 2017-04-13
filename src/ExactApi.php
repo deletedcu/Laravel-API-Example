@@ -36,7 +36,7 @@ class ExactApi
 
         $results = $this->get($uri)->d->results;
 
-        $deliveries = collect($results)->map(function($delivery) {
+        return collect($results)->map(function($delivery) {
             $contact = $this->getContact($delivery->DeliveryContact, 'Email,Phone');
 
             $delivery->address = $this->getAdress(
@@ -49,8 +49,6 @@ class ExactApi
 
             return $delivery;
         });
-
-        dd($deliveries);
     }
 
     public function createSalesOrder($order)
