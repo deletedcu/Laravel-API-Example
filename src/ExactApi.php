@@ -194,7 +194,7 @@ class ExactApi
 
         $response = $this->post('/api/v1/'. $this->division .'/salesorder/SalesOrders', $data);
 
-        return  is_array($response) ? $response->d->OrderNumber : $resposne;
+        return  is_array($response) ? $response->d->OrderNumber : $response;
     }
 
     /**
