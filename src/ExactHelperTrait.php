@@ -274,11 +274,11 @@ trait ExactHelperTrait
                 $type => $data
             ]);
         } catch (ClientException $e) {
-            return redirect()->json(['msg' => \GuzzleHttp\Psr7\str($e->getResponse())]);
+            return \GuzzleHttp\Psr7\str($e->getResponse());
         } catch (ServerException $e) {
-            return redirect()->json(['msg' => \GuzzleHttp\Psr7\str($e->getResponse())]);
+            return \GuzzleHttp\Psr7\str($e->getResponse());
         } catch (RequestException $e) {
-            return redirect()->json(['msg' => \GuzzleHttp\Psr7\str($e->getResponse())]);
+            return \GuzzleHttp\Psr7\str($e->getResponse());
         }
 
         return json_decode($response->getBody());

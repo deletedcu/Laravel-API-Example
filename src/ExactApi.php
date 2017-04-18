@@ -192,7 +192,9 @@ class ExactApi
             'SalesOrderLines' => $salesOrderLines
         ];
 
-        return $this->post('/api/v1/'. $this->division .'/salesorder/SalesOrders', $data)->d->OrderNumber;
+        $response = $this->post('/api/v1/'. $this->division .'/salesorder/SalesOrders', $data);
+
+        return  is_array($response) ? $response->d->OrderNumber : $resposne;
     }
 
     /**
