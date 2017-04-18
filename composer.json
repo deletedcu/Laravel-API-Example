@@ -1,6 +1,7 @@
 {
     "name": "bohmeyer-schuster-gmbh/laravel-exact",
     "description": "Laravel - Exact ERP Connector",
+    "keywords": ["laravel", "exact", "api", "connector"],
     "license": "MIT",
     "authors": [
         {
