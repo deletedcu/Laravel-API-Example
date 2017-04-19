@@ -274,11 +274,11 @@ trait ExactHelperTrait
                 $type => $data
             ]);
         } catch (ClientException $e) {
-            dd(json_decode($e->getResponse()));
+            dd(json_decode($e->getBody()));
         } catch (ServerException $e) {
-            dd(json_decode($e->getResponse()));
+            dd(json_decode($e->getBody()));
         } catch (RequestException $e) {
-            dd(json_decode($e->getResponse()));
+            dd(json_decode($e->getBody()));
         }
 
         return json_decode($response->getBody());
