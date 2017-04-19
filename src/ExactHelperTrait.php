@@ -78,6 +78,7 @@ trait ExactHelperTrait
             .'/crm/Addresses?$filter=Account eq guid' . "'" . $accountId . "'"
             .' and startswith(trim(AddressLine1),'
             . "'" . $address->delivery_street . "') " . 'eq true'
+            . ' and Type eq 4'
             .' and Postcode eq '. "'" . $address->delivery_zip_code . "'" . '&$select=ID';
 
         $results = $this->get($uri)->d->results;
