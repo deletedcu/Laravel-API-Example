@@ -191,7 +191,9 @@ trait ExactHelperTrait
                 .'/financial/GLAccounts?$filter=trim(Code) eq ' . "'8125'" . '&$select=ID';
         }
 
-        $accounting['accountSales'] = $this->get($uri)->d->results[0]->ID;
+        $accounting['accountSales'] = Cache::remember('exact.accountingCode.' . $countryCode, 129600, function () use ($uri) {
+            return $this->get($uri)->d->results[0]->ID;
+        });
 
         return $accounting;
     }
@@ -207,7 +209,9 @@ trait ExactHelperTrait
         $uri = '/api/v1/'. $this->division .'/sales/PriceLists?$filter=Description eq '
             . "'" . $name . "'";
 
-        $results = $this->get($uri)->d->results;
+        $results = Cache::remember('exact.priceList.' . $name, 129600, function () use ($uri) {
+            return $this->get($uri)->d->results;
+        });
 
         return count($results) > 0 ? $results[0]->ID : null;
     }
