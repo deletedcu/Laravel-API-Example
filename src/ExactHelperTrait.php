@@ -149,7 +149,7 @@ trait ExactHelperTrait
             .'/logistics/Items?$filter=trim(Code) eq '
             . "'Versand " . $deliveryCountryCode . "'" . '&$select=ID';
 
-        $itemId = Cache::remember('exact.delivery.' . $deliveryCountryCode, 129600, function () {
+        $itemId = Cache::remember('exact.delivery.' . $deliveryCountryCode, 129600, function () use ($uri) {
             return $this->get($uri)->d->results[0]->ID;
         });
 
