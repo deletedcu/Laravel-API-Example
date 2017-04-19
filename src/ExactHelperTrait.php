@@ -240,11 +240,11 @@ trait ExactHelperTrait
                ]
            ]);
         } catch (ClientException $e) {
-            return \GuzzleHttp\Psr7\str($e->getResponse());
+            return ['error' => $e->getMessage()];
         } catch (ServerException $e) {
-            return \GuzzleHttp\Psr7\str($e->getResponse());
+            return ['error' => $e->getMessage()];
         } catch (RequestException $e) {
-            return \GuzzleHttp\Psr7\str($e->getResponse());
+            return ['error' => $e->getMessage()];
         }
 
         return json_decode($response->getBody());
@@ -303,11 +303,11 @@ trait ExactHelperTrait
                 $type => $data
             ]);
         } catch (ClientException $e) {
-            return \GuzzleHttp\Psr7\str($e->getResponse());
+            return ['error' => $e->getMessage()];
         } catch (ServerException $e) {
-            return \GuzzleHttp\Psr7\str($e->getResponse());
+            return ['error' => $e->getMessage()];
         } catch (RequestException $e) {
-            return \GuzzleHttp\Psr7\str($e->getResponse());
+            return ['error' => $e->getMessage()];
         }
 
         return json_decode($response->getBody());

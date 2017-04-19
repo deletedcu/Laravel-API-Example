@@ -194,7 +194,11 @@ class ExactApi
 
         $response = $this->post('/api/v1/'. $this->division .'/salesorder/SalesOrders', $data);
 
-        return  isset($response->d->OrderNumber) ? $response->d->OrderNumber : $response;
+        if (array_key_exists('error', $response)) {
+            return $response;
+        }
+
+        return $response->d->OrderNumber;
     }
 
     /**
@@ -260,7 +264,13 @@ class ExactApi
             'JobTitleDescription' => $contact->position
         ];
 
-        return $this->post('/api/v1/'. $this->division .'/crm/Contacts', $data)->d->ID;
+        $response = $this->post('/api/v1/'. $this->division .'/crm/Contacts', $data);
+
+        if (array_key_exists('error', $response)) {
+            return $response;
+        }
+
+        return $response->d->ID;
     }
 
     /**
@@ -283,6 +293,12 @@ class ExactApi
             'Type' => 4
         ];
 
-        return $this->post('/api/v1/'. $this->division .'/crm/Addresses', $data)->d->ID;
+        $response = $this->post('/api/v1/'. $this->division .'/crm/Addresses', $data);
+
+        if (array_key_exists('error', $response)) {
+            return $response;
+        }
+
+        return $response->d->ID;
     }
 }
