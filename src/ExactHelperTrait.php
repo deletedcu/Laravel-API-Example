@@ -115,7 +115,10 @@ trait ExactHelperTrait
 
         foreach ($products as $key => $value) {
             $uri = '/api/v1/'. $this->division .'/logistics/Items?$filter=trim(Code) eq ' . "'" . $value->variant->sku . "'" . '&$select=ID';
-            $itemId = $this->get($uri)->d->results;
+
+            $itemId = Cache::remember('exact.item.' . $value->variant->sku, 43200, function () use ($uri) {
+                return $this->get($uri)->d->results;
+            });
 
             if(isset($itemId[0]->ID)) {
                 $return[$key]['Item'] = $itemId[0]->ID;
