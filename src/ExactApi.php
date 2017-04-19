@@ -122,11 +122,23 @@ class ExactApi
         $account = $this->getAccountId($quotation->company, false)
                 ?? $this->createAccount($quotation->company, false);
 
+        if (array_key_exists('error', $account)) {
+            return $response;
+        }
+
         $contact = $this->getContactId($quotation->user, $account)
                 ?? $this->createContact($quotation->user, $account);
 
+        if (array_key_exists('error', $contact)) {
+            return $response;
+        }
+
         $address = $this->getAddressId($quotation->delivery, $account)
                 ?? $this->createAddress($quotation->delivery, $account);
+
+        if (array_key_exists('error', $address)) {
+            return $response;
+        }
 
         $quotationLines = $this->getItemIds(
             $quotation->details,
@@ -158,11 +170,23 @@ class ExactApi
         $account = $this->getAccountId($order->company, $order->digital_bill)
                 ?? $this->createAccount($order->company, $order->digital_bill);
 
+        if (array_key_exists('error', $account)) {
+            return $response;
+        }
+
         $contact = $this->getContactId($order->user, $account)
                 ?? $this->createContact($order->user, $account);
 
+        if (array_key_exists('error', $contact)) {
+            return $response;
+        }
+
         $address = $this->getAddressId($order->delivery, $account)
                 ?? $this->createAddress($order->delivery, $account);
+
+        if (array_key_exists('error', $address)) {
+            return $response;
+        }
 
         $paymentCondition = $this->getPaymentCondition($order->payment_method);
 
