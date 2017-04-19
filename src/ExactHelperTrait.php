@@ -269,7 +269,7 @@ trait ExactHelperTrait
         if (!$token)  array_pop($headers);
 
         try {
-            $response = $this->client->request('POSTi', $uri, [
+            $response = $this->client->request('POST', $uri, [
                 'headers' => $headers,
                 $type => $data
             ]);
