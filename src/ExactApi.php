@@ -150,7 +150,7 @@ class ExactApi
 
         $response = $this->post('/api/v1/'. $this->division .'/crm/Quotations', $data);
 
-        if (array_key_exists('error', $response))return $response;
+        if (is_array($response) && array_key_exists('error', $response))return $response;
 
         return $response->d;
     }
@@ -210,7 +210,7 @@ class ExactApi
 
         $response = $this->post('/api/v1/'. $this->division .'/salesorder/SalesOrders', $data);
 
-        if (array_key_exists('error', $response)) return $response;
+        if (is_array($response) && array_key_exists('error', $response)) return $response;
 
         return $response->d->OrderNumber;
     }
@@ -252,7 +252,7 @@ class ExactApi
 
         $response = $this->post('/api/v1/'. $this->division .'/crm/Accounts', $data);
 
-        if (array_key_exists('error', $response)) return $response;
+        if (is_array($response) && array_key_exists('error', $response)) return $response;
 
         return $response->d->ID;
     }
@@ -278,7 +278,7 @@ class ExactApi
 
         $response = $this->post('/api/v1/'. $this->division .'/crm/Contacts', $data);
 
-        if (array_key_exists('error', $response)) return $response;
+        if (is_array($response) && array_key_exists('error', $response)) return $response;
 
         return $response->d->ID;
     }
@@ -305,7 +305,7 @@ class ExactApi
 
         $response = $this->post('/api/v1/'. $this->division .'/crm/Addresses', $data);
 
-        if (array_key_exists('error', $response)) return $response;
+        if (is_array($response) && array_key_exists('error', $response)) return $response;
 
         return $response->d->ID;
     }
