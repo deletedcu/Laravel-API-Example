@@ -129,8 +129,7 @@ class ExactApi
 
         if (is_array($contact) && array_key_exists('error', $contact)) return $contact;
 
-        $address = $this->getAddressId($quotation->delivery, $account)
-                ?? $this->createAddress($quotation->delivery, $account);
+        $address = $this->createAddress($quotation->delivery, $account);
 
         if (is_array($address) && array_key_exists('error', $address)) return $address;
 
@@ -175,8 +174,7 @@ class ExactApi
 
         if (is_array($contact) && array_key_exists('error', $contact)) return $contact;
 
-        $address = $this->getAddressId($order->delivery, $account)
-                ?? $this->createAddress($order->delivery, $account);
+        $address = $this->createAddress($order->delivery, $account);
 
         if (is_array($address) && array_key_exists('error', $address)) return $address;
 
