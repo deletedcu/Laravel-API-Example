@@ -181,7 +181,7 @@ class ExactApi
         }
 
         $data = [
-            'OrderDate' => $order->created_at->toDateTimeString(),
+            'OrderDate' => $order->created_at->format('Y-d-m'),
             'OrderedBy' => $account,
             'OrderedByContactPerson' => $contact,
             'DeliveryAddress' => $address,
