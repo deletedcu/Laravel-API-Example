@@ -153,7 +153,6 @@ class ExactApi
      */
     public function createSalesOrder($order)
     {
-        dd($order->created_at->format('Y-m-d'));
         $this->checkToken();
 
         $account = $this->getAccountId($order->company, $order->digital_bill)
