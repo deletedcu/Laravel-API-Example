@@ -65,9 +65,7 @@ class ExactApi
      */
     public function getGoodsDeliveries($shippingMethod)
     {
-        if ($this->checkToken() == false) {
-            return false;
-        }
+        $this->checkToken();
 
         $uri = '/api/v1/'. $this->division .'/salesorder/GoodsDeliveries'
             . '?$filter=trim(ShippingMethodCode) eq ' . "'" . $shippingMethod . "'"
@@ -75,7 +73,11 @@ class ExactApi
             . ' or Remarks eq null and trim(ShippingMethodCode) eq ' . "'" . $shippingMethod . "'"
             . '&$select=EntryID,DeliveryAccountName, DeliveryAddress,DeliveryContact,Description,DeliveryNumber,ShippingMethodCode,Remarks';
 
-        $results = $this->get($uri)->d->results;
+        $response = $this->get($uri);
+
+        if (is_array($response) && array_key_exists('error', $response)) return $response;
+
+        $results = $response->d->results;
 
         return collect($results)->map(function($delivery) {
             $contact = $this->getContact($delivery->DeliveryContact, 'Email,Phone');
@@ -149,7 +151,7 @@ class ExactApi
 
         $response = $this->post('/api/v1/'. $this->division .'/crm/Quotations', $data);
 
-        if (is_array($response) && array_key_exists('error', $response))return $response;
+        if (is_array($response) && array_key_exists('error', $response)) return $response;
 
         return $response->d;
     }
