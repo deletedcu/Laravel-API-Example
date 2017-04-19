@@ -232,7 +232,13 @@ class ExactApi
             $data['InvoicingMethod'] = 2;
         }
 
-        return $this->post('/api/v1/'. $this->division .'/crm/Accounts', $data)->d->ID;
+        $response = $this->post('/api/v1/'. $this->division .'/crm/Accounts', $data);
+
+        if (array_key_exists('error', $response)) {
+            return $response;
+        }
+
+        return $response->d->ID;
     }
 
     /**
