@@ -245,7 +245,7 @@ class ExactApi
             'SalesVATCode' => $accounting['vatCode'],
             'GLAccountSales' => $accounting['accountSales'],
             'PriceList' => $this->getPriceListId('VK Preisliste Shop'),
-            'InvoicingMethod' = $digitalBill ? 2 : 1
+            'InvoicingMethod' => $digitalBill ? 2 : 1
         ];
 
         $response = $this->post('/api/v1/'. $this->division .'/crm/Accounts', $data);
