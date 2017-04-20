@@ -244,12 +244,9 @@ class ExactApi
             'Country' => $account->language->code,
             'SalesVATCode' => $accounting['vatCode'],
             'GLAccountSales' => $accounting['accountSales'],
-            'PriceList' => $this->getPriceListId('VK Preisliste Shop')
+            'PriceList' => $this->getPriceListId('VK Preisliste Shop'),
+            'InvoicingMethod' = $digitalBill ? 2 : 1
         ];
-
-        if ($digitalBill) {
-            $data['InvoicingMethod'] = 2;
-        }
 
         $response = $this->post('/api/v1/'. $this->division .'/crm/Accounts', $data);
 

@@ -125,6 +125,7 @@ trait ExactHelperTrait
                 $return[$key]['Item'] = $itemId[0]->ID;
                 $return[$key]['Quantity'] = $value->amount;
                 $return[$key]['Notes'] = $value->individualized;
+                // $return[$key]['DeliveryDate'] = $value->individualized;
 
                 if (isset($value->price)) {
                     $return[$key]['NetPrice'] = $value->price;
