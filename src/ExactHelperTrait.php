@@ -2,11 +2,12 @@
 
 namespace BohSchu\Exact;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use GuzzleHttp\Exception\ServerException;
+use Carbon\Carbon;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ServerException;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 trait ExactHelperTrait
 {
@@ -125,7 +126,7 @@ trait ExactHelperTrait
                 $return[$key]['Item'] = $itemId[0]->ID;
                 $return[$key]['Quantity'] = $value->amount;
                 $return[$key]['Notes'] = $value->individualized;
-                // $return[$key]['DeliveryDate'] = $value->individualized;
+                $return[$key]['DeliveryDate'] = Carbon::today()->addWeekDays($value->variant->deliveryDays);
 
                 if (isset($value->price)) {
                     $return[$key]['NetPrice'] = $value->price;
