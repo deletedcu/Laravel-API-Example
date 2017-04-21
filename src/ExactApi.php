@@ -164,7 +164,7 @@ class ExactApi
      */
     public function createSalesOrder($order)
     {
-        dd(collect(['first_name' => '', 'last_name' => 'eRechnung']));
+        dd(collect(['first_name' => '', 'last_name' => 'eRechnung'])->last_name);
         $this->checkToken();
 
         $account = $this->getAccountId($order->company, $order->digital_bill)
