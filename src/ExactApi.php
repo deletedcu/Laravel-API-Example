@@ -177,8 +177,16 @@ class ExactApi
         if (is_array($contact) && array_key_exists('error', $contact)) return $contact;
 
         if ($order->digital_bill) {
-            $invoiceContact = $this->getContactId((object) ['first_name' => '', 'last_name' => 'eRechnung'], $account)
-                            ?? $this->createContact((object) ['first_name' => '', 'last_name' => 'eRechnung'], $account);
+            $invoiceContact = $this->getContactId((object) [
+                'salutation' => '',
+                'first_name' => '',
+                'last_name' => 'eRechnung'
+            ], $account)
+            ?? $this->createContact((object) [
+                'salutation' => '',
+                'first_name' => '',
+                'last_name' => 'eRechnung'
+            ], $account);
         }
 
         $address = $this->getAddressId($order->delivery, $account)
