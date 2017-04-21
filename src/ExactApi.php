@@ -180,12 +180,14 @@ class ExactApi
             $invoiceContact = $this->getContactId((object) [
                 'salutation' => '',
                 'first_name' => 'E-Mail',
-                'last_name' => 'eRechnung'
+                'last_name' => 'eRechnung',
+                'email' => $order->company->company_email
             ], $account)
             ?? $this->createContact((object) [
                 'salutation' => '',
                 'first_name' => 'E-Mail',
-                'last_name' => 'eRechnung'
+                'last_name' => 'eRechnung',
+                'email' => $order->company->company_email
             ], $account);
         }
 
