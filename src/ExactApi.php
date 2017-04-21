@@ -179,12 +179,12 @@ class ExactApi
         if ($order->digital_bill) {
             $invoiceContact = $this->getContactId((object) [
                 'salutation' => '',
-                'first_name' => '',
+                'first_name' => 'E-Mail',
                 'last_name' => 'eRechnung'
             ], $account)
             ?? $this->createContact((object) [
                 'salutation' => '',
-                'first_name' => '',
+                'first_name' => 'E-Mail',
                 'last_name' => 'eRechnung'
             ], $account);
         }
