@@ -171,10 +171,15 @@ class ExactApi
 
         if (is_array($account) && array_key_exists('error', $account)) return $account;
 
-        $contact = $this->getContactId($order->user, $account)
+        $contact = $invoiceContact = $this->getContactId($order->user, $account)
                 ?? $this->createContact($order->user, $account);
 
         if (is_array($contact) && array_key_exists('error', $contact)) return $contact;
+
+        if ($order->digital_bill) {
+            $invoiceContact = $this->getContactId(collect(['FirstName' => '', 'LastName' => 'eRechnung']), $account)
+                            ?? $this->createContact(collect(['FirstName' => '', 'LastName' => 'eRechnung']), $account);
+        }
 
         $address = $this->getAddressId($order->delivery, $account)
                 ?? $this->createAddress($order->delivery, $account);
@@ -202,6 +207,7 @@ class ExactApi
             'OrderedBy' => $account,
             'OrderedByContactPerson' => $contact,
             'DeliveryAddress' => $address,
+            'InvoiceToContactPerson' => $invoiceContact,
             'YourRef' => $order->id,
             'Remarks' => $order->comments,
             'PaymentCondition' => $paymentCondition,
@@ -267,11 +273,11 @@ class ExactApi
         $data = [
             'Account' => $accountId,
             'FirstName' => $contact->first_name ?? '',
-            'LastName' => $contact->last_name,
-            'Email' => $contact->email,
-            'Phone' => $contact->phone,
-            'Title' => strtoupper($contact->salutation),
-            'JobTitleDescription' => $contact->position
+            'LastName' => $contact->last_name ?? '',
+            'Email' => $contact->email ?? '',
+            'Phone' => $contact->phone ?? '',
+            'Title' => strtoupper($contact->salutation) ?? '',
+            'JobTitleDescription' => $contact->position ?? ''
         ];
 
         $response = $this->post('/api/v1/'. $this->division .'/crm/Contacts', $data);
