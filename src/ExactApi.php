@@ -164,8 +164,6 @@ class ExactApi
      */
     public function createSalesOrder($order)
     {
-        $bla = (object) ['first_name' => '', 'last_name' => 'eRechnung'];
-        dd($bla->last_name);
         $this->checkToken();
 
         $account = $this->getAccountId($order->company, $order->digital_bill)
@@ -179,8 +177,8 @@ class ExactApi
         if (is_array($contact) && array_key_exists('error', $contact)) return $contact;
 
         if ($order->digital_bill) {
-            $invoiceContact = $this->getContactId(collect(['first_name' => '', 'last_name' => 'eRechnung']), $account)
-                            ?? $this->createContact(collect(['first_name' => '', 'last_name' => 'eRechnung']), $account);
+            $invoiceContact = $this->getContactId((object) ['first_name' => '', 'last_name' => 'eRechnung'], $account)
+                            ?? $this->createContact((object) ['first_name' => '', 'last_name' => 'eRechnung'], $account);
         }
 
         $address = $this->getAddressId($order->delivery, $account)
