@@ -145,12 +145,14 @@ class ExactApi
         $data = [
             'OrderAccount' => $account,
             'OrderAccountContact' => $contact,
-            // 'DeliveryAddress' => $address,
+            'DeliveryAddress' => $address,
             'Description' => 'Angebotsanfrage ' . Carbon::now()->format('d.m.Y'),
             'QuotationLines' => $quotationLines
         ];
 
         $response = $this->post('/api/v1/'. $this->division .'/crm/Quotations', $data);
+
+        dd($response);
 
         if (is_array($response) && array_key_exists('error', $response)) return $response;
 
