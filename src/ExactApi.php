@@ -181,7 +181,7 @@ class ExactApi
                 'salutation' => '',
                 'first_name' => 'E-Mail',
                 'last_name' => 'eRechnung',
-                'email' => $order->company->company_email
+                'email' => $order->company->company_email ?? $order->user->email
             ], $account)
             ?? $this->createContact((object) [
                 'salutation' => '',
