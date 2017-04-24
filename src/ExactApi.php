@@ -139,7 +139,8 @@ class ExactApi
         $quotationLines = $this->getItemIds(
             $quotation->details,
             $quotation->company->language->code,
-            $quotation->delivery->language->code
+            $quotation->delivery->language->code,
+            false
         );
 
         $data = [
