@@ -126,7 +126,9 @@ trait ExactHelperTrait
                 $return[$key]['Item'] = $itemId[0]->ID;
                 $return[$key]['Quantity'] = $value->amount;
                 $return[$key]['Notes'] = $value->individualized;
-                $return[$key]['DeliveryDate'] = Carbon::today()->addWeekDays($value->variant->deliveryDays)->format('Y-m-d');
+                $return[$key]['DeliveryDate'] = isset($value->variant->deliveryDays)
+                                                ? Carbon::today()->addWeekDays($value->variant->deliveryDays)->format('Y-m-d')
+                                                : null;
 
                 if (isset($value->price)) {
                     $return[$key]['NetPrice'] = $value->price;
