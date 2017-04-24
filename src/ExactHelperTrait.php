@@ -288,13 +288,10 @@ trait ExactHelperTrait
                 $type => $data
             ]);
         } catch (ClientException $e) {
-            dump($e->getResponse());
             return ['error' => $e->getMessage()];
         } catch (ServerException $e) {
-            dump($e->getResponse());
             return ['error' => $e->getMessage()];
         } catch (RequestException $e) {
-            dump($e->getResponse());
             return ['error' => $e->getMessage()];
         }
 
