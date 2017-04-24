@@ -150,6 +150,8 @@ class ExactApi
             'QuotationLines' => $quotationLines
         ];
 
+        dd($data);
+
         $response = $this->post('/api/v1/'. $this->division .'/crm/Quotations', $data);
 
         if (is_array($response) && array_key_exists('error', $response)) return $response;
