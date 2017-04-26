@@ -146,7 +146,7 @@ class ExactApi
         $description = 'Angebotsanfrage ' . Carbon::now()->format('d.m.Y');
         $description .= $quotation->details->contains(function($detail, $key) {
             return $detail['file'] != '';
-        }) ? ' (Mit File)' : '';
+        }) ? ' (Mit Datei)' : '';
 
         $data = [
             'OrderAccount' => $account,
