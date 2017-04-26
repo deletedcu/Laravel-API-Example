@@ -119,9 +119,6 @@ class ExactApi
      */
     public function createQuotation($quotation)
     {
-        dd($quotation->details->contains(function($detail, $key) {
-            return $detail['file'] != '';
-        }));
         $this->checkToken();
 
         $account = $this->getAccountId($quotation->company, false)
@@ -147,7 +144,9 @@ class ExactApi
         );
 
         $description = 'Angebotsanfrage ' . Carbon::now()->format('d.m.Y');
-        $description .= $quotation->details->contains('file') ? ' (Mit File)' : '';
+        $description .= $quotation->details->contains(function($detail, $key) {
+            return $detail['file'] != '';
+        }) ? ' (Mit File)' : '';
 
         $data = [
             'OrderAccount' => $account,
