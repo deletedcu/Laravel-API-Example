@@ -119,7 +119,7 @@ class ExactApi
      */
     public function createQuotation($quotation)
     {
-        dd($quotation->details->contains('file'));
+        dd($quotation->details->contains('*.file'));
         $this->checkToken();
 
         $account = $this->getAccountId($quotation->company, false)
