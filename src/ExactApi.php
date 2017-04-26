@@ -143,11 +143,14 @@ class ExactApi
             false
         );
 
+        $description = 'Angebotsanfrage ' . Carbon::now()->format('d.m.Y');
+        $description .= $quotation->details->contains('file') ? ' (Mit File)' : '';
+
         $data = [
             'OrderAccount' => $account,
             'OrderAccountContact' => $contact,
             'DeliveryAddress' => $address,
-            'Description' => 'Angebotsanfrage ' . Carbon::now()->format('d.m.Y'),
+            'Description' => $description,
             'QuotationLines' => $quotationLines
         ];
 
