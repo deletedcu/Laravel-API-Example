@@ -153,7 +153,8 @@ class ExactApi
             'OrderAccountContact' => $contact,
             'DeliveryAddress' => $address,
             'Description' => $description,
-            'QuotationLines' => $quotationLines
+            'QuotationLines' => $quotationLines,
+            'Remarks' => $quotation->comments
         ];
 
         $response = $this->post('/api/v1/'. $this->division .'/crm/Quotations', $data);
