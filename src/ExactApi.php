@@ -122,7 +122,7 @@ class ExactApi
         $this->checkToken();
 
         $account = $this->getAccountId($quotation->company, false)
-                ?? $this->createAccount($quotation->company, false);
+                ?? $this->createAccount($quotation->company, false, 'U');
 
         if (is_array($account) && array_key_exists('error', $account)) return $account;
 
@@ -175,7 +175,7 @@ class ExactApi
         $this->checkToken();
 
         $account = $this->getAccountId($order->company, $order->digital_bill)
-                ?? $this->createAccount($order->company, $order->digital_bill);
+                ?? $this->createAccount($order->company, $order->digital_bill, $order->customer_type);
 
         if (is_array($account) && array_key_exists('error', $account)) return $account;
 
@@ -247,7 +247,7 @@ class ExactApi
      * @param  $gititalBill
      * @return String
      */
-    public function createAccount($account, $digitalBill = false)
+    public function createAccount($account, $digitalBill = false, $customerType = null)
     {
         $this->checkToken();
 
@@ -271,6 +271,8 @@ class ExactApi
             'PriceList' => $this->getPriceListId('VK Preisliste Shop'),
             'InvoicingMethod' => $digitalBill ? 2 : 1
         ];
+
+        if ($customerType) $data['Classification1'] = $this->getClassification($customerType);
 
         $response = $this->post('/api/v1/'. $this->division .'/crm/Accounts', $data);
 

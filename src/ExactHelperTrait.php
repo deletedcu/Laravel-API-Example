@@ -205,6 +205,25 @@ trait ExactHelperTrait
     }
 
     /**
+     * Fetch classification guid by code
+     *
+     * @param $customerType
+     * @return String
+     */
+    protected function getClassification($customerType)
+    {
+        $uri = '/api/v1/'. $this->division
+            .'/crm/AccountClassifications?$filter=trim(Code) eq '
+            . "'" . $customerType . "'" . '&$select=ID';
+
+        $results = Cache::remember('exact.classification.' . $customerType, 129600, function () use ($uri) {
+            return $this->get($uri)->d->results;
+        });
+
+        return count($results) > 0 ? $results[0]->ID : null;
+    }
+
+    /**
      * Fetch pricelist guid by name
      *
      * @param $name
