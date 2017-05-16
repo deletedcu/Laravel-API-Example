@@ -140,6 +140,7 @@ class ExactApi
             $quotation->details,
             $quotation->company->language->code,
             $quotation->delivery->language->code,
+            $quotation->company->ustid,
             false
         );
 
@@ -209,7 +210,8 @@ class ExactApi
         $salesOrderLines = $this->getItemIds(
             $order->details,
             $order->company->language->code,
-            $order->delivery->language->code
+            $order->delivery->language->code,
+            $order->company->ustid
         );
 
         if ($order->delivery_costs != '0.00' && $order->delivery_costs != '') {

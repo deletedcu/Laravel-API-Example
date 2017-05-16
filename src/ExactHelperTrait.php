@@ -109,9 +109,11 @@ trait ExactHelperTrait
      * @param  $products
      * @param  $countryCode
      * @param  $deliveryCountryCode
+     * @param  $ustid
+     * @param  $deliveryDate
      * @return Array
      */
-    protected function getItemIds($products, $countryCode, $deliveryCountryCode, $deliveryDate = true)
+    protected function getItemIds($products, $countryCode, $deliveryCountryCode, $ustid, $deliveryDate = true)
     {
         $return = [];
 
@@ -137,6 +139,8 @@ trait ExactHelperTrait
             }
 
             if ($countryCode != 'DE' && $deliveryCountryCode == 'DE') {
+                $return[$key]['VATCode'] = 3;
+            } else if($countryCode != 'DE' && $deliveryCountryCode != 'DE' && $ustid == '') {
                 $return[$key]['VATCode'] = 3;
             }
         }
