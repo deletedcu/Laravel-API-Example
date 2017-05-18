@@ -118,7 +118,7 @@ trait ExactHelperTrait
         $return = [];
 
         foreach ($products as $key => $value) {
-            $uri = '/api/v1/'. $this->division .'/logistics/Items?$filter=trim(Code) eq ' . "'" . (string) $value->variant->sku . "'" . '&$select=ID';
+            $uri = '/api/v1/'. $this->division .'/logistics/Items?$filter=trim(Code) eq ' . "'" . str_replace('+', '%2B', $value->variant->sku) . "'" . '&$select=ID';
 
             dd($this->get($uri));
 
