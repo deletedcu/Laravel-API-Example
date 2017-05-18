@@ -119,6 +119,7 @@ trait ExactHelperTrait
 
         foreach ($products as $key => $value) {
             $uri = '/api/v1/'. $this->division .'/logistics/Items?$filter=trim(Code) eq ' . "'" . str_replace('+', '%2B', $value->variant->sku) . "'" . '&$select=ID';
+            dd($this->get($uri)->d->results);
 
             $itemId = Cache::remember('exact.item.' . $value->variant->sku, 43200, function () use ($uri) {
                 return $this->get($uri)->d->results;
