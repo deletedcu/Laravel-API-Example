@@ -124,6 +124,8 @@ trait ExactHelperTrait
                 return $this->get($uri)->d->results;
             });
 
+            dd($itemId);
+
             if(isset($itemId[0]->ID)) {
                 $return[$key]['Item'] = $itemId[0]->ID;
                 $return[$key]['Quantity'] = $value->amount;
