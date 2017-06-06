@@ -140,8 +140,6 @@ trait ExactHelperTrait
 
             if ($countryCode != 'DE' && $deliveryCountryCode == 'DE') {
                 $return[$key]['VATCode'] = 3;
-            } else if($countryCode != 'DE' && $deliveryCountryCode != 'DE' && $ustid == '') {
-                $return[$key]['VATCode'] = 3;
             } else if($countryCode != 'DE' && $deliveryCountryCode != 'DE') {
                 $return[$key]['VATCode'] = 0;
             }
