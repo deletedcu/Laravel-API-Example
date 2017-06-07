@@ -362,7 +362,7 @@ class ExactApi
         ];
 
         $uri = '/api/v1/'. $this->division
-            .'/crm/Contacts(guid' . "'" . $id . "'" . ')';
+            .'/crm/Contacts(guid' . "'" . $contactId . "'" . ')';
 
         return $this->put($uri, $data);
     }
