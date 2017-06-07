@@ -352,6 +352,8 @@ class ExactApi
         $accountId = $this->getAccountId($contact->company_id, false);
         $contactId = $this->getContactId($contact, $accountId);
 
+        return $contactId;
+
         $data = [
             'Account' => $accountId,
             'FirstName' => $contact->first_name ?? '',
