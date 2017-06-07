@@ -283,6 +283,12 @@ class ExactApi
         return $response->d->ID;
     }
 
+    /**
+     * Update an existing account in erp
+     *
+     * @param $account
+     * @return Array
+     */
     public function updateAccount($account)
     {
         $this->checkToken();
@@ -337,6 +343,28 @@ class ExactApi
         if (is_array($response) && array_key_exists('error', $response)) return $response;
 
         return $response->d->ID;
+    }
+
+    public function updateContact($contact)
+    {
+        $this->checkToken();
+
+        $id = $this->getContactId($contact, $contact->company_id);
+
+        $data = [
+            'Account' => $accountId,
+            'FirstName' => $contact->first_name ?? '',
+            'LastName' => $contact->last_name ?? '',
+            'Email' => $contact->email ?? '',
+            'Phone' => $contact->phone ?? '',
+            'Title' => strtoupper($contact->salutation) ?? '',
+            'JobTitleDescription' => $contact->position ?? ''
+        ];
+
+        $uri = '/api/v1/'. $this->division
+            .'/crm/Contacts(guid' . "'" . $id . "'" . ')';
+
+        return $this->put($uri, $data);
     }
 
     /**
