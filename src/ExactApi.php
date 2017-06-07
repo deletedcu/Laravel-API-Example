@@ -349,10 +349,10 @@ class ExactApi
     {
         $this->checkToken();
 
-        $id = $this->getContactId($contact, $contact->company_id);
+        $accountId = $this->getAccountId($contact->company_id, false);
+        $contactId = $this->getContactId($contact, $accountId);
 
         $data = [
-            'Account' => $accountId,
             'FirstName' => $contact->first_name ?? '',
             'LastName' => $contact->last_name ?? '',
             'Email' => $contact->email ?? '',
