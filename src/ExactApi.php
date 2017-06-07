@@ -345,6 +345,12 @@ class ExactApi
         return $response->d->ID;
     }
 
+    /**
+     * Update an existing contact in erp
+     *
+     * @param $contact
+     * @return Array
+     */
     public function updateContact($contact)
     {
         $this->checkToken();
@@ -352,10 +358,7 @@ class ExactApi
         $accountId = $this->getAccountId($contact->company_id, false);
         $contactId = $this->getContactId($contact, $accountId);
 
-        return $accountId;
-
         $data = [
-            'Account' => $accountId,
             'FirstName' => $contact->first_name ?? '',
             'LastName' => $contact->last_name ?? '',
             'Email' => $contact->email ?? '',
@@ -395,5 +398,34 @@ class ExactApi
         if (is_array($response) && array_key_exists('error', $response)) return $response;
 
         return $response->d->ID;
+    }
+
+    /**
+     * Update an existing address in erp
+     *
+     * @param $address
+     * @return Array
+     */
+    public function updateAddress($address)
+    {
+        $this->checkToken();
+
+        $accountId = $this->getAccountId($address->company_id, false);
+        $addressId = $this->getAddressId($address, $accountId);
+
+        $data = [
+            'AddressLine1' => $address->delivery_street . ' ' . $address->delivery_house_number,
+            'AddressLine2' => $address->delivery_additional,
+            'AddressLine3' => $address->delivery_name,
+            'Postcode' => $address->delivery_zip_code,
+            'City' => $address->delivery_city,
+            'Country' => $address->language->code ?? 'DE',
+            'Type' => 4
+        ];
+
+        $uri = '/api/v1/'. $this->division
+            .'/crm/Addresses(guid' . "'" . $addressId . "'" . ')';
+
+        return $this->put($uri, $data);
     }
 }
