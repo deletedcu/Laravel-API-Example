@@ -31,7 +31,7 @@ trait ExactHelperTrait
         return count($results) > 0 ? $results[0]->ID : null;
     }
 
-    protected function prepareAccountData($account, $accounting)
+    protected function prepareAccountData($account, $accounting, $digitalBill)
     {
         return [
             'Code' => strlen($account->id) == 5 ? '10' . (string) $account->id : $account->id,
