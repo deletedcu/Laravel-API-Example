@@ -254,7 +254,25 @@ class ExactApi
         $this->checkToken();
 
         $accounting = $this->getAccountingCodes($account->language->code);
-        $data = $this->prepareAccountData($account, $accounting, $digitalBill);
+
+        $data = [
+            'Code' => strlen($account->id) == 5 ? '10' . (string) $account->id : $account->id,
+            'Name' => $account->name,
+            'AddressLine3' => $account->name_2 ?? '',
+            'AddressLine2' => $account->addition ?? '',
+            'AddressLine1' => $account->street . ' ' . $account->house_number,
+            'Postcode' => $account->zip_code,
+            'City' => $account->city,
+            'Email' => $account->company_email ?? '',
+            'Phone' => $account->company_phone ?? '',
+            'Status' => $account->customer_type ?? 'C',
+            'VATNumber' => $account->language->code == 'CH' ? '' : str_replace(['.', '-'], '', $account->ustid),
+            'Country' => $account->language->code,
+            'SalesVATCode' => $accounting['vatCode'],
+            'GLAccountSales' => $accounting['accountSales'],
+            'PriceList' => $this->getPriceListId('VK Preisliste Shop'),
+            'InvoicingMethod' => $digitalBill ? 2 : 1
+        ];
 
         if ($customerType) $data['Classification1'] = $this->getClassification($customerType);
 
@@ -270,8 +288,24 @@ class ExactApi
         $this->checkToken();
 
         $id = $this->getAccountId($account, false);
+
         $accounting = $this->getAccountingCodes($account->language->code);
-        $data = $this->prepareAccountData($account, $accounting, false);
+
+        $data = [
+            'Name' => $account->name,
+            'AddressLine3' => $account->name_2 ?? '',
+            'AddressLine2' => $account->addition ?? '',
+            'AddressLine1' => $account->street . ' ' . $account->house_number,
+            'Postcode' => $account->zip_code,
+            'City' => $account->city,
+            'Email' => $account->company_email ?? '',
+            'Phone' => $account->company_phone ?? '',
+            'Status' => $account->customer_type ?? 'C',
+            'VATNumber' => $account->language->code == 'CH' ? '' : str_replace(['.', '-'], '', $account->ustid),
+            'Country' => $account->language->code,
+            'SalesVATCode' => $accounting['vatCode'],
+            'GLAccountSales' => $accounting['accountSales'],
+        ];
 
         $uri = '/api/v1/'. $this->division
             .'/crm/Accounts(guid' . "'" . $id . "'" . ')';
