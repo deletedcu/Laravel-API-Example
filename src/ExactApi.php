@@ -255,7 +255,7 @@ class ExactApi
 
         $accounting = $this->getAccountingCodes($account->language->code);
 
-        $data = $this->getAccountData($account);
+        $data = $this->prepareAccountData($account);
 
         if ($customerType) $data['Classification1'] = $this->getClassification($customerType);
 
@@ -271,7 +271,7 @@ class ExactApi
         $this->checkToken();
 
         $id = $this->getAccountId($account, false);
-        $data = $this->getAccountData($account);
+        $data = $this->prepareAccountData($account);
 
         $uri = '/api/v1/'. $this->division
             .'/crm/Accounts(guid' . "'" . $id . "'" . ')';
