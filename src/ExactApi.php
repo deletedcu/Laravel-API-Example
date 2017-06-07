@@ -352,7 +352,7 @@ class ExactApi
         $accountId = $this->getAccountId($contact->company_id, false);
         $contactId = $this->getContactId($contact, $accountId);
 
-        return $contactId;
+        return $accountId;
 
         $data = [
             'Account' => $accountId,
