@@ -353,6 +353,7 @@ class ExactApi
         $contactId = $this->getContactId($contact, $accountId);
 
         $data = [
+            'Account' => $accountId,
             'FirstName' => $contact->first_name ?? '',
             'LastName' => $contact->last_name ?? '',
             'Email' => $contact->email ?? '',
