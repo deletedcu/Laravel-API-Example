@@ -256,9 +256,7 @@ trait ExactHelperTrait
      */
     protected function getPaymentCondition($paymentMethod, $notices)
     {
-        if ($notices == 'Bezahlt' && $paymentMethod == 'Vorkasse') {
-           return 'VZ';
-        }
+        if ($notices == 'Bezahlt' && $paymentMethod == 'Vorkasse') return 'VZ';
 
         return collect([
             'Rechnung' => '01',
