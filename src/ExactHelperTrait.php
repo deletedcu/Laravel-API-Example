@@ -251,15 +251,19 @@ trait ExactHelperTrait
      * Fetch payment condition short code by payment method
      *
      * @param $paymentMethod
+     * @param $notices
      * @return String
      */
-    protected function getPaymentCondition($paymentMethod)
+    protected function getPaymentCondition($paymentMethod, $notices)
     {
+        if ($notices == 'Bezahlt' && $paymentMethod == 'Vorkasse') {
+           return 'VZ';
+        }
+
         return collect([
             'Rechnung' => '01',
             'Paypal' => 'PP',
             'Vorkasse' => 'V2',
-            'Vorkasse (Sonderfall)' => 'V2',
             'Sofortüberweisung' => 'SO'
         ])->filter(function($code, $condition) use ($paymentMethod) {
             return $condition == $paymentMethod;

@@ -205,7 +205,7 @@ class ExactApi
 
         if (is_array($address) && array_key_exists('error', $address)) return $address;
 
-        $paymentCondition = $this->getPaymentCondition($order->payment_method);
+        $paymentCondition = $this->getPaymentCondition($order->payment_method, $order->notices);
 
         $salesOrderLines = $this->getItemIds(
             $order->details,
