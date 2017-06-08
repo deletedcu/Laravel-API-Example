@@ -268,8 +268,8 @@ class ExactApi
             'Status' => $account->customer_type ?? 'C',
             'VATNumber' => $account->language->code == 'CH' ? '' : str_replace(['.', '-'], '', $account->ustid),
             'Country' => $account->language->code,
-            // 'SalesVATCode' => $accounting['vatCode'],
-            // 'GLAccountSales' => $accounting['accountSales'],
+            'SalesVATCode' => $accounting['vatCode'],
+            'GLAccountSales' => $accounting['accountSales'],
             'PriceList' => $this->getPriceListId('VK Preisliste Shop'),
             'InvoicingMethod' => $digitalBill ? 2 : 1
         ];
