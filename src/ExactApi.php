@@ -172,7 +172,7 @@ class ExactApi
     {
         $this->checkToken();
 
-        if ($order->company->erp_id) {
+        if ($order->company->erp_id != '') {
             $account = $order->company->erp_id;
         } else if ($accountId = $this->getAccountId($order->company)) {
             $account = $accountId;
@@ -182,7 +182,7 @@ class ExactApi
 
         if (is_array($account) && array_key_exists('error', $account)) return $account;
 
-        if ($order->user->erp_id) {
+        if ($order->user->erp_id != '') {
             $contact = $order->user->erp_id;
         } else if ($contactId = $invoiceContact = $this->getContactId($order->user, $account)) {
             $contact = $contactId;
@@ -203,7 +203,7 @@ class ExactApi
             $invoiceContact = $this->getContactId($eBillData, $account) ?? $this->createContact($eBillData, $account);
         }
 
-        if ($order->delivery->erp_id) {
+        if ($order->delivery->erp_id != '') {
             $address = $order->delivery->erp_id;
         } else if ($addressId = $this->getAddressId($order->delivery, $account)) {
             $address = $addressId;
