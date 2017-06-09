@@ -239,7 +239,7 @@ class ExactApi
 
         if (is_array($response) && array_key_exists('error', $response)) return $response;
 
-        return $response->d->OrderNumber;
+        return [$response->d->OrderNumber, $account, $contact, $address];
     }
 
     /**
