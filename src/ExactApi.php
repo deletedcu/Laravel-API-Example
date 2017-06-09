@@ -172,11 +172,24 @@ class ExactApi
     {
         $this->checkToken();
 
-        $account = $order->company->erp_id
-                ?: $this->createAccount($order->company, $order->digital_bill, $order->customer_type);
+        if ($order->company->erp_id) {
+            $account = $order->company->erp_id;
+        } else if ($accountId = $this->getAccountId($order->company)) {
+            $account = $accountId;
+        } else {
+            $account = $this->createAccount($order->company, $order->digital_bill, $order->customer_type);
+        }
+
         if (is_array($account) && array_key_exists('error', $account)) return $account;
 
-        $contact = $invoiceContact = $order->user->erp_id ?: $this->createContact($order->user, $account);
+        if ($order->user->erp_id) {
+            $contact = $order->user->erp_id;
+        } else if ($contactId = $invoiceContact = $this->getContactId($order->user, $account)) {
+            $contact = $contactId;
+        } else {
+            $contact = $this->createContact($order->user, $account);
+        }
+
         if (is_array($contact) && array_key_exists('error', $contact)) return $contact;
 
         $eBillData = (object) [
@@ -190,7 +203,14 @@ class ExactApi
             $invoiceContact = $this->getContactId($eBillData, $account) ?? $this->createContact($eBillData, $account);
         }
 
-        $address = $order->delivery->erp_id ?: $this->createAddress($order->delivery, $account);
+        if ($order->delivery->erp_id) {
+            $address = $order->delivery->erp_id;
+        } else if ($addressId = $this->getAddressId($order->delivery, $account)) {
+            $address = $addressId;
+        } else {
+            $address = $this->createAddress($order->delivery, $account);
+        }
+
         if (is_array($address) && array_key_exists('error', $address)) return $address;
 
         $paymentCondition = $this->getPaymentCondition($order->payment_method, $order->notices);
