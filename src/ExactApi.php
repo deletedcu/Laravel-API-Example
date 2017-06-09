@@ -180,7 +180,7 @@ class ExactApi
             $account = $this->createAccount($order->company, $order->digital_bill, $order->customer_type);
         }
 
-        if (is_array($account) && array_key_exists('error', $account)) return [$account];
+        if (is_array($account) && array_key_exists('error', $account)) return [$account, null, null, null];
 
         if ($order->user->erp_id != '') {
             $contact = $order->user->erp_id;
@@ -190,7 +190,7 @@ class ExactApi
             $contact = $this->createContact($order->user, $account);
         }
 
-        if (is_array($contact) && array_key_exists('error', $contact)) return $contact;
+        if (is_array($contact) && array_key_exists('error', $contact)) return [$contact, null, null, null];
 
         $eBillData = (object) [
             'salutation' => '',
@@ -211,7 +211,7 @@ class ExactApi
             $address = $this->createAddress($order->delivery, $account);
         }
 
-        if (is_array($address) && array_key_exists('error', $address)) return $address;
+        if (is_array($address) && array_key_exists('error', $address)) return [$address, null, null, null];
 
         $paymentCondition = $this->getPaymentCondition($order->payment_method, $order->notices);
 
