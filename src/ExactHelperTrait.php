@@ -175,6 +175,8 @@ trait ExactHelperTrait
 
         if ($countryCode != 'DE' && $deliveryCountryCode == 'DE') {
             $return['VATCode'] = 3;
+        } else if($countryCode == 'CH' && $deliveryCountryCode == 'CH') {
+            $return['VATCode'] = 0;
         }
 
         return $return;
