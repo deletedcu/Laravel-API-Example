@@ -180,6 +180,8 @@ class ExactApi
             $account = $this->createAccount($order->company, $order->digital_bill, $order->customer_type);
         }
 
+        return $account;
+
         if (is_array($account) && array_key_exists('error', $account)) return $account;
 
         if ($order->user->erp_id != '') {
