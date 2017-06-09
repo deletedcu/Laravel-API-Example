@@ -5,9 +5,6 @@ namespace BohSchu\Exact;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use BohSchu\Exact\ExactHelperTrait;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use GuzzleHttp\Exception\ClientException;
 
 class ExactApi
 {
@@ -28,7 +25,7 @@ class ExactApi
     private $division;
 
     /**
-     * Instanciate the guzzle http client and set division code
+     * Instantiate the guzzle http client and set division code
      */
     public function __construct()
     {
@@ -175,13 +172,13 @@ class ExactApi
     {
         $this->checkToken();
 
-        $account = $this->getAccountId($order->company, $order->digital_bill)
-                ?? $this->createAccount($order->company, $order->digital_bill, $order->customer_type);
+        $account = $order->company->erp_id
+                ?: $this->createAccount($order->company, $order->digital_bill, $order->customer_type);
 
         if (is_array($account) && array_key_exists('error', $account)) return $account;
 
-        $contact = $invoiceContact = $this->getContactId($order->user, $account)
-                ?? $this->createContact($order->user, $account);
+        $contact = $invoiceContact = $order->user->erp_id
+                ?: $this->createContact($order->user, $account);
 
         if (is_array($contact) && array_key_exists('error', $contact)) return $contact;
 
@@ -246,8 +243,10 @@ class ExactApi
      * Create a new account (Customer)
      *
      * @param  $account
-     * @param  $gititalBill
+     * @param bool $digitalBill
+     * @param null $customerType
      * @return String
+     * @internal param $gititalBill
      */
     public function createAccount($account, $digitalBill = false, $customerType = null)
     {

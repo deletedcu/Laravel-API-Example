@@ -15,10 +15,9 @@ trait ExactHelperTrait
      * Fetch account guid by code
      *
      * @param $account
-     * @param $digitalBill
      * @return String
      */
-    protected function getAccountId($account, $digitalBill)
+    protected function getAccountId($account)
     {
         $id = strlen($account['id']) == 5 ? '10' . (string) $account['id'] : $account['id'];
 
