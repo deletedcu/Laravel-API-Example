@@ -183,7 +183,7 @@ class ExactApi
         if (is_array($account) && array_key_exists('error', $account)) return [$account, null, null, null];
 
         if ($order->user->erp_id != '') {
-            $contact = $order->user->erp_id;
+            $contact = $invoiceContact = $order->user->erp_id;
         } else if ($contactId = $invoiceContact = $this->getContactId($order->user, $account)) {
             $contact = $contactId;
         } else {
