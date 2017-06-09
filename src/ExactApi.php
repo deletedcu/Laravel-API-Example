@@ -174,12 +174,9 @@ class ExactApi
 
         $account = $order->company->erp_id
                 ?: $this->createAccount($order->company, $order->digital_bill, $order->customer_type);
-
         if (is_array($account) && array_key_exists('error', $account)) return $account;
 
-        $contact = $invoiceContact = $order->user->erp_id
-                ?: $this->createContact($order->user, $account);
-
+        $contact = $invoiceContact = $order->user->erp_id ?: $this->createContact($order->user, $account);
         if (is_array($contact) && array_key_exists('error', $contact)) return $contact;
 
         if ($order->digital_bill) {
@@ -197,9 +194,7 @@ class ExactApi
             ], $account);
         }
 
-        $address = $this->getAddressId($order->delivery, $account)
-                ?? $this->createAddress($order->delivery, $account);
-
+        $address = $order->delivery->erp_id ?: $this->createAddress($order->delivery, $account);
         if (is_array($address) && array_key_exists('error', $address)) return $address;
 
         $paymentCondition = $this->getPaymentCondition($order->payment_method, $order->notices);
