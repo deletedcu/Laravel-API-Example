@@ -284,6 +284,8 @@ trait ExactHelperTrait
     {
         $account = $this->getAccount($accountId);
 
+        return $account;
+
         $newAddress = [
             $companyData->name,
             $companyData->street . ' ' . $companyData->house_number,
