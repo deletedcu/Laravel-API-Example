@@ -180,7 +180,7 @@ class ExactApi
             $account = $this->createAccount($order->company, $order->digital_bill, $order->customer_type);
         }
 
-        return $this->checkAddressChanges($account, $order->company);
+        $this->checkAddressChanges($account, $order->company);
 
         if (is_array($account) && array_key_exists('error', $account)) return [$account, null, null, null];
 
@@ -299,13 +299,14 @@ class ExactApi
      * Update an existing account in erp
      *
      * @param $account
+     * @param bool $id
      * @return Array
      */
-    public function updateAccount($account)
+    public function updateAccount($account, $id = false)
     {
         $this->checkToken();
 
-        $id = $this->getAccountId($account, false);
+        $id = $id ?: $this->getAccountId($account, false);
 
         $accounting = $this->getAccountingCodes($account->language->code);
 

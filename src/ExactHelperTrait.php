@@ -298,10 +298,9 @@ trait ExactHelperTrait
             $account->City
         ];
 
-        if (count(array_diff($newAddress, $oldAddress)) < 1) return 'yoooo';
+        if (count(array_diff($newAddress, $oldAddress)) < 1) return;
 
-        return [$newAddress, $oldAddress];
-
+        return $this->updateAccount($companyData, $accountId);
     }
 
     /**
