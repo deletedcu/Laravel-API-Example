@@ -166,9 +166,10 @@ trait ExactHelperTrait
      * @param $cost
      * @param $countryCode
      * @param $deliveryCountryCode
+     * @param $ustId
      * @return Array
      */
-    protected function getDeliveryCosts($cost, $countryCode, $deliveryCountryCode)
+    protected function getDeliveryCosts($cost, $countryCode, $deliveryCountryCode, $ustId)
     {
         $uri = '/api/v1/'. $this->division
             .'/logistics/Items?$filter=trim(Code) eq '
@@ -188,6 +189,8 @@ trait ExactHelperTrait
             $return['VATCode'] = 3;
         } else if($countryCode == 'CH' && $deliveryCountryCode == 'CH') {
             $return['VATCode'] = 0;
+        } else if($countryCode != 'DE' && $deliveryCountryCode != 'DE' && $ustId == '') {
+            $return['VATCode'] = 3;
         }
 
         return $return;

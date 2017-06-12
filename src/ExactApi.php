@@ -228,7 +228,8 @@ class ExactApi
             $salesOrderLines[] = $this->getDeliveryCosts(
                 $order->delivery_costs,
                 $order->company->language->code,
-                $order->delivery->language->code
+                $order->delivery->language->code,
+                $order->company->ustid
             );
         }
 
