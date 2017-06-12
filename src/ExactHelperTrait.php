@@ -284,21 +284,21 @@ trait ExactHelperTrait
     {
         $account = $this->getAccount($accountId);
 
-//        $newAddress = [
-//            $companyData->name,
-//            $companyData->street . ' ' . $companyData->house_number,
-//            $companyData->zip_code,
-//            $companyData->city
-//        ];
-//
-//        $oldAddress = [
-//            $account->name,
-//            $account->AddressLine1,
-//            $account->Postcode,
-//            $account->AddressLine2
-//        ];
-//
-//        return [$newAddress, $oldAddress];
+        $newAddress = [
+            $companyData->name,
+            $companyData->street . ' ' . $companyData->house_number,
+            $companyData->zip_code,
+            $companyData->city
+        ];
+
+        $oldAddress = [
+            $account->Name,
+            $account->AddressLine1,
+            $account->Postcode,
+            $account->AddressLine2
+        ];
+
+        return [$newAddress, $oldAddress];
 
         return $account;
     }
