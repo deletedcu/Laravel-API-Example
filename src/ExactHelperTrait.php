@@ -282,6 +282,8 @@ trait ExactHelperTrait
 
     protected function checkAddressChanges($accountId, $companyData)
     {
+        return $accountId;
+        
         $account = $this->getAccount($accountId);
 
         $newAddress = [
