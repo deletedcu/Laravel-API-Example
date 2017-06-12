@@ -295,11 +295,11 @@ trait ExactHelperTrait
             $account->Name,
             $account->AddressLine1,
             $account->Postcode,
-            $account->AddressLine2
+            $account->AddressLine3
         ];
 
         return [$newAddress, $oldAddress];
-        
+
     }
 
     /**
