@@ -285,8 +285,9 @@ trait ExactHelperTrait
      *
      * @param $accountId
      * @param $companyData
+     * @param $deliveryLang
      */
-    protected function checkAddressChanges($accountId, $companyData)
+    protected function checkAddressChanges($accountId, $companyData, $deliveryLang)
     {
         $account = $this->getAccount($accountId);
 
@@ -306,7 +307,7 @@ trait ExactHelperTrait
 
         if (count(array_diff($newAddress, $oldAddress)) < 1) return;
 
-        return $this->updateAccount($companyData, $accountId);
+        return $this->updateAccount($companyData, $deliveryLang, $accountId);
     }
 
     /**

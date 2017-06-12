@@ -177,10 +177,10 @@ class ExactApi
         } else if ($accountId = $this->getAccountId($order->company)) {
             $account = $accountId;
         } else {
-            $account = $this->createAccount($order->company, $order->digital_bill, $order->customer_type);
+            $account = $this->createAccount($order->company, $order->delivery->language->code, $order->digital_bill, $order->customer_type);
         }
 
-        $this->checkAddressChanges($account, $order->company);
+        $this->checkAddressChanges($account, $order->company, $order->delivery->language->code);
 
         if (is_array($account) && array_key_exists('error', $account)) return [$account, null, null, null];
 
@@ -256,16 +256,16 @@ class ExactApi
      * Create a new account (Customer)
      *
      * @param  $account
+     * @param $deliveryLang
      * @param bool $digitalBill
      * @param null $customerType
      * @return String
-     * @internal param $gititalBill
      */
-    public function createAccount($account, $digitalBill = false, $customerType = null)
+    public function createAccount($account, $deliveryLang,  $digitalBill = false, $customerType = null)
     {
         $this->checkToken();
 
-        $accounting = $this->getAccountingCodes($account->language->code);
+        $accounting = $this->getAccountingCodes($deliveryLang);
 
         $data = [
             'Code' => strlen($account->id) == 5 ? '10' . (string) $account->id : $account->id,
@@ -299,16 +299,17 @@ class ExactApi
      * Update an existing account in erp
      *
      * @param $account
+     * @param $deliveryLang
      * @param bool $id
      * @return Array
      */
-    public function updateAccount($account, $id = false)
+    public function updateAccount($account, $deliveryLang, $id = false)
     {
         $this->checkToken();
 
         $id = $id ?: $this->getAccountId($account, false);
 
-        $accounting = $this->getAccountingCodes($account->language->code);
+        $accounting = $this->getAccountingCodes($deliveryLang);
 
         $data = [
             'Name' => $account->name,
