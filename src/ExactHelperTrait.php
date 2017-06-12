@@ -30,6 +30,17 @@ trait ExactHelperTrait
         return count($results) > 0 ? $results[0]->ID : null;
     }
 
+    protected function getAccount($account)
+    {
+        $uri = '/api/v1/'
+            . $this->division .'/crm/Accounts?ID eq guid'. " '" . $account . "' "
+            . 'eq true&top=1';
+
+        $results = $this->get($uri)->d->results;
+
+        return count($results) > 0 ? $results[0] : null;
+    }
+
     /**
      * Fetch contact guid by code
      *
@@ -267,6 +278,13 @@ trait ExactHelperTrait
         ])->filter(function($code, $condition) use ($paymentMethod) {
             return $condition == $paymentMethod;
         })->first();
+    }
+
+    protected function checkAddressChanges($accountId, $companyData)
+    {
+        $account = $this->getAccount($accountId);
+
+        return $account;
     }
 
     /**
