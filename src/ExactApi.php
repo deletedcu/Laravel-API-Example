@@ -79,7 +79,7 @@ class ExactApi
         return collect($results)->map(function($delivery) {
             $contact = $this->getContact($delivery->DeliveryContact, 'Email,Phone');
 
-            $delivery->address = $this->getAdress(
+            $delivery->address = $this->getAddress(
                 $delivery->DeliveryAddress,
                 'AccountName,AddressLine1,AddressLine2,AddressLine3,City,ContactName,Country,Postcode'
             );

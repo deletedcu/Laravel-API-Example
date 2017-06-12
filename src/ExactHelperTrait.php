@@ -104,7 +104,7 @@ trait ExactHelperTrait
      * @param $select
      * @return Array
      */
-    protected function getAdress($addressId, $select)
+    protected function getAddress($addressId, $select)
     {
         $uri = '/api/v1/'. $this->division
             .'/crm/Addresses?$filter=ID eq guid' . "'" . $addressId . "'"
@@ -242,7 +242,7 @@ trait ExactHelperTrait
     }
 
     /**
-     * Fetch pricelist guid by name
+     * Fetch price list guid by name
      *
      * @param $name
      * @return String
@@ -280,6 +280,12 @@ trait ExactHelperTrait
         })->first();
     }
 
+    /**
+     * Check if any data has changed and then update record
+     *
+     * @param $accountId
+     * @param $companyData
+     */
     protected function checkAddressChanges($accountId, $companyData)
     {
         $account = $this->getAccount($accountId);
