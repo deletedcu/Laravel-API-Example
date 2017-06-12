@@ -34,7 +34,7 @@ trait ExactHelperTrait
     {
         $uri = '/api/v1/'
             . $this->division .'/crm/Accounts?ID eq guid'. " '" . $account . "' "
-            . 'eq true&top=1';
+            . 'eq true&select=*';
 
         $results = $this->get($uri)->d->results;
 
