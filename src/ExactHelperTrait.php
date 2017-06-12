@@ -284,8 +284,6 @@ trait ExactHelperTrait
     {
         $account = $this->getAccount($accountId);
 
-        return $account;
-
         $newAddress = [
             $companyData->name,
             $companyData->street . ' ' . $companyData->house_number,
@@ -297,8 +295,10 @@ trait ExactHelperTrait
             $account->Name,
             $account->AddressLine1,
             $account->Postcode,
-            $account->AddressLine3
+            $account->City
         ];
+
+        if (count(array_diff($newAddress, $oldAddress)) < 1) return 'yoooo';
 
         return [$newAddress, $oldAddress];
 
