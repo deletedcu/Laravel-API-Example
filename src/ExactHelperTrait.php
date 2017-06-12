@@ -33,7 +33,7 @@ trait ExactHelperTrait
     protected function getAccount($account)
     {
         $uri = '/api/v1/'
-            . $this->division .'/crm/Accounts?ID eq guid'. " '" . $account . "' "
+            . $this->division .'/crm/Accounts?$filter=ID eq guid'. " '" . $account . "' "
             . 'eq true&select=Name, AddressLine1';
 
         $results = $this->get($uri)->d->results;
@@ -283,7 +283,7 @@ trait ExactHelperTrait
     protected function checkAddressChanges($accountId, $companyData)
     {
         $account = $this->getAccount($accountId);
-        f79db8d5-80cf-4dbd-8716-e0c8eee2b5fa
+//        f79db8d5-80cf-4dbd-8716-e0c8eee2b5fa
         return $account;
 
         $newAddress = [
