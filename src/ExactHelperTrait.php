@@ -38,7 +38,7 @@ trait ExactHelperTrait
 
         $results = $this->get($uri)->d->results;
 
-        return count($results) > 0 ? $results : null;
+        return count($results) > 0 ? $results[0] : null;
     }
 
     /**
@@ -283,8 +283,6 @@ trait ExactHelperTrait
     protected function checkAddressChanges($accountId, $companyData)
     {
         $account = $this->getAccount($accountId);
-//        f79db8d5-80cf-4dbd-8716-e0c8eee2b5fa
-        return $account;
 
         $newAddress = [
             $companyData->name,
@@ -301,8 +299,7 @@ trait ExactHelperTrait
         ];
 
         return [$newAddress, $oldAddress];
-
-        return $account;
+        
     }
 
     /**
