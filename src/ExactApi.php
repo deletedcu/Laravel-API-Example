@@ -275,7 +275,7 @@ class ExactApi
 
     /**
      * @param $account
-     * @return null
+     * @return mixed
      */
     public function getAccount($account)
     {
@@ -287,8 +287,7 @@ class ExactApi
 
         return count($results) > 0 ? $results[0] : null;
     }
-
-
+    
     /**
      * Create a new account (Customer)
      *
