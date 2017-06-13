@@ -44,6 +44,7 @@ class ExactApi
         $uri = '/api/v1/'. $this->division .'/salesorder/SalesOrders'
             . '?$filter=startswith(tolower(YourRef), '. "'e'" .') eq true and substringof('. "'/'" .', YourRef) eq false'
             . '&$expand=SalesOrderLines'
+            . '&$expand=Accounts'
             . '&$select=' . $select;
 
         $response = $this->get($uri);
