@@ -33,6 +33,10 @@ class ExactApi
         $this->client = new Client(['base_uri' => config('exact.base_uri')]);
     }
 
+    /**
+     * @param $select
+     * @return Object
+     */
     public function getSalesOrders($select)
     {
         $this->checkToken();
