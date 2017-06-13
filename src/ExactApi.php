@@ -253,13 +253,13 @@ class ExactApi
         return [$response->d->OrderNumber, $account, $contact, $address];
     }
 
-    public function getSalesOrders()
+    public function getSalesOrders($select)
     {
         $this->checkToken();
 
         $uri = '/api/v1/'. $this->division .'/salesorder/SalesOrders'
             . '?$filter=startswith(tolower(YourRef), '. "'e'" .') eq true and substringof('. "'/'" .', YourRef) eq false'
-            . '&$select=OrderID,YourRef';
+            . '&$select=' . $select;
 
         $response = $this->get($uri);
 
