@@ -33,6 +33,22 @@ class ExactApi
         $this->client = new Client(['base_uri' => config('exact.base_uri')]);
     }
 
+    public function getSalesOrders($select)
+    {
+        $this->checkToken();
+
+        $uri = '/api/v1/'. $this->division .'/salesorder/SalesOrders'
+            . '?$filter=startswith(tolower(YourRef), '. "'e'" .') eq true and substringof('. "'/'" .', YourRef) eq false'
+            . '&$expand=PurchaseOrderLines'
+            . '&$select=' . $select;
+
+        $response = $this->get($uri);
+
+        if (is_array($response) && array_key_exists('error', $response)) return $response;
+
+        return $response->d->results;
+    }
+
     /**
      * Get all purchase orders by its supplier code (Supplier Orders)
      *
@@ -251,21 +267,6 @@ class ExactApi
         if (is_array($response) && array_key_exists('error', $response)) return $response;
 
         return [$response->d->OrderNumber, $account, $contact, $address];
-    }
-
-    public function getSalesOrders($select)
-    {
-        $this->checkToken();
-
-        $uri = '/api/v1/'. $this->division .'/salesorder/SalesOrders'
-            . '?$filter=startswith(tolower(YourRef), '. "'e'" .') eq true and substringof('. "'/'" .', YourRef) eq false'
-            . '&$select=' . $select;
-
-        $response = $this->get($uri);
-
-        if (is_array($response) && array_key_exists('error', $response)) return $response;
-
-        return $response->d->results;
     }
 
     /**
