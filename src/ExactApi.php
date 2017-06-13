@@ -253,6 +253,21 @@ class ExactApi
         return [$response->d->OrderNumber, $account, $contact, $address];
     }
 
+    public function getSalesOrders()
+    {
+        $this->checkToken();
+
+        $uri = '/api/v1/'. $this->division .'/salesorder/SalesOrders'
+            . '?$filter=startswith(YourRef) eq ' . "'" . 'E' . "'"
+            . '&$select=OrderID';
+
+        $response = $this->get($uri);
+
+        if (is_array($response) && array_key_exists('error', $response)) return $response;
+
+        return $response->d->results;
+    }
+
     /**
      * Create a new account (Customer)
      *
