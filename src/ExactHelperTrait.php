@@ -50,22 +50,6 @@ trait ExactHelperTrait
     }
 
     /**
-     * Fetch contact by id
-     *
-     * @param $contactId
-     * @param $select
-     * @return Array
-     */
-    protected function getContact($contactId, $select)
-    {
-        $uri = '/api/v1/'. $this->division
-            .'/crm/Contacts?$filter=ID eq guid' . "'" . $contactId . "'"
-            . '&$select=' . $select;
-
-        return $this->get($uri)->d->results;
-    }
-
-    /**
      * Fetch address guid by account id, street and postcode
      *
      * @param $address
@@ -84,22 +68,6 @@ trait ExactHelperTrait
         $results = $this->get($uri)->d->results;
 
         return count($results) > 0 ? $results[0]->ID : null;
-    }
-
-    /**
-     * Fetch address by id
-     *
-     * @param $addressId
-     * @param $select
-     * @return Array
-     */
-    protected function getAddress($addressId, $select)
-    {
-        $uri = '/api/v1/'. $this->division
-            .'/crm/Addresses?$filter=ID eq guid' . "'" . $addressId . "'"
-            . '&$select=' . $select;
-
-        return $this->get($uri)->d->results;
     }
 
     /**

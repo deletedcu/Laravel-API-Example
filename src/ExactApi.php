@@ -287,7 +287,7 @@ class ExactApi
 
         return count($results) > 0 ? $results[0] : null;
     }
-    
+
     /**
      * Create a new account (Customer)
      *
@@ -370,6 +370,22 @@ class ExactApi
     }
 
     /**
+     * Fetch contact by id
+     *
+     * @param $contactId
+     * @param $select
+     * @return Array
+     */
+    public function getContact($contactId, $select)
+    {
+        $uri = '/api/v1/'. $this->division
+            .'/crm/Contacts?$filter=ID eq guid' . "'" . $contactId . "'"
+            . '&$select=' . $select;
+
+        return $this->get($uri)->d->results;
+    }
+
+    /**
      * Create a new contact (Customer User)
      *
      * @param  $contact
@@ -421,6 +437,22 @@ class ExactApi
             .'/crm/Contacts(guid' . "'" . $contactId . "'" . ')';
 
         return $this->put($uri, $data);
+    }
+
+    /**
+     * Fetch address by id
+     *
+     * @param $addressId
+     * @param $select
+     * @return Array
+     */
+    public function getAddress($addressId, $select)
+    {
+        $uri = '/api/v1/'. $this->division
+            .'/crm/Addresses?$filter=ID eq guid' . "'" . $addressId . "'"
+            . '&$select=' . $select;
+
+        return $this->get($uri)->d->results;
     }
 
     /**
