@@ -258,7 +258,7 @@ class ExactApi
         $this->checkToken();
 
         $uri = '/api/v1/'. $this->division .'/salesorder/SalesOrders'
-            . '?$filter=startswith(tolower(YourRef), '. "'e'" .') eq true and indexof(YourRef, '. "'/'" .') eq 1'
+            . '?$filter=startswith(tolower(YourRef), '. "'e'" .') eq true and substringof('. "'/'" .', YourRef) eq true'
             . '&$select=OrderID,YourRef';
 
         $response = $this->get($uri);
