@@ -274,6 +274,22 @@ class ExactApi
     }
 
     /**
+     * @param $account
+     * @return null
+     */
+    public function getAccount($account)
+    {
+        $uri = '/api/v1/'
+            . $this->division .'/crm/Accounts?$filter=ID eq guid'. "'" . $account . "' "
+            . '&select=Name,AddressLine1';
+
+        $results = $this->get($uri)->d->results;
+
+        return count($results) > 0 ? $results[0] : null;
+    }
+
+
+    /**
      * Create a new account (Customer)
      *
      * @param  $account

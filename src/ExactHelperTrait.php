@@ -30,17 +30,6 @@ trait ExactHelperTrait
         return count($results) > 0 ? $results[0]->ID : null;
     }
 
-    protected function getAccount($account)
-    {
-        $uri = '/api/v1/'
-            . $this->division .'/crm/Accounts?$filter=ID eq guid'. "'" . $account . "' "
-            . '&select=Name,AddressLine1';
-
-        $results = $this->get($uri)->d->results;
-
-        return count($results) > 0 ? $results[0] : null;
-    }
-
     /**
      * Fetch contact guid by code
      *
