@@ -282,7 +282,7 @@ class ExactApi
     public function updateSalesOrder($salesOrderId, $yourRef, $shopOrderId)
     {
         $data = [
-            'YourRef' => $yourRef + $shopOrderId
+            'YourRef' => $yourRef . '/' . $shopOrderId
         ];
 
         $uri = '/api/v1/'. $this->division
