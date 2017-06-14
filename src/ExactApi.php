@@ -274,6 +274,24 @@ class ExactApi
     }
 
     /**
+     * @param $salesOrderId
+     * @param $yourRef
+     * @param $shopOrderId
+     * @return Object
+     */
+    public function updateSalesOrder($salesOrderId, $yourRef, $shopOrderId)
+    {
+        $data = [
+            'YourRef' => $yourRef + $shopOrderId
+        ];
+
+        $uri = '/api/v1/'. $this->division
+            .'/salesorder/SalesOrders(guid' . "'" . $salesOrderId . "'" . ')';
+
+        return $this->put($uri, $data);
+    }
+
+    /**
      * @param $account
      * @return mixed
      */
