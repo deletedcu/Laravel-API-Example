@@ -138,18 +138,33 @@ class ExactApi
     {
         $this->checkToken();
 
-        $account = $this->getAccountId($quotation->company, false)
-                ?? $this->createAccount($quotation->company, false, 'U');
+        if ($quotation->company->erp_id != '') {
+            $account = $quotation->company->erp_id;
+        } else if ($accountId = $this->getAccountId($quotation->company)) {
+            $account = $accountId;
+        } else {
+            $account = $this->createAccount($quotation->company, $quotation->delivery->language->code, false, 'U');
+        }
 
         if (is_array($account) && array_key_exists('error', $account)) return $account;
 
-        $contact = $this->getContactId($quotation->user, $account)
-                ?? $this->createContact($quotation->user, $account);
+        if ($quotation->user->erp_id != '') {
+            $contact = $quotation->user->erp_id;
+        } else if ($contactId = $this->getContactId($quotation->user, $account)) {
+            $contact = $contactId;
+        } else {
+            $contact = $this->createContact($quotation->user, $account);
+        }
 
         if (is_array($contact) && array_key_exists('error', $contact)) return $contact;
 
-        $address = $this->getAddressId($quotation->delivery, $account)
-                ?? $this->createAddress($quotation->delivery, $account);
+        if ($quotation->delivery->erp_id != '') {
+            $address = $quotation->delivery->erp_id;
+        } else if ($addressId = $this->getAddressId($quotation->delivery, $account)) {
+            $address = $addressId;
+        } else {
+            $address = $this->createAddress($quotation->delivery, $account);
+        }
 
         if (is_array($address) && array_key_exists('error', $address)) return $address;
 
