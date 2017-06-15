@@ -29,7 +29,7 @@ class ExactApi
      */
     public function __construct()
     {
-        $this->division = env('DIVISION_CODE');
+        $this->division = config('exact.division_code');
         $this->client = new Client(['base_uri' => config('exact.base_uri')]);
     }
 
