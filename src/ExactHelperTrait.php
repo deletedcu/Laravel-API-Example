@@ -389,8 +389,8 @@ trait ExactHelperTrait
         $data = [
             'refresh_token' => $refreshToken,
             'grant_type' => 'refresh_token',
-            'client_id' => env('CLIENT_ID'),
-            'client_secret' => env('CLIENT_SECRET')
+            'client_id' => config('exact.client_id'),
+            'client_secret' => config('exact.client_secret')
         ];
 
         $body = $this->post($uri, $data, 'form_params', false);
