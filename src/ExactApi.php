@@ -224,10 +224,8 @@ class ExactApi
         } else if ($contactId = $invoiceContact = $this->getContactId($order->user, $account)) {
             $contact = $contactId;
         } else {
-            $contact = $this->createContact($order->user, $account);
+            $contact = $invoiceContact = $this->createContact($order->user, $account);
         }
-
-        return $contact;
 
         if (is_array($contact) && array_key_exists('error', $contact)) return [$contact, null, null, null];
 
