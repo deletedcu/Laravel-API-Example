@@ -217,6 +217,8 @@ class ExactApi
 
         $this->checkAddressChanges($account, $order->company, $order->delivery->language->code);
 
+        return $account;
+
         if (is_array($account) && array_key_exists('error', $account)) return [$account, null, null, null];
 
         if ($order->user->erp_id != '') {
@@ -229,14 +231,14 @@ class ExactApi
 
         if (is_array($contact) && array_key_exists('error', $contact)) return [$contact, null, null, null];
 
-        $eBillData = (object) [
-            'salutation' => '',
-            'first_name' => 'E-Mail',
-            'last_name' => 'eRechnung',
-            'email' => $order->company->company_email ?? $order->user->email
-        ];
-
         if ($order->digital_bill) {
+            $eBillData = (object) [
+                'salutation' => '',
+                'first_name' => 'E-Mail',
+                'last_name' => 'eRechnung',
+                'email' => $order->company->company_email ?? $order->user->email
+            ];
+
             $invoiceContact = $this->getContactId($eBillData, $account) ?? $this->createContact($eBillData, $account);
         }
 
