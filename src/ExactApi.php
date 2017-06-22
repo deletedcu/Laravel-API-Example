@@ -227,7 +227,7 @@ class ExactApi
             $contact = $this->createContact($order->user, $account);
         }
 
-        return contact;
+        return $contact;
 
         if (is_array($contact) && array_key_exists('error', $contact)) return [$contact, null, null, null];
 
