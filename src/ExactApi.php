@@ -217,8 +217,6 @@ class ExactApi
 
         $this->checkAddressChanges($account, $order->company, $order->delivery->language->code);
 
-        return $account;
-
         if (is_array($account) && array_key_exists('error', $account)) return [$account, null, null, null];
 
         if ($order->user->erp_id != '') {
@@ -228,6 +226,8 @@ class ExactApi
         } else {
             $contact = $this->createContact($order->user, $account);
         }
+
+        return contact;
 
         if (is_array($contact) && array_key_exists('error', $contact)) return [$contact, null, null, null];
 
