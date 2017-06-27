@@ -334,7 +334,7 @@ class ExactApi
     {
         $this->checkToken();
 
-        $accounting = $this->getAccountingCodes($deliveryLang);
+        $accounting = $this->getAccountingCodes($deliveryLang, $account->ustid);
 
         $data = [
             'Code' => strlen($account->id) == 5 ? '10' . (string) $account->id : $account->id,

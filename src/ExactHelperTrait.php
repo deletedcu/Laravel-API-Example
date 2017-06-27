@@ -157,9 +157,10 @@ trait ExactHelperTrait
      * Fetch the right accounting codes by country code
      *
      * @param $countryCode
+     * @param $ustId
      * @return Array
      */
-    protected function getAccountingCodes($countryCode)
+    protected function getAccountingCodes($countryCode, $ustId)
     {
         if ($countryCode == 'DE') {
             $accounting['vatCode'] = 3;
@@ -169,6 +170,10 @@ trait ExactHelperTrait
             $accounting['vatCode'] = 0;
             $uri = '/api/v1/'. $this->division
                 .'/financial/GLAccounts?$filter=trim(Code) eq ' . "'8338'" . '&$select=ID';
+        } else if ($countryCode != 'DE' && $ustId == '') {
+            $accounting['vatCode'] = 3;
+            $uri = '/api/v1/'. $this->division
+                .'/financial/GLAccounts?$filter=trim(Code) eq ' . "'8400'" . '&$select=ID';
         } else {
             $accounting['vatCode'] = 11;
             $uri = '/api/v1/'. $this->division
