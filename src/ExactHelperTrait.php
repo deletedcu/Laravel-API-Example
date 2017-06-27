@@ -180,9 +180,7 @@ trait ExactHelperTrait
                 .'/financial/GLAccounts?$filter=trim(Code) eq ' . "'8125'" . '&$select=ID';
         }
 
-        $accounting['accountSales'] = Cache::remember('exact.accountingCode.' . $countryCode, 129600, function () use ($uri) {
-            return $this->get($uri)->d->results[0]->ID;
-        });
+        $accounting['accountSales'] = $this->get($uri)->d->results[0]->ID;
 
         return $accounting;
     }
@@ -264,7 +262,7 @@ trait ExactHelperTrait
         ];
 
         $oldAddress = [
-            $account->Name, // TODO: Check here my nigga !
+            $account->Name,
             $account->AddressLine1,
             $account->Postcode,
             $account->City
