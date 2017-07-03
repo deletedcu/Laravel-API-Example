@@ -108,7 +108,7 @@ trait ExactHelperTrait
             if ($countryCode != 'DE' && $deliveryCountryCode == 'DE') {
                 $return[$key]['VATCode'] = 3;
             } else if($countryCode == 'CH' && $deliveryCountryCode == 'CH') {
-                $return[$key]['VATCode'] = 0;
+                $return[$key]['VATCode'] = '00';
             } else if($countryCode != 'DE' && $deliveryCountryCode != 'DE' && $ustid == '') {
                 $return[$key]['VATCode'] = 3;
             }
@@ -145,7 +145,7 @@ trait ExactHelperTrait
         if ($countryCode != 'DE' && $deliveryCountryCode == 'DE') {
             $return['VATCode'] = 3;
         } else if($countryCode == 'CH' && $deliveryCountryCode == 'CH') {
-            $return['VATCode'] = 0;
+            $return['VATCode'] = '00';
         } else if($countryCode != 'DE' && $deliveryCountryCode != 'DE' && $ustId == '') {
             $return['VATCode'] = 3;
         }
@@ -167,7 +167,7 @@ trait ExactHelperTrait
             $uri = '/api/v1/'. $this->division
                 .'/financial/GLAccounts?$filter=trim(Code) eq ' . "'8400'" . '&$select=ID';
         } else if($countryCode == 'CH') {
-            $accounting['vatCode'] = 0;
+            $accounting['vatCode'] = 00;
             $uri = '/api/v1/'. $this->division
                 .'/financial/GLAccounts?$filter=trim(Code) eq ' . "'8338'" . '&$select=ID';
         } else if ($countryCode != 'DE' && $ustId == '') {
