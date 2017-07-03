@@ -167,7 +167,7 @@ trait ExactHelperTrait
             $uri = '/api/v1/'. $this->division
                 .'/financial/GLAccounts?$filter=trim(Code) eq ' . "'8400'" . '&$select=ID';
         } else if($countryCode == 'CH') {
-            $accounting['vatCode'] = 00;
+            $accounting['vatCode'] = '00';
             $uri = '/api/v1/'. $this->division
                 .'/financial/GLAccounts?$filter=trim(Code) eq ' . "'8338'" . '&$select=ID';
         } else if ($countryCode != 'DE' && $ustId == '') {
