@@ -67,8 +67,6 @@ trait ExactHelperTrait
 
         $results = $this->get($uri)->d->results;
 
-        return $results;
-
         return count($results) > 0 ? $results[0]->ID : null;
     }
 
