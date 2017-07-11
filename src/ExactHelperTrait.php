@@ -65,7 +65,8 @@ trait ExactHelperTrait
             . ' and Type eq 4 and AddressLine3 eq ' . "'" . $address->delivery_name . "'"
             .' and Postcode eq '. "'" . $address->delivery_zip_code . "'" . '&$select=ID';
 
-        return $this->get($uri);
+        $uri = str_replace('@', '%40', $uri);
+
         $results = $this->get($uri)->d->results;
 
         return count($results) > 0 ? $results[0]->ID : null;
