@@ -215,6 +215,8 @@ class ExactApi
             $account = $this->createAccount($order->company, $order->delivery->language->code, $order->digital_bill, $order->customer_type);
         }
 
+        dump($account);
+
         $this->checkAddressChanges($account, $order->company, $order->delivery->language->code);
 
         if (is_array($account) && array_key_exists('error', $account)) return [$account, null, null, null];
@@ -226,6 +228,8 @@ class ExactApi
         } else {
             $contact = $invoiceContact = $this->createContact($order->user, $account);
         }
+
+        dump($contact);
 
         if (is_array($contact) && array_key_exists('error', $contact)) return [$contact, null, null, null];
 
@@ -247,6 +251,8 @@ class ExactApi
         } else {
             $address = $this->createAddress($order->delivery, $account);
         }
+
+        return $address;
 
         if (is_array($address) && array_key_exists('error', $address)) return [$address, null, null, null];
 
