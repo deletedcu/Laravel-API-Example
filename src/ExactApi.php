@@ -248,8 +248,6 @@ class ExactApi
             $address = $this->createAddress($order->delivery, $account);
         }
 
-        return $address;
-
         if (is_array($address) && array_key_exists('error', $address)) return [$address, null, null, null];
 
         $paymentCondition = $this->getPaymentCondition($order->payment_method, $order->notices);
