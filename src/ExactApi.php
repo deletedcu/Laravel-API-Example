@@ -244,7 +244,6 @@ class ExactApi
             $address = $order->delivery->erp_id;
         } else if ($addressId = $this->getAddressId($order->delivery, $account)) {
             $address = $addressId;
-            return $address;
         } else {
             $address = $this->createAddress($order->delivery, $account);
         }
