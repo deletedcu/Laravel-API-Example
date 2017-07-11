@@ -58,15 +58,16 @@ trait ExactHelperTrait
      */
     protected function getAddressId($address, $accountId)
     {
+        $deliveryName = str_replace('@', '%40', $address->delivery_name);
+
         $uri = '/api/v1/'. $this->division
             .'/crm/Addresses?$filter=Account eq guid' . "'" . $accountId . "'"
             .' and startswith(trim(AddressLine1),'
             . "'" . $address->delivery_street . "') " . 'eq true'
-            . ' and Type eq 4 and AddressLine3 eq ' . "'" . $address->delivery_name . "'"
+            . ' and Type eq 4 and AddressLine3 eq ' . "'" . $deliveryName . "'"
             .' and Postcode eq '. "'" . $address->delivery_zip_code . "'" . '&$select=ID';
 
-        $uri = str_replace('@', '%40', $uri);
-
+        return $this->get($uri);
         $results = $this->get($uri)->d->results;
 
         return count($results) > 0 ? $results[0]->ID : null;
