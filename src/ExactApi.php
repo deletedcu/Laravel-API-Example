@@ -33,6 +33,9 @@ class ExactApi
         $this->client = new Client(['base_uri' => config('exact.base_uri')]);
     }
 
+    /**
+     * @return Object
+     */
     public function getQuotation()
     {
 //        $uri = "/api/v1/{$this->division}/read/crm/Documents" . '?$top=10';
@@ -155,6 +158,8 @@ class ExactApi
             $account = $this->createAccount($quotation->company, $quotation->delivery->language->code, false, 'U');
         }
 
+        return $account;
+        
         if (is_array($account) && array_key_exists('error', $account)) return $account;
 
         if ($quotation->user->erp_id != '') {
