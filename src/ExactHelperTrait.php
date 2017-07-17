@@ -44,7 +44,6 @@ trait ExactHelperTrait
             . ' and LastName eq ' . "'" . $contact->last_name . "'"
             . ' and FirstName eq ' . "'" . $contact->first_name . "'" . '&$select=ID';
 
-        return $this->get($uri);
         $results = $this->get($uri)->d->results;
 
         return count($results) > 0 ? $results[0]->ID : null;
