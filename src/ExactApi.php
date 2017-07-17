@@ -35,7 +35,7 @@ class ExactApi
 
     public function getQuotation()
     {
-        $uri = "/api/v1/{$this->division}/read/crm/DocumentsAttachments" . '?$top=1';
+        $uri = "/api/v1/{$this->division}/read/crm/Documents" . '?$top=1';
 
         return $this->get($uri);
     }
