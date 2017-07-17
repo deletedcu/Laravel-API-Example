@@ -35,7 +35,7 @@ class ExactApi
 
     public function getQuotation()
     {
-        $uri = "/api/v1/{$this->division}/read/crm/Documents" . '?$top=1';
+        $uri = "/api/v1/{$this->division}/read/crm/Documents" . '?$top=10';
 //        $uri = "/api/v1/{$this->division}/read/crm/DocumentsAttachments"
 //            . '?$filter=ID eq guid' . "'" . '47f297b8-367b-4a88-8876-008a3ab81f61' . "'" . '&$select=AttachmentFileName';
 
