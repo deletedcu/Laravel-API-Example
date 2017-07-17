@@ -168,6 +168,8 @@ class ExactApi
             $contact = $this->createContact($quotation->user, $account);
         }
 
+        return $contact;
+
         if (is_array($contact) && array_key_exists('error', $contact)) return $contact;
 
         if ($quotation->delivery->erp_id != '') {
@@ -177,8 +179,6 @@ class ExactApi
         } else {
             $address = $this->createAddress($quotation->delivery, $account);
         }
-
-        return $address;
 
         if (is_array($address) && array_key_exists('error', $address)) return $address;
 
