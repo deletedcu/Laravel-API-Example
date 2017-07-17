@@ -39,6 +39,7 @@ trait ExactHelperTrait
      */
     protected function getContactId($contact, $accountId)
     {
+        return $contact;
         $uri = '/api/v1/'. $this->division
             .'/crm/Contacts?$filter=Account eq guid' . "'" . $accountId . "'"
             . ' and LastName eq ' . "'" . $contact->last_name . "'"

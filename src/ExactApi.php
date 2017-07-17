@@ -163,10 +163,9 @@ class ExactApi
         if ($quotation->user->erp_id != '') {
             $contact = $quotation->user->erp_id;
         } else if ($contactId = $this->getContactId($quotation->user, $account)) {
-            dd('getting');
+            dd($contactId);
             $contact = $contactId;
         } else {
-            dd('creating');
             $contact = $this->createContact($quotation->user, $account);
         }
 
