@@ -158,8 +158,6 @@ class ExactApi
             $account = $this->createAccount($quotation->company, $quotation->delivery->language->code, false, 'U');
         }
 
-        return $account;
-        
         if (is_array($account) && array_key_exists('error', $account)) return $account;
 
         if ($quotation->user->erp_id != '') {
@@ -179,6 +177,8 @@ class ExactApi
         } else {
             $address = $this->createAddress($quotation->delivery, $account);
         }
+
+        return $address;
 
         if (is_array($address) && array_key_exists('error', $address)) return $address;
 
