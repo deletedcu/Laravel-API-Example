@@ -160,10 +160,10 @@ class ExactApi
 
         if (is_array($account) && array_key_exists('error', $account)) return $account;
 
+        return $this->getContactId($quotation->user, $account);
         if ($quotation->user->erp_id != '') {
             $contact = $quotation->user->erp_id;
         } else if ($contactId = $this->getContactId($quotation->user, $account)) {
-            dd($contactId);
             $contact = $contactId;
         } else {
             $contact = $this->createContact($quotation->user, $account);
