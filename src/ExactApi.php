@@ -33,6 +33,13 @@ class ExactApi
         $this->client = new Client(['base_uri' => config('exact.base_uri')]);
     }
 
+    public function getQuotation()
+    {
+        $uri = "/api/v1/{$this->division}/read/crm/DocumentsAttachments";
+
+        return $this->get($uri);
+    }
+
     /**
      * @param $select
      * @return Object
