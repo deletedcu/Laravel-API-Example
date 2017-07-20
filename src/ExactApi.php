@@ -43,7 +43,7 @@ class ExactApi
 
         $document = $this->get($uri)->d->results[0];
 
-        return $document->Attachments;
+        return $document->Attachments->__deferred;
 
         return $this->get($document->Attachments);
         // $uri = "/api/v1/{$this->division}/read/crm/DocumentsAttachments"
