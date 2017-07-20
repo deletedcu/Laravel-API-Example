@@ -42,7 +42,7 @@ class ExactApi
 
         $uri = '/api/v1/'
             . $this->division .'/crm/Accounts?$filter=startswith(trim(Code),' . "'" . $id . "') "
-            . 'eq true&$select=ID,Document';
+            . 'eq true&$select=ID';
 
         // $uri = "/api/v1/{$this->division}/read/crm/Documents"
         // . '?$filter=indexof(SalesInvoiceNumber,' . "'85189')" . ' eq 1';
