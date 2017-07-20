@@ -43,7 +43,7 @@ class ExactApi
 
         $document = $this->get($uri)->d->results[0];
 
-        return $this->get($document->Attachments->__deffered->uri);
+        return $this->get($document->Attachments->_deffered->uri);
         // $uri = "/api/v1/{$this->division}/read/crm/DocumentsAttachments"
         //     . '?$filter=ID eq guid' . "'" . '3efbda32-05f2-414f-a1e1-f9609d4719d8' . "'" . '&$select=AttachmentFileName';
 
