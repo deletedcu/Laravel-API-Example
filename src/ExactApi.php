@@ -38,14 +38,14 @@ class ExactApi
      */
     public function getQuotation()
     {
-        $id = '1137813';
-
-        // $uri = '/api/v1/'
-        //     . $this->division .'/crm/Accounts?$filter=startswith(trim(Code),' . "'" . $id . "') "
-        //     . 'eq true&$select=ID,Document';
-
         $uri = "/api/v1/{$this->division}/read/crm/Documents"
         . '?$filter=ID eq guid' . "'457ff634-3ba2-4453-aa51-045d993ad3e4'" . '&$select=ID,Attachments';
+
+        $document = $this->get($uri)->d->results[0];
+
+        return $document->Attachments;
+
+        return $this->get($document->Attachments);
         // $uri = "/api/v1/{$this->division}/read/crm/DocumentsAttachments"
         //     . '?$filter=ID eq guid' . "'" . '3efbda32-05f2-414f-a1e1-f9609d4719d8' . "'" . '&$select=AttachmentFileName';
 
