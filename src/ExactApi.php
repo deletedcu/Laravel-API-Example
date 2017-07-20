@@ -45,7 +45,7 @@ class ExactApi
         //     . 'eq true&$select=ID,Document';
 
         $uri = "/api/v1/{$this->division}/read/crm/Documents"
-        . '?$filter=startswith(Account, ' . "'1137813'" . ') eq true&$select=ID';
+        . '?$filter=Account eq' . "'1137813'" . '&$select=ID';
         // $uri = "/api/v1/{$this->division}/read/crm/DocumentsAttachments"
         //     . '?$filter=ID eq guid' . "'" . '3efbda32-05f2-414f-a1e1-f9609d4719d8' . "'" . '&$select=AttachmentFileName';
 
