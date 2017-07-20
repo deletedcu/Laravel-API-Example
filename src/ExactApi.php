@@ -41,11 +41,11 @@ class ExactApi
         $uri = "/api/v1/{$this->division}/read/crm/Documents"
         . '?$filter=ID eq guid' . "'457ff634-3ba2-4453-aa51-045d993ad3e4'" . '&$select=ID,Attachments';
 
-        $document = $this->get($uri)->d->results;
+        // $document = $this->get($uri)->d->results;
 
-        return $document;
+        // return $document;
 
-        return $this->get($document->Attachments);
+        // return $this->get($document->Attachments);
         // $uri = "/api/v1/{$this->division}/read/crm/DocumentsAttachments"
         //     . '?$filter=ID eq guid' . "'" . '3efbda32-05f2-414f-a1e1-f9609d4719d8' . "'" . '&$select=AttachmentFileName';
 
