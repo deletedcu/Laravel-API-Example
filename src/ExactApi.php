@@ -41,7 +41,7 @@ class ExactApi
         $uri = "/api/v1/{$this->division}/crm/Quotations"
         . '?$filter=QuotationNumber eq ' . "'6'" . '&$select=ID';
 
-        return $this->get($uri)->d;
+        return $this->get($uri);
 
         // $uri = "/api/v1/{$this->division}/read/crm/Documents"
         // . '?$filter=ID eq guid' . "'457ff634-3ba2-4453-aa51-045d993ad3e4'" . '&$select=ID,Attachments';
