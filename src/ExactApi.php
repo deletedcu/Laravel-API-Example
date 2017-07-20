@@ -38,16 +38,19 @@ class ExactApi
      */
     public function getQuotation()
     {
-        $uri = "/api/v1/{$this->division}/read/crm/Documents"
-        . '?$filter=ID eq guid' . "'457ff634-3ba2-4453-aa51-045d993ad3e4'" . '&$select=ID,Attachments';
+        $uri = "/api/v1/{$this->division}/crm/Quotations"
+        . '?$filter=QuotationNumber eq ' . "'6'" . '&$select=ID';
+
+        return $this->get($uri)->d;
+
+        // $uri = "/api/v1/{$this->division}/read/crm/Documents"
+        // . '?$filter=ID eq guid' . "'457ff634-3ba2-4453-aa51-045d993ad3e4'" . '&$select=ID,Attachments';
 
         $document = $this->get($uri)->d->results[0];
 
         $uri = $document->Attachments->__deferred->uri;
 
         $attachment = $this->get($uri)->d->results[0]->AttachmentUrl;
-
-        $attachment = $attachment . '&Download=1';
 
         return $attachment;
     }
