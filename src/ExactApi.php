@@ -38,8 +38,14 @@ class ExactApi
      */
     public function getQuotation()
     {
-        $uri = "/api/v1/{$this->division}/read/crm/Documents"
-        . '?$filter=indexof(SalesInvoiceNumber,' . "'85189')" . ' eq 1';
+        $id = '1137813';
+
+        $uri = '/api/v1/'
+            . $this->division .'/crm/Accounts?$filter=startswith(trim(Code),' . "'" . $id . "') "
+            . 'eq true&$select=ID, Document';
+
+        // $uri = "/api/v1/{$this->division}/read/crm/Documents"
+        // . '?$filter=indexof(SalesInvoiceNumber,' . "'85189')" . ' eq 1';
         // $uri = "/api/v1/{$this->division}/read/crm/DocumentsAttachments"
         //     . '?$filter=ID eq guid' . "'" . '3efbda32-05f2-414f-a1e1-f9609d4719d8' . "'" . '&$select=AttachmentFileName';
 
