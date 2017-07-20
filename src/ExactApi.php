@@ -39,7 +39,8 @@ class ExactApi
     public function getQuotation()
     {
         $uri = "/api/v1/{$this->division}/crm/Quotations"
-        . '?$filter=QuotationNumber eq ' . "'6'" . '&$select=ID';
+        . '?$filter=startswith(trim(QuotationNumber),' . "'6') "
+            . 'eq true&$select=ID';
 
         return $this->get($uri);
 
