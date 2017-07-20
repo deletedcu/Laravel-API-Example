@@ -47,7 +47,7 @@ class ExactApi
 
         $attachment = $this->get($uri)->d->results[0]->AttachmentUrl;
 
-        return $this->get($attachment . '&Download=1');
+        return $this->get($attachment);
     }
 
     /**
