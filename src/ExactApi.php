@@ -39,7 +39,7 @@ class ExactApi
     public function getQuotation()
     {
         $uri = "/api/v1/{$this->division}/crm/Quotations"
-        . '?QuotationNumber=6&$select=ID';
+        . '?QuotationNumber=6&$select=QuotationID';
 
         return $this->get($uri);
 
