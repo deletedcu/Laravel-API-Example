@@ -36,15 +36,22 @@ class ExactApi
     /**
      * @return Object
      */
-    public function getQuotation()
+    public function getQuotation($quotationId)
     {
-        $uri = "/api/v1/{$this->division}/crm/Quotations"
-        . '?QuotationNumber=6&$select=QuotationID,QuotationNumber';
+        // 1. Get Quotation by its id
+        $quotationUri = "/api/v1/{$this->division}/crm/Quotations"
+        . '?filter=QuotationID eq guid' . "'" . $quotationId . "'" . '&select=Document';
+
+        $quotation = $this->get($quotationUri)->d ? $this->get($quotationUri)->d->results[0] : null;
+        dd($quotation);
+        // 2. Get the assoc document and its attachment
+        $documentUri = "/api/v1/{$this->division}/crm/Documents"
+        . '?filter=QuotationID eq guid' . "'" . $quotation->document->id . "'" . '&select=Attachments';
+        $document = $this->get($documentUri)->d ? $this->get($documentUri)->d->results[0] : null;
+        dd($document);
+        // 3. Get the attachment and its download link
 
         return $this->get($uri);
-
-        // $uri = "/api/v1/{$this->division}/read/crm/Documents"
-        // . '?$filter=ID eq guid' . "'457ff634-3ba2-4453-aa51-045d993ad3e4'" . '&$select=ID,Attachments';
 
         $document = $this->get($uri)->d->results[0];
 
