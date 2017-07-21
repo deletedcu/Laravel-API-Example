@@ -41,27 +41,26 @@ class ExactApi
         dump($quotationId);
         // 1. Get Quotation by its id
         $quotationUri = "/api/v1/{$this->division}/crm/Quotations"
-        . '?filter=QuotationID eq guid' . "'" . $quotationId . "'" . '&$select=Document,QuotationID,QuotationNumber';
+        . '?$filter=QuotationID eq guid' . "'" . $quotationId . "'" . '&$select=Document,QuotationID,QuotationNumber';
 
-        return $this->get($quotationUri);
         $quotation = $this->get($quotationUri) ? $this->get($quotationUri)->d->results[0] : null;
-        dd($quotation);
-        // 2. Get the assoc document and its attachment
-        $documentUri = "/api/v1/{$this->division}/crm/Documents"
-        . '?filter=QuotationID eq guid' . "'" . $quotation->document->id . "'" . '&select=Attachments';
-        $document = $this->get($documentUri)->d ? $this->get($documentUri)->d->results[0] : null;
-        dd($document);
-        // 3. Get the attachment and its download link
+        return $quotation;
+        // // 2. Get the assoc document and its attachment
+        // $documentUri = "/api/v1/{$this->division}/crm/Documents"
+        // . '?filter=QuotationID eq guid' . "'" . $quotation->document->id . "'" . '&select=Attachments';
+        // $document = $this->get($documentUri)->d ? $this->get($documentUri)->d->results[0] : null;
+        // dd($document);
+        // // 3. Get the attachment and its download link
 
-        return $this->get($uri);
+        // return $this->get($uri);
 
-        $document = $this->get($uri)->d->results[0];
+        // $document = $this->get($uri)->d->results[0];
 
-        $uri = $document->Attachments->__deferred->uri;
+        // $uri = $document->Attachments->__deferred->uri;
 
-        $attachment = $this->get($uri)->d->results[0]->AttachmentUrl;
+        // $attachment = $this->get($uri)->d->results[0]->AttachmentUrl;
 
-        return $attachment;
+        // return $attachment;
     }
 
     /**
