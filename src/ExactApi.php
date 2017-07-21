@@ -40,7 +40,7 @@ class ExactApi
     {
         // 1. Get Quotation by its id
         $quotationUri = "/api/v1/{$this->division}/crm/Quotations"
-        . '?filter=QuotationID eq guid' . "'" . $quotationId . "'" . '&select=Document';
+        . '?filter=QuotationID eq guid' . "'" . $quotationId . "'" . '&$select=Document';
 
         dd($this->get($quotationUri));
         $quotation = $this->get($quotationUri) ? $this->get($quotationUri)->d->results[0] : null;
