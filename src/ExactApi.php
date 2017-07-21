@@ -42,7 +42,7 @@ class ExactApi
         $quotationUri = "/api/v1/{$this->division}/crm/Quotations"
         . '?filter=QuotationID eq guid' . "'" . $quotationId . "'" . '&select=Document';
 
-        $quotation = $this->get($quotationUri)->d ? $this->get($quotationUri)->d->results[0] : null;
+        $quotation = $this->get($quotationUri) ? $this->get($quotationUri)->d->results[0] : null;
         dd($quotation);
         // 2. Get the assoc document and its attachment
         $documentUri = "/api/v1/{$this->division}/crm/Documents"
