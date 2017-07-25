@@ -120,7 +120,8 @@ class ExactApi
             . '?$filter=trim(ShippingMethodCode) eq ' . "'" . $shippingMethod . "'"
             . ' and substringof(' . "'Gedruckt'" . ',Remarks) eq false'
             . ' or Remarks eq null and trim(ShippingMethodCode) eq ' . "'" . $shippingMethod . "'"
-            . '&$select=EntryID,DeliveryAccountName, DeliveryAddress,DeliveryContact,Description,DeliveryNumber,ShippingMethodCode,Remarks';
+            . '&$select=EntryID,DeliveryAccountName, DeliveryAddress,DeliveryContact,Description,DeliveryNumber,ShippingMethodCode,Remarks,'
+            . 'DeliveryContactPersonFullName,TrackingNumber,DocumentSubject';
 
         $response = $this->get($uri);
 
