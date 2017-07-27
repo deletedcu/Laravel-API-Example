@@ -376,6 +376,7 @@ trait ExactHelperTrait
         } else if(Cache::get(Auth::id() . '.refresh_token')) {
             return $this->refreshTokens();
         } else {
+            return redirect()->to('exact/login');
             return $this->refreshTokens(Cache::get('1.refresh_token'));
         }
     }
