@@ -71,7 +71,8 @@ class ExactApi
      */
     public function getSalesOrders($select)
     {
-        $this->checkToken();
+        $auth = $this->checkToken();
+        if (! $auth) return false;
 
         $uri = '/api/v1/'. $this->division .'/salesorder/SalesOrders'
             . '?$filter=startswith(tolower(YourRef), '. "'e'" .') eq true and substringof('. "'/'" .', YourRef) eq false'
@@ -94,7 +95,8 @@ class ExactApi
      */
     public function getPurchaseOrdersBySupplier($supplierCode, $select)
     {
-        $this->checkToken();
+        $auth = $this->checkToken();
+        if (! $auth) return false;
 
         $uri = '/api/v1/'. $this->division
             .'/purchaseorder/PurchaseOrders?'
@@ -154,7 +156,8 @@ class ExactApi
      */
     public function updateGoodsDeliveries($id, $data)
     {
-        $this->checkToken();
+        $auth = $this->checkToken();
+        if (! $auth) return false;
 
         $uri = '/api/v1/'. $this->division
             .'/salesorder/GoodsDeliveries(guid' . "'" . $id . "'" . ')';
@@ -170,7 +173,8 @@ class ExactApi
      */
     public function createQuotation($quotation)
     {
-        $this->checkToken();
+        $auth = $this->checkToken();
+        if (! $auth) $this->refreshToken(Cache::get('1.refresh_token'));
 
         if ($quotation->company->erp_id != '') {
             $account = $quotation->company->erp_id;
@@ -239,7 +243,8 @@ class ExactApi
      */
     public function createSalesOrder($order)
     {
-        $this->checkToken();
+        $auth = $this->checkToken();
+        if (! $auth) return [false, null, null, null];
 
         if ($order->company->erp_id != '') {
             $account = $order->company->erp_id;
