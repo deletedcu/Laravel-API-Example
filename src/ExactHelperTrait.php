@@ -371,6 +371,7 @@ trait ExactHelperTrait
      */
     protected function checkToken()
     {
+        return 'check TOken';
         if (Cache::get(Auth::id() . '.access_token')) {
             return true;
         } else if(Cache::get(Auth::id() . '.refresh_token')) {
