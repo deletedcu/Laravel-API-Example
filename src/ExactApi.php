@@ -96,7 +96,7 @@ class ExactApi
     public function getPurchaseOrdersBySupplier($supplierCode, $select)
     {
         $auth = $this->checkToken();
-        if (! $auth) $this->refreshToken(Cache::get('1.refresh_token'));
+        if (! $auth) $this->refreshTokens(Cache::get('1.refresh_token'));
 
         $uri = '/api/v1/'. $this->division
             .'/purchaseorder/PurchaseOrders?'
@@ -174,7 +174,7 @@ class ExactApi
     public function createQuotation($quotation)
     {
         $auth = $this->checkToken();
-        if (! $auth) $this->refreshToken(Cache::get('1.refresh_token'));
+        if (! $auth) $this->refreshTokens(Cache::get('1.refresh_token'));
 
         if ($quotation->company->erp_id != '') {
             $account = $quotation->company->erp_id;
