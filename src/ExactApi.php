@@ -2,9 +2,10 @@
 
 namespace BohSchu\Exact;
 
+use BohSchu\Exact\ExactHelperTrait;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
-use BohSchu\Exact\ExactHelperTrait;
+use Illuminate\Support\Facades\Cache;
 
 class ExactApi
 {
@@ -174,7 +175,7 @@ class ExactApi
     public function createQuotation($quotation)
     {
         $auth = $this->checkToken();
-        if (! $auth) $this->refreshTokens(Cache::get('1.refresh_token'));
+        if (! $auth) $this->refreshTokens(Cache::get(auth()->id() . '.refresh_token'));
 
         if ($quotation->company->erp_id != '') {
             $account = $quotation->company->erp_id;
