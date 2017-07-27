@@ -371,12 +371,14 @@ trait ExactHelperTrait
      */
     protected function checkToken()
     {
-        return 'check TOken';
         if (Cache::get(Auth::id() . '.access_token')) {
+            return 'found access token';
             return true;
         } else if(Cache::get(Auth::id() . '.refresh_token')) {
+            return 'found refresh token';
             return $this->refreshTokens();
         } else {
+            return 'found nothing biatch!';
             return redirect()->to('exact/login');
             return $this->refreshTokens(Cache::get('1.refresh_token'));
         }
