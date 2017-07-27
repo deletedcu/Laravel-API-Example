@@ -175,7 +175,7 @@ class ExactApi
     public function createQuotation($quotation)
     {
         $auth = $this->checkToken();
-        if (! $auth) $this->refreshTokens(Cache::get(auth()->id() . '.refresh_token'));
+        if (! $auth) false;
 
         if ($quotation->company->erp_id != '') {
             $account = $quotation->company->erp_id;
