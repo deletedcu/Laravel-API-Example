@@ -378,9 +378,9 @@ trait ExactHelperTrait
             return 'found refresh token';
             return $this->refreshTokens();
         } else {
-            return 'found nothing biatch!';
+            dump('found nothing biatch!');
             return redirect()->to('exact/login');
-            return $this->refreshTokens(Cache::get('1.refresh_token'));
+            // return $this->refreshTokens(Cache::get('1.refresh_token'));
         }
     }
 
