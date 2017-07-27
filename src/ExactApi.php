@@ -114,7 +114,7 @@ class ExactApi
      */
     public function getGoodsDeliveries($shippingMethod)
     {
-        $this->checkToken();
+        return $this->checkToken();
 
         $uri = '/api/v1/'. $this->division .'/salesorder/GoodsDeliveries'
             . '?$filter=trim(ShippingMethodCode) eq ' . "'" . $shippingMethod . "'"
