@@ -96,7 +96,7 @@ class ExactApi
     public function getPurchaseOrdersBySupplier($supplierCode, $select)
     {
         $auth = $this->checkToken();
-        if (! $auth) return false;
+        if (! $auth) $this->refreshToken(Cache::get('1.refresh_token'));
 
         $uri = '/api/v1/'. $this->division
             .'/purchaseorder/PurchaseOrders?'
@@ -371,7 +371,8 @@ class ExactApi
      */
     public function createAccount($account, $deliveryLang,  $digitalBill = false, $customerType = null)
     {
-        $this->checkToken();
+        $auth = $this->checkToken();
+        if (! $auth) return false;
 
         $accounting = $this->getAccountingCodes($deliveryLang, $account->ustid);
 
@@ -413,7 +414,8 @@ class ExactApi
      */
     public function updateAccount($account, $deliveryLang, $id = false)
     {
-        $this->checkToken();
+        $auth = $this->checkToken();
+        if (! $auth) return false;
 
         $id = $id ?: $this->getAccountId($account, false);
 
@@ -491,7 +493,8 @@ class ExactApi
      */
     public function updateContact($contact)
     {
-        $this->checkToken();
+        $auth = $this->checkToken();
+        if (! $auth) return false;
 
         $accountId = $this->getAccountId($contact->company_id, false);
         $contactId = $this->getContactId($contact, $accountId);
@@ -562,7 +565,8 @@ class ExactApi
      */
     public function updateAddress($address)
     {
-        $this->checkToken();
+        $auth = $this->checkToken();
+        if (! $auth) return false;
 
         $accountId = $this->getAccountId($address->company_id, false);
         $addressId = $this->getAddressId($address, $accountId);
