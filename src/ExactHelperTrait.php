@@ -372,19 +372,11 @@ trait ExactHelperTrait
     protected function checkToken()
     {
         if (Cache::get(Auth::id() . '.access_token')) {
-            return 'found access token';
             return true;
         } else if(Cache::get(Auth::id() . '.refresh_token')) {
-            return 'found refresh token';
             return $this->refreshTokens();
         } else {
-            $uri = '/api/oauth2/auth?client_id=' . config('exact.client_id')
-                   . '&redirect_uri=' . config('exact.redirect_uri')
-                   . '&response_type=code'
-                   . '&force_login=0';
-
-            return redirect()->to(config('exact.base_uri') . $uri);
-            // return $this->refreshTokens(Cache::get('1.refresh_token'));
+            return false;
         }
     }
 
