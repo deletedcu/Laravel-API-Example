@@ -163,7 +163,9 @@ class ExactApi
         $uri = '/api/v1/'. $this->division
             .'/salesorder/GoodsDeliveries(guid' . "'" . $id . "'" . ')';
 
-        return $this->put($uri, $data);
+        $this->put($uri, $data);
+
+        return true;
     }
 
     /**
