@@ -39,7 +39,8 @@ class ExactApi
         $auth = $this->checkToken();
         if (! $auth) $this->refreshTokens(Cache::get('1.refresh_token'));
 
-        $uri = '/api/v1/'. $this->division .'/salesinvoice/SalesInvoices?$filter=year(Created) eq 2017 and month(Created) eq 7 and day(Created) eq 28';
+        $uri = '/api/v1/'. $this->division .'/salesinvoice/SalesInvoices?$filter=year(Created) eq 2017 and month(Created) eq 7 and day(Created) eq 28'
+                . '&$select=InvoiceID,YourRef,Document';
 
         return $this->get($uri);
     }
