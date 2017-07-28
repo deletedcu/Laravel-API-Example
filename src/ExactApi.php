@@ -36,6 +36,9 @@ class ExactApi
 
     public function getInvoiceLinks()
     {
+        $auth = $this->checkToken();
+        if (! $auth) return false;
+
         $uri = '/api/v1/'. $this->division .'/salesinvoice/SalesInvoices';
 
         return $this->get($uri);
