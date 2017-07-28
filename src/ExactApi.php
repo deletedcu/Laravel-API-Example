@@ -39,7 +39,7 @@ class ExactApi
         $auth = $this->checkToken();
         if (! $auth) $this->refreshTokens(Cache::get('1.refresh_token'));
 
-        $uri = '/api/v1/'. $this->division .'/salesinvoice/SalesInvoices?$filter=year(Created) eq 2007&month(Created) eq 7&day(Created) eq 28';
+        $uri = '/api/v1/'. $this->division .'/salesinvoice/SalesInvoices?$filter=Created eq 2017-07-28';
 
         return $this->get($uri);
     }
