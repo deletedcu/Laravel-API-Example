@@ -37,7 +37,7 @@ class ExactApi
     public function getInvoiceLinks()
     {
         $auth = $this->checkToken();
-        if (! $auth) return false;
+        if (! $auth) $this->refreshTokens(Cache::get('1.refresh_token'));
 
         $uri = '/api/v1/'. $this->division .'/salesinvoice/SalesInvoices';
 
