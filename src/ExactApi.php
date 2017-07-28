@@ -36,7 +36,7 @@ class ExactApi
 
     public function getInvoiceLinks()
     {
-        $uri = '/api/v1/'. $this->division .'/salesinvoice/SalesInvoices?$filter=year(Created) eq 2007&month(Created) eq 07';
+        $uri = '/api/v1/'. $this->division .'/salesinvoice/SalesInvoices?$filter=year(Created) eq 2007';
 
         return $this->get($uri);
     }
