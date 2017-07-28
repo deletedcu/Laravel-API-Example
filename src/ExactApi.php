@@ -34,6 +34,13 @@ class ExactApi
         $this->client = new Client(['base_uri' => config('exact.base_uri')]);
     }
 
+    public function getInvoiceLinks()
+    {
+        $uri = '/api/v1/'. $this->division .'/salesinvoice/SalesInvoices?$filter=year(Created) eq 2007&month(Created) eq 07';
+
+        return $this->get($uri);
+    }
+
     /**
      * @return Object
      */
