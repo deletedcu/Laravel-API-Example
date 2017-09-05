@@ -501,12 +501,13 @@ class ExactApi
      */
     public function updateContact($contact)
     {
-        dump('drin');
         $auth = $this->checkToken();
         if (! $auth) return false;
 
         $accountId = $this->getAccountId($contact->company_id, false);
         $contactId = $this->getContactId($contact, $accountId);
+
+        dump($contactId);
 
         $data = [
             'FirstName' => $contact->first_name ?? '',
