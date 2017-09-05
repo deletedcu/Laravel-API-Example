@@ -504,16 +504,6 @@ class ExactApi
         $auth = $this->checkToken();
         if (! $auth) return false;
 
-        dump($contact);
-
-        $accountId = $this->getAccountId($contact->company_id, false);
-        dump($accountId);
-
-        $contactId = $this->getContactId($contact, $accountId);
-        dump($accountId);
-
-        die;
-
         $data = [
             'FirstName' => $contact->first_name ?? '',
             'LastName' => $contact->last_name ?? '',
@@ -524,7 +514,7 @@ class ExactApi
         ];
 
         $uri = '/api/v1/'. $this->division
-            .'/crm/Contacts(guid' . "'" . $contactId . "'" . ')';
+            .'/crm/Contacts(guid' . "'" . $contact->erp_id . "'" . ')';
 
         return $this->put($uri, $data);
     }

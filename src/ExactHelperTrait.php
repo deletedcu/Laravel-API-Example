@@ -275,6 +275,13 @@ trait ExactHelperTrait
         return $this->updateAccount($companyData, $deliveryLang, $accountId);
     }
 
+    /**
+     * Chech if user data has changed and update
+     *
+     * @param $contactId
+     * @param $userData
+     * @return mixed
+     */
     protected function checkUserChanges($contactId, $userData)
     {
         $contact = $this->getContact($contactId, 'FirstName,LastName,Email,Phone')[0];
