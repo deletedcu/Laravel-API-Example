@@ -295,7 +295,7 @@ trait ExactHelperTrait
 
         if (count(array_diff($newContact, $oldContact)) < 1) return;
 
-        return $this->updateAccount($userData);
+        return $this->updateContact($userData);
     }
 
     /**
