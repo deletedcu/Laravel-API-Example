@@ -501,6 +501,7 @@ class ExactApi
      */
     public function updateContact($contact)
     {
+        dump('drin');
         $auth = $this->checkToken();
         if (! $auth) return false;
 

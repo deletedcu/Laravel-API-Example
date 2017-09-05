@@ -280,8 +280,8 @@ trait ExactHelperTrait
         $contact = $this->getContact($contactId, 'FirstName,LastName,Email,Phone')[0];
 
         $newContact = [
-            $userData->firstName,
-            $userData->lastName,
+            $userData->first_name,
+            $userData->last_name,
             $userData->email,
             $userData->phone
         ];
@@ -292,11 +292,6 @@ trait ExactHelperTrait
             $contact->Email,
             $contact->Phone
         ];
-
-        var_dump($newContact);
-        var_dump($oldContact);
-
-        die;
 
         if (count(array_diff($newContact, $oldContact)) < 1) return;
 
