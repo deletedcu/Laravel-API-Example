@@ -504,10 +504,15 @@ class ExactApi
         $auth = $this->checkToken();
         if (! $auth) return false;
 
-        $accountId = $this->getAccountId($contact->company_id, false);
-        $contactId = $this->getContactId($contact, $accountId);
+        dump($contact);
 
-        dump($contactId);
+        $accountId = $this->getAccountId($contact->company_id, false);
+        dump($accountId);
+
+        $contactId = $this->getContactId($contact, $accountId);
+        dump($accountId);
+
+        die;
 
         $data = [
             'FirstName' => $contact->first_name ?? '',
