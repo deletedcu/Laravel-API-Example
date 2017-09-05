@@ -319,7 +319,7 @@ trait ExactHelperTrait
         $newDelivery = [
             $deliveryData->delivery_name,
             $deliveryData->delivery_street . ' ' . $deliveryData->delivery_house_number,
-            $deliveryData->delivery_zip_code
+            $deliveryData->delivery_zip_code,
             $deliveryData->delivery_city
         ];
 
