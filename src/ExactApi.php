@@ -269,6 +269,8 @@ class ExactApi
             $contact = $invoiceContact = $this->createContact($order->user, $account);
         }
 
+        $this->checkUserChanges($contact, $order->user);
+
         if (is_array($contact) && array_key_exists('error', $contact)) return [$contact, null, null, null];
 
         if ($order->digital_bill) {

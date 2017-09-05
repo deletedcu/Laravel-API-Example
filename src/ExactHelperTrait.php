@@ -275,6 +275,29 @@ trait ExactHelperTrait
         return $this->updateAccount($companyData, $deliveryLang, $accountId);
     }
 
+    protected function checkUserChanges($contactId, $userData)
+    {
+        $contact = $this->getContact($contactId);
+
+        $newContact = [
+            $companyData->firstName,
+            $companyData->lastName,
+            $companyData->email,
+            $companyData->phone
+        ];
+
+        $oldContact = [
+            $contact->FirstName,
+            $contact->LastName,
+            $contact->Email,
+            $contact->Phone
+        ];
+
+        if (count(array_diff($newAddress, $oldAddress)) < 1) return;
+
+        dd($oldContact);
+    }
+
     /**
      * Send GET request to exact api
      *
