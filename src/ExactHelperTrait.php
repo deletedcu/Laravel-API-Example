@@ -277,9 +277,7 @@ trait ExactHelperTrait
 
     protected function checkUserChanges($contactId, $userData)
     {
-        $contact = $this->getContact($contactId, 'FirstName,LastName,Email,Phone');
-
-        var_dump($contact);
+        $contact = $this->getContact($contactId, 'FirstName,LastName,Email,Phone')[0];
 
         $newContact = [
             $userData->firstName,
@@ -297,7 +295,7 @@ trait ExactHelperTrait
 
         if (count(array_diff($newContact, $oldContact)) < 1) return;
 
-        dd($oldContact);
+        return $this->updateAccount($userData);
     }
 
     /**
