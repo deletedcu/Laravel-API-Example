@@ -286,11 +286,11 @@ class ExactApi
 
         if ($order->delivery->erp_id != '') {
             $address = $order->delivery->erp_id;
-        } else if ($addressId = $this->getAddressId($order->delivery, $account)) {
-            $address = $addressId;
         } else {
             $address = $this->createAddress($order->delivery, $account);
         }
+
+        $this->checkDeliveryChanges($address, $order->delivery);
 
         if (is_array($address) && array_key_exists('error', $address)) return [$address, null, null, null];
 

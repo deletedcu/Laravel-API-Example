@@ -306,6 +306,36 @@ trait ExactHelperTrait
     }
 
     /**
+     * Check if delivery data has changes and update
+     *
+     * @param $addressId
+     * @param $deliveryData
+     * @return mixed
+     */
+    protected function checkDeliveryChanges($addressId, $deliveryData)
+    {
+        $address = $this->getAddress($addressId, 'AddressLine1,AddressLine3,Postcode,City')[0];
+
+        $newDelivery = [
+            $deliveryData->delivery_name,
+            $deliveryData->delivery_street . ' ' . $deliveryData->delivery_house_number,
+            $deliveryData->delivery_zip_code
+            $deliveryData->delivery_city
+        ];
+
+        $oldDelivery = [
+            $address->AddressLine3,
+            $address->AddressLine1,
+            $address->Postcode,
+            $address->City
+        ];
+
+        if (count(array_diff($newDelivery, $oldDelivery)) < 1) return;
+
+        return $this->updateAddress($deliveryData);
+    }
+
+    /**
      * Send GET request to exact api
      *
      * @param $uri
