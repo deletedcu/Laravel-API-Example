@@ -573,9 +573,6 @@ class ExactApi
         $auth = $this->checkToken();
         if (! $auth) return false;
 
-        $accountId = $this->getAccountId($address->company_id, false);
-        $addressId = $this->getAddressId($address, $accountId);
-
         $data = [
             'AddressLine1' => $address->delivery_street . ' ' . $address->delivery_house_number,
             'AddressLine2' => $address->delivery_additional,
@@ -587,7 +584,7 @@ class ExactApi
         ];
 
         $uri = '/api/v1/'. $this->division
-            .'/crm/Addresses(guid' . "'" . $addressId . "'" . ')';
+            .'/crm/Addresses(guid' . "'" . $address->erp_id . "'" . ')';
 
         return $this->put($uri, $data);
     }
