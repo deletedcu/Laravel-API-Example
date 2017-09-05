@@ -277,7 +277,7 @@ trait ExactHelperTrait
 
     protected function checkUserChanges($contactId, $userData)
     {
-        $contact = $this->getContact($contactId);
+        $contact = $this->getContact($contactId, 'FirstName,LastName,Email,Phone');
 
         $newContact = [
             $companyData->firstName,
