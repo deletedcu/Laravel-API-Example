@@ -279,6 +279,8 @@ trait ExactHelperTrait
     {
         $contact = $this->getContact($contactId, 'FirstName,LastName,Email,Phone');
 
+        var_dump($contact);
+
         $newContact = [
             $userData->firstName,
             $userData->lastName,
