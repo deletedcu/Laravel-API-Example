@@ -293,6 +293,11 @@ trait ExactHelperTrait
             $contact->Phone
         ];
 
+        var_dump($newContact);
+        var_dump($oldContact);
+
+        die;
+
         if (count(array_diff($newContact, $oldContact)) < 1) return;
 
         return $this->updateContact($userData);
