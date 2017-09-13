@@ -251,25 +251,25 @@ class ExactApi
 
         if ($order->company->erp_id != '') {
             $account = $order->company->erp_id;
+            $this->checkAddressChanges($account, $order->company, $order->delivery->language->code);
         } else if ($accountId = $this->getAccountId($order->company)) {
             $account = $accountId;
+            $this->checkAddressChanges($account, $order->company, $order->delivery->language->code);
         } else {
             $account = $this->createAccount($order->company, $order->delivery->language->code, $order->digital_bill, $order->customer_type);
         }
-
-        $this->checkAddressChanges($account, $order->company, $order->delivery->language->code);
 
         if (is_array($account) && array_key_exists('error', $account)) return [$account, null, null, null];
 
         if ($order->user->erp_id != '') {
             $contact = $invoiceContact = $order->user->erp_id;
+            $this->checkUserChanges($contact, $order->user);
         } else if ($contactId = $invoiceContact = $this->getContactId($order->user, $account)) {
             $contact = $contactId;
+            $this->checkUserChanges($contact, $order->user);
         } else {
             $contact = $invoiceContact = $this->createContact($order->user, $account);
         }
-
-        $this->checkUserChanges($contact, $order->user);
 
         if (is_array($contact) && array_key_exists('error', $contact)) return [$contact, null, null, null];
 
@@ -286,11 +286,10 @@ class ExactApi
 
         if ($order->delivery->erp_id != '') {
             $address = $order->delivery->erp_id;
+            $this->checkDeliveryChanges($address, $order->delivery);
         } else {
             $address = $this->createAddress($order->delivery, $account);
         }
-
-        $this->checkDeliveryChanges($address, $order->delivery);
 
         if (is_array($address) && array_key_exists('error', $address)) return [$address, null, null, null];
 
@@ -325,6 +324,8 @@ class ExactApi
             'SalesOrderLines' => $salesOrderLines,
             'AmountDiscountExclVat' => $order->coupon
         ];
+
+        return $data;
 
         $response = $this->post('/api/v1/'. $this->division .'/salesorder/SalesOrders', $data);
 
