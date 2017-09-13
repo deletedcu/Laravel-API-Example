@@ -257,8 +257,6 @@ class ExactApi
             $account = $this->createAccount($order->company, $order->delivery->language->code, $order->digital_bill, $order->customer_type);
         }
 
-        dump($account);
-
         $this->checkAddressChanges($account, $order->company, $order->delivery->language->code);
 
         if (is_array($account) && array_key_exists('error', $account)) return [$account, null, null, null];
@@ -270,8 +268,6 @@ class ExactApi
         } else {
             $contact = $invoiceContact = $this->createContact($order->user, $account);
         }
-
-        dump($contact);
 
         $this->checkUserChanges($contact, $order->user);
 
@@ -294,8 +290,6 @@ class ExactApi
             $address = $this->createAddress($order->delivery, $account);
         }
 
-        dump($address);
-
         $this->checkDeliveryChanges($address, $order->delivery);
 
         if (is_array($address) && array_key_exists('error', $address)) return [$address, null, null, null];
@@ -308,8 +302,6 @@ class ExactApi
             $order->delivery->language->code,
             $order->company->ustid
         );
-
-        return $salesOrderLines;
 
         if ($order->delivery_costs != '0.00' && $order->delivery_costs != '') {
             $salesOrderLines[] = $this->getDeliveryCosts(
@@ -333,6 +325,8 @@ class ExactApi
             'SalesOrderLines' => $salesOrderLines,
             'AmountDiscountExclVat' => $order->coupon
         ];
+
+        return $data;
 
         $response = $this->post('/api/v1/'. $this->division .'/salesorder/SalesOrders', $data);
 
