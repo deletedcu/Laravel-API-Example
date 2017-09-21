@@ -278,10 +278,10 @@ class ExactApi
                 'salutation' => '',
                 'first_name' => 'E-Mail',
                 'last_name' => 'eRechnung',
-                'email' => $order->company->company_email ?? $order->user->email
+                'email' => $order->company->company_email ?: $order->user->email
             ];
 
-            return $order->user->email;
+            return $eBillData;
 
             $invoiceContact = $this->getContactId($eBillData, $account) ?? $this->createContact($eBillData, $account);
         }
