@@ -477,12 +477,12 @@ class ExactApi
     {
         $data = [
             'Account' => $accountId,
-            'FirstName' => $contact->first_name ?: '',
-            'LastName' => $contact->last_name ?: '',
-            'Email' => $contact->email ?: '',
-            'Phone' => $contact->phone ?: '',
-            'Title' => strtoupper($contact->salutation) ?: '',
-            'JobTitleDescription' => $contact->position ?: ''
+            'FirstName' => $contact->first_name ?? '',
+            'LastName' => $contact->last_name ?? '',
+            'Email' => $contact->email ?? '',
+            'Phone' => $contact->phone ?? '',
+            'Title' => strtoupper($contact->salutation) ?? '',
+            'JobTitleDescription' => $contact->position ?? ''
         ];
 
         $response = $this->post('/api/v1/'. $this->division .'/crm/Contacts', $data);
@@ -504,12 +504,12 @@ class ExactApi
         if (! $auth) return false;
 
         $data = [
-            'FirstName' => $contact->first_name ?: '',
-            'LastName' => $contact->last_name ?: '',
-            'Email' => $contact->email ?: '',
-            'Phone' => $contact->phone ?: '',
-            'Title' => strtoupper($contact->salutation) ?: '',
-            'JobTitleDescription' => $contact->position ?: ''
+            'FirstName' => $contact->first_name ?? '',
+            'LastName' => $contact->last_name ?? '',
+            'Email' => $contact->email ?? '',
+            'Phone' => $contact->phone ?? '',
+            'Title' => strtoupper($contact->salutation) ?? '',
+            'JobTitleDescription' => $contact->position ?? ''
         ];
 
         $uri = '/api/v1/'. $this->division
