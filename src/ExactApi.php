@@ -281,7 +281,7 @@ class ExactApi
                 'email' => $order->company->company_email ?? $order->user->email
             ];
 
-            return $eBillData;
+            return $order->user->email;
 
             $invoiceContact = $this->getContactId($eBillData, $account) ?? $this->createContact($eBillData, $account);
         }
