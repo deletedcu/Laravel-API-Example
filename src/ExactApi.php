@@ -303,10 +303,8 @@ class ExactApi
         );
 
         if (in_array('false', $salesOrderLines)) {
-            return 'motha noob!';
+            return [['error' => 'Ein Produkt existiert nicht in Exact!'], null, null, null];
         }
-
-        return 'fuck';
 
         if ($order->delivery_costs != '0.00' && $order->delivery_costs != '') {
             $salesOrderLines[] = $this->getDeliveryCosts(
