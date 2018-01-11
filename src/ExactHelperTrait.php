@@ -105,6 +105,8 @@ trait ExactHelperTrait
                 if ($deliveryDate) {
                     $return[$key]['DeliveryDate'] = Carbon::today()->addWeekDays($value->variant->deliveryDays)->format('Y-m-d');
                 }
+            } else {
+                $return[$key] = false;
             }
 
             if ($countryCode != 'DE' && $deliveryCountryCode == 'DE') {

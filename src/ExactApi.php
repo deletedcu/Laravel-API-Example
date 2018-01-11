@@ -302,6 +302,8 @@ class ExactApi
             $order->company->ustid
         );
 
+        return $salesorderLines;
+
         if ($order->delivery_costs != '0.00' && $order->delivery_costs != '') {
             $salesOrderLines[] = $this->getDeliveryCosts(
                 $order->delivery_costs,
