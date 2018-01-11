@@ -302,7 +302,11 @@ class ExactApi
             $order->company->ustid
         );
 
-        return $salesorderLines;
+        if ($salesOrderLines->contains(false)) {
+            return 'motha noob!';
+        }
+
+        return 'fuck';
 
         if ($order->delivery_costs != '0.00' && $order->delivery_costs != '') {
             $salesOrderLines[] = $this->getDeliveryCosts(
