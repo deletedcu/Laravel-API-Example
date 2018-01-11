@@ -302,7 +302,7 @@ class ExactApi
             $order->company->ustid
         );
 
-        if (array_has($salesOrderLines, false)) {
+        if (array_has($salesOrderLines, 'false')) {
             return 'motha noob!';
         }
 
