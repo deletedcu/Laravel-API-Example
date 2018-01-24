@@ -59,6 +59,8 @@ trait ExactHelperTrait
     protected function getAddressId($address, $accountId)
     {
         $name = str_replace('&', '%26', $address->delivery_name);
+        $name = str_replace("'", '%27', $address->delivery_name);
+        $name = str_replace("`", '%60', $address->delivery_name);
 
         $uri = '/api/v1/'. $this->division
             .'/crm/Addresses?$filter=Account eq guid' . "'" . $accountId . "'"
@@ -253,10 +255,13 @@ trait ExactHelperTrait
      * @param $accountId
      * @param $companyData
      * @param $deliveryLang
+     * @param $digitalBill
+     * @return mixed
      */
-    protected function checkAddressChanges($accountId, $companyData, $deliveryLang)
+    protected function checkAddressChanges($accountId, $companyData, $deliveryLang, $digitalBill)
     {
         $account = $this->getAccount($accountId);
+        $types = ['1' => '2', '0' => '1'];
 
         $newAddress = [
             $companyData->name,
@@ -271,6 +276,10 @@ trait ExactHelperTrait
             $account->Postcode,
             $account->City
         ];
+
+        if ($account->InvoicingMethod != $types[$digitalBill]) {
+            $this->updateAccountInvoicing($types[$digitalBill], $accountId);
+        }
 
         if (count(array_diff($newAddress, $oldAddress)) < 1) return;
 

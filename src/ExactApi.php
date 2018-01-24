@@ -251,10 +251,10 @@ class ExactApi
 
         if ($order->company->erp_id != '') {
             $account = $order->company->erp_id;
-            $this->checkAddressChanges($account, $order->company, $order->delivery->language->code);
+            $this->checkAddressChanges($account, $order->company, $order->delivery->language->code, $order->digital_bill);
         } else if ($accountId = $this->getAccountId($order->company)) {
             $account = $accountId;
-            $this->checkAddressChanges($account, $order->company, $order->delivery->language->code);
+            $this->checkAddressChanges($account, $order->company, $order->delivery->language->code, $order->digital_bill);
         } else {
             $account = $this->createAccount($order->company, $order->delivery->language->code, $order->digital_bill, $order->customer_type);
         }
@@ -450,6 +450,26 @@ class ExactApi
             .'/crm/Accounts(guid' . "'" . $id . "'" . ')';
 
         $this->put($uri, $data);
+
+        return true;
+    }
+
+    /**
+     * Update account InvoicingMethod
+     *
+     * @param $type
+     * @param $id
+     * @return bool
+     */
+    protected function updateAccountInvoicing($type, $id)
+    {
+        $auth = $this->checkToken();
+        if (!$auth) return false;
+
+        $uri = '/api/v1/' . $this->division
+            . '/crm/Accounts(guid' . "'" . $id . "'" . ')';
+
+        $this->put($uri, ['InvoicingMethod' => $type]);
 
         return true;
     }
