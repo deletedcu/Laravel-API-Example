@@ -61,6 +61,10 @@ trait ExactHelperTrait
         $name = str_replace('&', '%26', $address->delivery_name);
         $name = str_replace("'", '%27', $name);
         $name = str_replace("`", '%60', $name);
+        $name = str_replace("ü", '%FC', $name);
+        $name = str_replace("ä", '%E4', $name);
+        $name = str_replace("ö", '%F6', $name);
+        $name = str_replace("ß", '%DF', $name);
 
         $uri = '/api/v1/'. $this->division
             .'/crm/Addresses?$filter=Account eq guid' . "'" . $accountId . "'"
