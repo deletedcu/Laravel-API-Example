@@ -170,17 +170,21 @@ trait ExactHelperTrait
      * @param $ustId
      * @return Array
      */
-    protected function getAccountingCodes($countryCode, $ustId)
+    protected function getAccountingCodes($customerCountryCode, $deliveryCountryCode, $ustId)
     {
-        if ($countryCode == 'DE') {
+        if ($customerCountryCode == 'DE') {
+            $accounting['vatCode'] = 3;
+            $uri = '/api/v1/' . $this->division
+                . '/financial/GLAccounts?$filter=trim(Code) eq ' . "'8400'" . '&$select=ID';
+        } else if ($deliveryCountryCode == 'DE') {
             $accounting['vatCode'] = 3;
             $uri = '/api/v1/'. $this->division
                 .'/financial/GLAccounts?$filter=trim(Code) eq ' . "'8400'" . '&$select=ID';
-        } else if($countryCode == 'CH') {
+        } else if($deliveryCountryCode == 'CH') {
             $accounting['vatCode'] = '000';
             $uri = '/api/v1/'. $this->division
                 .'/financial/GLAccounts?$filter=trim(Code) eq ' . "'8338'" . '&$select=ID';
-        } else if ($countryCode != 'DE' && $ustId == '') {
+        } else if ($deliveryCountryCode != 'DE' && $ustId == '') {
             $accounting['vatCode'] = 3;
             $uri = '/api/v1/'. $this->division
                 .'/financial/GLAccounts?$filter=trim(Code) eq ' . "'8400'" . '&$select=ID';

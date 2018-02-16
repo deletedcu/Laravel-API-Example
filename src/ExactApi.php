@@ -256,7 +256,12 @@ class ExactApi
             $account = $accountId;
             $this->checkAddressChanges($account, $order->company, $order->delivery->language->code, $order->digital_bill);
         } else {
-            $account = $this->createAccount($order->company, $order->delivery->language->code, $order->digital_bill, $order->customer_type);
+            $account = $this->createAccount(
+                $order->company,
+                $order->delivery->language->code,
+                $order->digital_bill,
+                $order->customer_type
+            );
         }
 
         if (is_array($account) && array_key_exists('error', $account)) return [$account, null, null, null];
@@ -383,7 +388,7 @@ class ExactApi
         $auth = $this->checkToken();
         if (! $auth) return false;
 
-        $accounting = $this->getAccountingCodes($deliveryLang, $account->ustid);
+        $accounting = $this->getAccountingCodes($account->language->code, $deliveryLang, $account->ustid);
 
         $data = [
             'Code' => strlen($account->id) == 5 ? '10' . (string) $account->id : $account->id,
