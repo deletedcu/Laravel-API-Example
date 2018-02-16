@@ -433,7 +433,7 @@ class ExactApi
 
         $id = $id ?: $this->getAccountId($account, false);
 
-        $accounting = $this->getAccountingCodes($deliveryLang, $account->ustid);
+        $accounting = $this->getAccountingCodes($account->language->code, $deliveryLang, $account->ustid);
 
         $data = [
             'Name' => $account->name,
