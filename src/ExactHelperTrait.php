@@ -274,6 +274,7 @@ trait ExactHelperTrait
         $newAddress = [
             $companyData->name,
             $companyData->street . ' ' . $companyData->house_number,
+            $companyData->addition,
             $companyData->zip_code,
             $companyData->city
         ];
@@ -281,6 +282,7 @@ trait ExactHelperTrait
         $oldAddress = [
             $account->Name,
             $account->AddressLine1,
+            $account->AddressLine2,
             $account->Postcode,
             $account->City
         ];
