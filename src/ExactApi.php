@@ -125,7 +125,7 @@ class ExactApi
             . ' and substringof(' . "'Gedruckt'" . ',Remarks) eq false'
             . ' or Remarks eq null and trim(ShippingMethodCode) eq ' . "'" . $shippingMethod . "'"
             . '&$select=EntryID,DeliveryAccountName, DeliveryAddress,DeliveryContact,Description,DeliveryNumber,ShippingMethodCode,Remarks,'
-            . 'DeliveryContactPersonFullNam';
+            . 'DeliveryContactPersonFullName';
 
         $response = $this->get($uri);
 
