@@ -2,9 +2,9 @@
 
 namespace BohSchu\Exact;
 
-use BohSchu\Exact\ExactHelperTrait;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use BohSchu\Exact\ExactHelperTrait;
 use Illuminate\Support\Facades\Cache;
 
 class ExactApi
@@ -35,38 +35,8 @@ class ExactApi
     }
 
     /**
-     * @return Object
-     */
-    public function getQuotation($quotationId)
-    {
-        return 'Not working!';
-
-        // dump($quotationId);
-        // // 1. Get Quotation by its id
-        // $quotationUri = "/api/v1/{$this->division}/crm/Quotations"
-        // . '?$filter=QuotationID eq guid' . "'" . $quotationId . "'" . '&$select=Document,QuotationID,QuotationNumber,DocumentSubject';
-
-        // $quotation = $this->get($quotationUri) ? $this->get($quotationUri)->d->results[0] : null;
-        // return $quotation;
-        // // 2. Get the assoc document and its attachment
-        // $documentUri = "/api/v1/{$this->division}/crm/Documents"
-        // . '?filter=QuotationID eq guid' . "'" . $quotation->document->id . "'" . '&select=Attachments';
-        // $document = $this->get($documentUri)->d ? $this->get($documentUri)->d->results[0] : null;
-        // dd($document);
-        // // 3. Get the attachment and its download link
-
-        // return $this->get($uri);
-
-        // $document = $this->get($uri)->d->results[0];
-
-        // $uri = $document->Attachments->__deferred->uri;
-
-        // $attachment = $this->get($uri)->d->results[0]->AttachmentUrl;
-
-        // return $attachment;
-    }
-
-    /**
+     * Get a list of all orders where "YourRef" starts with "E" (Manuelle!)
+     *
      * @param $select
      * @return Object
      */
@@ -89,6 +59,7 @@ class ExactApi
 
     /**
      * Get all purchase orders by its supplier code (Supplier Orders)
+     * (All moedel orders which are not dropshipped)
      *
      * @param $supplierCode
      * @param $select
@@ -111,6 +82,7 @@ class ExactApi
 
     /**
      * Get all goods deliveries by its shipping method
+     * (All orders which don't have the word "Gedruckt" in its Remarks)
      *
      * @param $shippingMethod
      * @return Collection
@@ -134,6 +106,7 @@ class ExactApi
 
         $results = $response->d->results;
 
+        // Get customer infos as well and add it ro return data
         return collect($results)->map(function($delivery) {
             $contact = $this->getContact($delivery->DeliveryContact, 'Email,Phone');
 
@@ -170,7 +143,7 @@ class ExactApi
     }
 
     /**
-     * Create a new quotation
+     * Create a new quotation coming from the backend
      *
      * @param $quotation
      * @return Array
@@ -180,6 +153,7 @@ class ExactApi
         $auth = $this->checkToken();
         if (! $auth) $this->refreshTokens(Cache::get('1.refresh_token'));
 
+        // Decide if there is an ID existing or not and get company data from exact
         if ($quotation->company->erp_id != '') {
             $account = $quotation->company->erp_id;
         } else if ($accountId = $this->getAccountId($quotation->company)) {
@@ -190,6 +164,7 @@ class ExactApi
 
         if (is_array($account) && array_key_exists('error', $account)) return $account;
 
+        // Same decision for the company user
         if ($quotation->user->erp_id != '') {
             $contact = $quotation->user->erp_id;
         } else if ($contactId = $this->getContactId($quotation->user, $account)) {
@@ -200,6 +175,7 @@ class ExactApi
 
         if (is_array($contact) && array_key_exists('error', $contact)) return $contact;
 
+        // Same decision for the company delivery address
         if ($quotation->delivery->erp_id != '') {
             $address = $quotation->delivery->erp_id;
         } else if ($addressId = $this->getAddressId($quotation->delivery, $account)) {
@@ -210,6 +186,7 @@ class ExactApi
 
         if (is_array($address) && array_key_exists('error', $address)) return $address;
 
+        // Get products data
         $quotationLines = $this->getItemIds(
             $quotation->details,
             $quotation->company->language->code,
@@ -223,6 +200,7 @@ class ExactApi
             return $detail['file'] != '';
         }) ? ' (Mit Datei)' : '';
 
+        // Prepare insert data
         $data = [
             'OrderAccount' => $account,
             'OrderAccountContact' => $contact,
@@ -248,8 +226,11 @@ class ExactApi
     public function createSalesOrder($order)
     {
         $auth = $this->checkToken();
+        dd('bla');
         if (! $auth) return [false, null, null, null];
 
+        // Decide if there is an ID existing or not and get company data from exact
+        // and check for any address changes
         if ($order->company->erp_id != '') {
             $account = $order->company->erp_id;
             $this->checkAddressChanges($account, $order->company, $order->delivery->language->code, $order->digital_bill);
@@ -267,6 +248,7 @@ class ExactApi
 
         if (is_array($account) && array_key_exists('error', $account)) return [$account, null, null, null];
 
+        // Same decision for the company user
         if ($order->user->erp_id != '') {
             $contact = $invoiceContact = $order->user->erp_id;
             $this->checkUserChanges($contact, $order->user);
@@ -279,6 +261,7 @@ class ExactApi
 
         if (is_array($contact) && array_key_exists('error', $contact)) return [$contact, null, null, null];
 
+        // If the customer wants digital bill create a new contact with a digital bill email address
         if ($order->digital_bill) {
             $eBillData = (object) [
                 'salutation' => '',
@@ -290,6 +273,7 @@ class ExactApi
             $invoiceContact = $this->getContactId($eBillData, $account) ?: $this->createContact($eBillData, $account);
         }
 
+        // Same decision for the company delivery address
         if ($order->delivery->erp_id != '') {
             $address = $order->delivery->erp_id;
             $this->checkDeliveryChanges($address, $order->delivery);
@@ -301,6 +285,7 @@ class ExactApi
 
         $paymentCondition = $this->getPaymentCondition($order->payment_method, $order->notices);
 
+        // Get products data
         $salesOrderLines = $this->getItemIds(
             $order->details,
             $order->company->language->code,
@@ -312,6 +297,7 @@ class ExactApi
             return [['error' => 'Ein Produkt existiert nicht in Exact!'], null, null, null];
         }
 
+        // If order has delivery costs add a product line "delivery cost" for exact
         if ($order->delivery_costs != '0.00' && $order->delivery_costs != '') {
             $salesOrderLines[] = $this->getDeliveryCosts(
                 $order->delivery_costs,
@@ -321,6 +307,7 @@ class ExactApi
             );
         }
 
+        // Prepare insert data
         $data = [
             'OrderDate' => $order->created_at->format('Y-m-d'),
             'OrderedBy' => $account,
@@ -343,6 +330,9 @@ class ExactApi
     }
 
     /**
+     * Update an existing sales order in exact
+     * (Update YourRef with sending information)
+     *
      * @param $salesOrderId
      * @param $yourRef
      * @param $shopOrderId
@@ -361,6 +351,8 @@ class ExactApi
     }
 
     /**
+     * Get company account by id from exact
+     *
      * @param $account
      * @return mixed
      */
@@ -481,7 +473,7 @@ class ExactApi
     }
 
     /**
-     * Fetch contact by id
+     * Get company user account by id from exact
      *
      * @param $contactId
      * @param $select
@@ -549,7 +541,7 @@ class ExactApi
     }
 
     /**
-     * Fetch address by id
+     * Get company delivery by id from exact
      *
      * @param $addressId
      * @param $select

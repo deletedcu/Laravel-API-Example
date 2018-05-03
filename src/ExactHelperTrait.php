@@ -3,11 +3,11 @@
 namespace BohSchu\Exact;
 
 use Carbon\Carbon;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Exception\ServerException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
+use GuzzleHttp\Exception\RequestException;
 
 trait ExactHelperTrait
 {
@@ -95,10 +95,11 @@ trait ExactHelperTrait
         foreach ($products as $key => $value) {
             $uri = '/api/v1/'. $this->division .'/logistics/Items?$filter=trim(Code) eq ' . "'" . str_replace('+', '%2B', $value->variant->sku) . "'" . '&$select=ID';
 
-            $itemId = Cache::remember('exact.item.' . $value->variant->sku, 43200, function () use ($uri) {
+            $itemId = Cache::remember('exact.item.' . $value->variant->sku, 1440, function () use ($uri) {
                 return $this->get($uri)->d->results;
             });
 
+            // Prepare return data
             if(isset($itemId[0]->ID)) {
                 $return[$key]['Item'] = $itemId[0]->ID;
                 $return[$key]['Quantity'] = $value->amount;
@@ -115,6 +116,7 @@ trait ExactHelperTrait
                 $return[$key] = 'false';
             }
 
+            // Set VATCode for specific country and delivery
             if ($countryCode != 'DE' && $deliveryCountryCode == 'DE') {
                 $return[$key]['VATCode'] = 3;
             } else if($countryCode == 'CH' && $deliveryCountryCode == 'CH') {
@@ -152,6 +154,7 @@ trait ExactHelperTrait
             'NetPrice' => (float) $cost
         ];
 
+        // Get the right VATCode for specific country and delivery
         if ($countryCode != 'DE' && $deliveryCountryCode == 'DE') {
             $return['VATCode'] = 3;
         } else if($countryCode == 'CH' && $deliveryCountryCode == 'CH') {
@@ -200,7 +203,7 @@ trait ExactHelperTrait
     }
 
     /**
-     * Fetch classification guid by code
+     * Fetch classification guid by customer type (Kundenklassifizierung)
      *
      * @param $customerType
      * @return String
@@ -211,7 +214,7 @@ trait ExactHelperTrait
             .'/crm/AccountClassifications?$filter=trim(Code) eq '
             . "'" . $customerType . "'" . '&$select=ID';
 
-        $results = Cache::remember('exact.classification.' . $customerType, 129600, function () use ($uri) {
+        $results = Cache::remember('exact.classification.' . $customerType, 7200, function () use ($uri) {
             return $this->get($uri)->d->results;
         });
 
@@ -219,7 +222,7 @@ trait ExactHelperTrait
     }
 
     /**
-     * Fetch price list guid by name
+     * Fetch price list guid by price list name
      *
      * @param $name
      * @return String
