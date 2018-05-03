@@ -232,8 +232,7 @@ class ExactApi
         // and check for any address changes
         if ($order->company->erp_id != '') {
             $account = $order->company->erp_id;
-            return $account;
-            $this->checkAddressChanges($account, $order->company, $order->delivery->language->code, $order->digital_bill);
+            return $this->checkAddressChanges($account, $order->company, $order->delivery->language->code, $order->digital_bill);
         } else if ($accountId = $this->getAccountId($order->company)) {
             $account = $accountId;
             $this->checkAddressChanges($account, $order->company, $order->delivery->language->code, $order->digital_bill);
@@ -361,6 +360,8 @@ class ExactApi
         $uri = '/api/v1/'
             . $this->division .'/crm/Accounts?$filter=ID eq guid'. "'" . $account . "' "
             . '&select=Name,AddressLine1';
+
+        return $this->get($uri);
 
         $results = $this->get($uri)->d->results;
 
