@@ -274,6 +274,8 @@ trait ExactHelperTrait
         $account = $this->getAccount($accountId);
         $types = ['1' => '2', '0' => '1'];
 
+        return $account;
+
         $newAddress = [
             $companyData->name,
             $companyData->street . ' ' . $companyData->house_number,
@@ -281,6 +283,7 @@ trait ExactHelperTrait
             $companyData->zip_code,
             $companyData->city
         ];
+
 
         $oldAddress = [
             $account->Name,
