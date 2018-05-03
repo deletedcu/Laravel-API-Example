@@ -226,7 +226,6 @@ class ExactApi
     public function createSalesOrder($order)
     {
         $auth = $this->checkToken();
-        dd('bla');
         if (! $auth) return [false, null, null, null];
 
         // Decide if there is an ID existing or not and get company data from exact
