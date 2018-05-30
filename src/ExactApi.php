@@ -151,7 +151,7 @@ class ExactApi
     public function createQuotation($quotation)
     {
         $auth = $this->checkToken();
-        if (! $auth) $this->refreshTokens(Cache::get('1.refresh_token'));
+        if (! $auth) $this->refreshTokens(Cache::get('12.refresh_token'));
 
         // Decide if there is an ID existing or not and get company data from exact
         if ($quotation->company->erp_id != '') {
