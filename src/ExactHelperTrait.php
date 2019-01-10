@@ -254,7 +254,14 @@ trait ExactHelperTrait
             'Rechnung' => '01',
             'Paypal' => 'PP',
             'Vorkasse' => 'V2',
-            'Sofortüberweisung' => 'SO'
+            'Sofortüberweisung' => 'SO',
+            '10 Tage 2% Skonto, 30 Tage netto' => '01',
+            '10 Tage 3% Skonto, 30 Tage netto' => '03',
+            '14 Tage 2% Skonto, 30 Tage netto' => '15',
+            '14 Tage 3% Skonto, 60 Tage netto' => '16',
+            '30 Tage netto' => '30',
+            'Vorkasse - 2% Skonto, Lieferung erfolgt nach Zahlungseingang' => 'V2',
+            'Vorkasse - Lieferung erfolgt nach Zahlungseingang' => 'VK'
         ])->filter(function($code, $condition) use ($paymentMethod) {
             return $condition == $paymentMethod;
         })->first();
@@ -339,11 +346,12 @@ trait ExactHelperTrait
      */
     protected function checkDeliveryChanges($addressId, $deliveryData)
     {
-        $address = $this->getAddress($addressId, 'AddressLine1,AddressLine3,Postcode,City')[0];
+        $address = $this->getAddress($addressId, 'AddressLine1,AddressLine2,AddressLine3,Postcode,City')[0];
 
         $newDelivery = [
             $deliveryData->delivery_name,
             $deliveryData->delivery_street . ' ' . $deliveryData->delivery_house_number,
+            $deliveryData->delivery_additional,
             $deliveryData->delivery_zip_code,
             $deliveryData->delivery_city
         ];
@@ -351,6 +359,7 @@ trait ExactHelperTrait
         $oldDelivery = [
             $address->AddressLine3,
             $address->AddressLine1,
+            $address->AddressLine2,
             $address->Postcode,
             $address->City
         ];
