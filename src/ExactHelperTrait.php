@@ -105,8 +105,8 @@ trait ExactHelperTrait
                 $return[$key]['Quantity'] = $value->amount;
                 $return[$key]['Notes'] = $value->individualized;
 
-                if (isset($value->price)) {
-                    $return[$key]['NetPrice'] = $value->price;
+                if (isset($value->individual_price)) {
+                    $return[$key]['NetPrice'] = $value->individual_price;
                 }
 
                 if ($deliveryDate) {
@@ -257,6 +257,7 @@ trait ExactHelperTrait
             'Sofortüberweisung' => 'SO',
             '10 Tage 2% Skonto, 30 Tage netto' => '01',
             '10 Tage 3% Skonto, 30 Tage netto' => '03',
+            '14 Tage 3% Skonto, 30 Tage netto' => '13',
             '14 Tage 2% Skonto, 30 Tage netto' => '15',
             '14 Tage 3% Skonto, 60 Tage netto' => '16',
             '30 Tage netto' => '30',
