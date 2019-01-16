@@ -105,8 +105,8 @@ trait ExactHelperTrait
                 $return[$key]['Quantity'] = $value->amount;
                 $return[$key]['Notes'] = $value->individualized;
 
-                if (isset($value->individual_price)) {
-                    $return[$key]['NetPrice'] = $value->individual_price;
+                if (isset($value->price)) {
+                    $return[$key]['NetPrice'] = $value->price;
                 }
 
                 if ($deliveryDate) {
