@@ -248,21 +248,28 @@ trait ExactHelperTrait
      */
     protected function getPaymentCondition($paymentMethod, $notices)
     {
-        if ($notices == 'Bezahlt' && $paymentMethod == 'Vorkasse') return 'VZ';
+        if ($notices == 'Bezahlt' && $paymentMethod == 'Vorkasse- 2% Skonto -Zahlung eingegangen') return 'VZ';
+        if ($notices == 'Keine' && $paymentMethod == 'Vorkasse- 2% Skonto -Zahlung eingegangen') return 'V2';
+        if ($notices == 'Bezahlt' && $paymentMethod == 'Vorkasse') return '0V';
+        if ($notices == 'Keine' && $paymentMethod == 'Vorkasse') return 'VK';
 
         return collect([
-            'Rechnung' => '01',
-            'Paypal' => 'PP',
-            'Vorkasse' => 'V2',
-            'Sofortüberweisung' => 'SO',
             '10 Tage 2% Skonto, 30 Tage netto' => '01',
             '10 Tage 3% Skonto, 30 Tage netto' => '03',
+            '7 Tage netto' => '7',
             '14 Tage 3% Skonto, 30 Tage netto' => '13',
             '14 Tage 2% Skonto, 30 Tage netto' => '15',
             '14 Tage 3% Skonto, 60 Tage netto' => '16',
+            '30 Tage 2% Skonto, 60 Tage netto' => '17',
             '30 Tage netto' => '30',
-            'Vorkasse - 2% Skonto, Lieferung erfolgt nach Zahlungseingang' => 'V2',
-            'Vorkasse - Lieferung erfolgt nach Zahlungseingang' => 'VK'
+            'Paypal 2% Skonto' => 'PP',
+            'Paypal' => '0P',
+            'Vorkasse -2% Skonto, Lieferung erfolgt nach Zahlungseingang' => 'V2',
+            'Vorkasse -Lieferung erfolgt nach Zahlungseingang' => 'VK',
+            'Vorkasse- 2% Skonto -Zahlung eingegangen' => 'VZ',
+            'Vorkasse' => '0V',
+            'Sofortüberweisung 2% Skonto' => 'SO',
+            'Sofortüberweisung' => '0S',
         ])->filter(function($code, $condition) use ($paymentMethod) {
             return $condition == $paymentMethod;
         })->first();
