@@ -354,12 +354,12 @@ trait ExactHelperTrait
      */
     protected function checkDeliveryChanges($addressId, $deliveryData)
     {
-        $address = $this->getAddress($addressId, 'AddressLine1,AddressLine2,AddressLine3,Postcode,City')[0];
+        $address = $this->getAddress($addressId, 'AddressLine1,AddressLine3,Postcode,City')[0];
 
         $newDelivery = [
             $deliveryData->delivery_name,
             $deliveryData->delivery_street . ' ' . $deliveryData->delivery_house_number,
-            $deliveryData->delivery_additional,
+            // $deliveryData->delivery_additional,
             $deliveryData->delivery_zip_code,
             $deliveryData->delivery_city
         ];
@@ -367,7 +367,7 @@ trait ExactHelperTrait
         $oldDelivery = [
             $address->AddressLine3,
             $address->AddressLine1,
-            $address->AddressLine2,
+            // $address->AddressLine2,
             $address->Postcode,
             $address->City
         ];
