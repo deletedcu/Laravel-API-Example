@@ -109,6 +109,10 @@ trait ExactHelperTrait
                     $return[$key]['NetPrice'] = $value->price;
                 }
 
+                if(isset($value->individual_price)) {
+                    $return[$key]['NetPrice'] = $value->individual_price;   
+                }
+
                 if ($deliveryDate) {
                     $return[$key]['DeliveryDate'] = Carbon::today()->addWeekDays($value->variant->deliveryDays)->format('Y-m-d');
                 }
