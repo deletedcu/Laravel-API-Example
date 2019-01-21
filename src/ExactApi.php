@@ -46,7 +46,7 @@ class ExactApi
         if (! $auth) return false;
 
         $uri = '/api/v1/'. $this->division .'/salesorder/SalesOrders'
-            . '?$filter=startswith(tolower(YourRef), '. "'e'" .') eq true and substringof('. "'/'" .', YourRef) eq false'
+            . '?$filter=startswith(tolower(YourRef), '. "'e'" .') eq true and substringof('. "'/'" . ', YourRef) eq false and substringof(' . "'- alt'" . ', YourRef) eq false and substringof(' . "'E170465'" . ', YourRef) eq false'
             . '&$expand=SalesOrderLines'
             . '&$select=' . $select;
 
