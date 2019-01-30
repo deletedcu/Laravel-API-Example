@@ -265,6 +265,7 @@ trait ExactHelperTrait
             '14 Tage 2% Skonto, 30 Tage netto' => '15',
             '14 Tage 3% Skonto, 60 Tage netto' => '16',
             '30 Tage 2% Skonto, 60 Tage netto' => '17',
+            '21 Tage 2% Skonto, 30 Tage netto' => '18',
             '30 Tage netto' => '30',
             'Paypal 2% Skonto' => 'PP',
             'Paypal' => '0P',
