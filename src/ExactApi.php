@@ -359,7 +359,7 @@ class ExactApi
     {
         $uri = '/api/v1/'
             . $this->division .'/crm/Accounts?$filter=ID eq guid'. "'" . $account . "' "
-            . '&select=Name,AddressLine1,AddressLine2,Country';
+            . '&select=Name,AddressLine1,AddressLine2,Postcode,City,Country';
 
         $results = $this->get($uri)->d->results;
 
