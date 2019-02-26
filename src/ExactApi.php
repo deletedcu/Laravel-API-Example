@@ -232,7 +232,6 @@ class ExactApi
         // and check for any address changes
         if ($order->company->erp_id != '') {
             $account = $order->company->erp_id;
-            dd($account);
             $this->checkAddressChanges($account, $order->company, $order->delivery->language->code, $order->digital_bill);
         } else if ($accountId = $this->getAccountId($order->company)) {
             $account = $accountId;
@@ -276,6 +275,7 @@ class ExactApi
         // Same decision for the company delivery address
         if ($order->delivery->erp_id != '') {
             $address = $order->delivery->erp_id;
+            dd($address);
             $this->checkDeliveryChanges($address, $order->delivery);
         } else {
             $address = $this->createAddress($order->delivery, $account);
