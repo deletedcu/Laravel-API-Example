@@ -274,8 +274,8 @@ class ExactApi
 
         // Same decision for the company delivery address
         if ($order->delivery->erp_id != '') {
-            $addressId = $order->delivery->erp_id;
-            $result = $this->checkDeliveryChanges($addressId, $order->delivery);
+            $address = $order->delivery->erp_id;
+            $result = $this->checkDeliveryChanges($address, $order->delivery);
         } else {
             $address = $this->createAddress($order->delivery, $account);
         }
