@@ -280,7 +280,7 @@ class ExactApi
             $address = $this->createAddress($order->delivery, $account);
         }
         
-        if ($result['error']) return [$result, null, null, null];
+        if (isset($result['error'])) return [$result, null, null, null];
 
         if (is_array($address) && array_key_exists('error', $address)) return [$address, null, null, null];
 
