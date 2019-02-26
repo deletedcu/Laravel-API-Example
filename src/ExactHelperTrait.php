@@ -332,7 +332,7 @@ trait ExactHelperTrait
         $contact = $this->getContact($contactId, 'FirstName,LastName,Email,Phone');
         $contact = count( $contact) ? $contact[0] : ['error' => 'Ansprechpartner wurde in Exact nicht gefunden!'];
 
-        if($contact['error']) return $contact;
+        if(isset($contact['error'])) return $contact;
 
         $newContact = [
             $userData->first_name,
@@ -365,7 +365,7 @@ trait ExactHelperTrait
         $address = $this->getAddress($addressId, 'AddressLine1,AddressLine2,AddressLine3,Postcode,City');
         $address = count($address) ? $address[0] : ['error' => 'Adresse wurde in Exact nicht gefunden!'];
         
-        if($address['error']) return $address;
+        if(isset($address['error'])) return $address;
         
         $newDelivery = [
             $deliveryData->delivery_name,
