@@ -329,7 +329,10 @@ trait ExactHelperTrait
      */
     protected function checkUserChanges($contactId, $userData)
     {
-        $contact = $this->getContact($contactId, 'FirstName,LastName,Email,Phone')[0];
+        $contact = $this->getContact($contactId, 'FirstName,LastName,Email,Phone');
+        $contact = count( $contact) ? $contact[0] : ['error' => 'Ansprechpartner wurde in Exact nicht gefunden!'];
+
+        if($contact['error']) return $contact;
 
         $newContact = [
             $userData->first_name,

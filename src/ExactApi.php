@@ -250,13 +250,15 @@ class ExactApi
         // Same decision for the company user
         if ($order->user->erp_id != '') {
             $contact = $invoiceContact = $order->user->erp_id;
-            $this->checkUserChanges($contact, $order->user);
+            $resultUser = $this->checkUserChanges($contact, $order->user);
         } else if ($contactId = $invoiceContact = $this->getContactId($order->user, $account)) {
             $contact = $contactId;
-            $this->checkUserChanges($contact, $order->user);
+            $resultUser = $this->checkUserChanges($contact, $order->user);
         } else {
             $contact = $invoiceContact = $this->createContact($order->user, $account);
         }
+
+        if (isset($resultUser['error'])) return [$resultUser, null, null, null];
 
         if (is_array($contact) && array_key_exists('error', $contact)) return [$contact, null, null, null];
 
