@@ -359,8 +359,11 @@ trait ExactHelperTrait
      */
     protected function checkDeliveryChanges($addressId, $deliveryData)
     {
-        $address = $this->getAddress($addressId, 'AddressLine1,AddressLine2,AddressLine3,Postcode,City')[0];
-
+        $address = $this->getAddress($addressId, 'AddressLine1,AddressLine2,AddressLine3,Postcode,City');
+        $address = count($address) ? $address[0] : ['error' => 'Adresse wurde in Exact nicht gefunden!'];
+        
+        if(array_key_exists('error', $address)) return $address;
+        
         $newDelivery = [
             $deliveryData->delivery_name,
             $deliveryData->delivery_street . ' ' . $deliveryData->delivery_house_number,
