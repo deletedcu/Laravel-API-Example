@@ -171,6 +171,26 @@ trait ExactHelperTrait
     }
 
     /**
+     * Get forwarding_costs article
+     *
+     * @param $cost
+     * @param $countryCode
+     * @param $deliveryCountryCode
+     * @param $ustId
+     * @return Array
+     */
+    protected function getForwardingCosts($cost)
+    {
+        $uri = '/api/v1/'.  $this->division .' /logistics/Items?$filter=trim(Code) eq ' . "'" . 1234567 . "'" .'&$select=ID';
+
+        $itemId = Cache::remember('exact.item.' . '1234567', 1440, function () use ($uri) {
+            return $this->get($uri)->d->results;
+        });
+
+        dd($itemId[0]);
+    }
+
+    /**
      * Fetch the right accounting codes by country code
      *
      * @param $countryCode

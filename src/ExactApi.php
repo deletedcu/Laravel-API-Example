@@ -310,6 +310,12 @@ class ExactApi
             );
         }
 
+        if ($order->forwarding_costs != '0.00' && $order->forwarding_costs != '') {
+            $salesOrderLines[] = $this->getForwardingCosts(
+                $order->forwarding_costs
+            );
+        }
+
         // Prepare insert data
         $data = [
             'OrderDate' => $order->created_at->format('Y-m-d'),
