@@ -187,7 +187,15 @@ trait ExactHelperTrait
             return $this->get($uri)->d->results;
         });
 
-        dd($itemId[0]);
+        if (isset($itemId[0]->ID)) {
+            $return['Item'] = $itemId[0]->ID;
+            $return['Quantity'] = 1;
+            $return['NetPrice'] = $cost;
+            $return['VATCode'] = 3;
+            $return['DeliveryDate'] = Carbon::today();
+        }
+
+        return $return;
     }
 
     /**
