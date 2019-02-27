@@ -331,7 +331,7 @@ class ExactApi
             'AmountDiscountExclVat' => $order->coupon,
             'Discount' => $order->offer_discount_value != '0.00' && $order->offer_discount_value != '' ? $order->offer_discount_value : 0
         ];
-
+        dd($data);
         $response = $this->post('/api/v1/'. $this->division .'/salesorder/SalesOrders', $data);
 
         if (is_array($response) && array_key_exists('error', $response)) return [$response, null, null, null];
