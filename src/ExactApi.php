@@ -309,7 +309,7 @@ class ExactApi
                 $order->company->ustid
             );
         }
-
+        dd($order);
         if ($order->forwarding_costs != '0.00' && $order->forwarding_costs != '') {
             $salesOrderLines[] = $this->getForwardingCosts(
                 $order->forwarding_costs
