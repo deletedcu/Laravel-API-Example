@@ -192,7 +192,7 @@ trait ExactHelperTrait
             $return['Quantity'] = 1;
             $return['NetPrice'] = $cost;
             $return['VATCode'] = 3;
-            $return['DeliveryDate'] = Carbon::today();
+            $return['DeliveryDate'] = Carbon::today()->format('Y-m-d');
         }
 
         return $return;
