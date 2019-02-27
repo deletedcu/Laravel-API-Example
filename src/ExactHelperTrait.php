@@ -181,8 +181,8 @@ trait ExactHelperTrait
      */
     protected function getForwardingCosts($cost)
     {
-        $uri = '/api/v1/'.  $this->division .' /logistics/Items?$filter=trim(Code) eq ' . "'" . 1234567 . "'" .'&$select=ID';
-        dd($uri);
+        $uri = '/api/v1/'.  $this->division .'/logistics/Items?$filter=trim(Code) eq ' . "'" . 1234567 . "'" .'&$select=ID';
+        
         $itemId = Cache::remember('exact.item.' . '1234567', 1440, function () use ($uri) {
             return $this->get($uri)->d->results;
         });
