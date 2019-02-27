@@ -328,7 +328,8 @@ class ExactApi
             'PaymentCondition' => $paymentCondition,
             'PaymentReference' => $order->digital_bill ? 'eRg.' : '',
             'SalesOrderLines' => $salesOrderLines,
-            'AmountDiscountExclVat' => $order->coupon
+            'AmountDiscountExclVat' => $order->coupon,
+            'Discount' => $order->offer_discount_value != '0.00' && $order->offer_discount_value != '' ? $order->offer_discount_value : 0
         ];
 
         $response = $this->post('/api/v1/'. $this->division .'/salesorder/SalesOrders', $data);
