@@ -183,24 +183,24 @@ trait ExactHelperTrait
     {
         if ($deliveryCountryCode == 'DE') {
             $uri = '/api/v1/'.  $this->division .'/logistics/Items?$filter=trim(Code) eq ' . "'spedi DE'" .'&$select=ID';
-            $sku = 'spedi DE';
+            $code = 3;
         } else if ($deliveryCountryCode == 'LI' || $deliveryCountryCode == 'CH' || $deliveryCountryCode == 'RU' || $deliveryCountryCode == 'EGY' || $deliveryCountryCode == 'VE') {
             $uri = '/api/v1/'.  $this->division .'/logistics/Items?$filter=trim(Code) eq ' . "'spedi 3'" .'&$select=ID';
-            $sku = 'spedi 3';
+            $code = '000';
         } else {
             $uri = '/api/v1/'.  $this->division .'/logistics/Items?$filter=trim(Code) eq ' . "'spedi EU'" .'&$select=ID';
-            $sku = 'spedi EU';
+            $code = 11;
         }
         
         $itemId = Cache::remember('exact.item.' . $sku, 1440, function () use ($uri) {
             return $this->get($uri)->d->results;
         });
-        dd($sku);
+        
         if (isset($itemId[0]->ID)) {
             $return['Item'] = $itemId[0]->ID;
             $return['Quantity'] = 1;
             $return['NetPrice'] = $cost;
-            $return['VATCode'] = $sku == 'spedi DE' ? 3 : $sku == 'spedi 3' ? '000' : 11;
+            $return['VATCode'] = $code;
             $return['DeliveryDate'] = Carbon::today()->format('Y-m-d');
         }
 
