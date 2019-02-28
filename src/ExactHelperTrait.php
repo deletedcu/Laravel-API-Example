@@ -195,7 +195,7 @@ trait ExactHelperTrait
         $itemId = Cache::remember('exact.item.' . $sku, 1440, function () use ($uri) {
             return $this->get($uri)->d->results;
         });
-
+        dd($sku);
         if (isset($itemId[0]->ID)) {
             $return['Item'] = $itemId[0]->ID;
             $return['Quantity'] = 1;
