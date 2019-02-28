@@ -312,7 +312,8 @@ class ExactApi
         
         if ($order->forwarding_costs != '0.00' && $order->forwarding_costs != '') {
             $salesOrderLines[] = $this->getForwardingCosts(
-                $order->forwarding_costs
+                $order->forwarding_costs,
+                $order->delivery->language->code
             );
         }
 

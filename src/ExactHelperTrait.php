@@ -179,11 +179,20 @@ trait ExactHelperTrait
      * @param $ustId
      * @return Array
      */
-    protected function getForwardingCosts($cost)
+    protected function getForwardingCosts($cost, $deliveryCountryCode)
     {
-        $uri = '/api/v1/'.  $this->division .'/logistics/Items?$filter=trim(Code) eq ' . "'" . 1234567 . "'" .'&$select=ID';
+        if ($deliveryCountryCode == 'DE') {
+            $uri = '/api/v1/'.  $this->division .'/logistics/Items?$filter=trim(Code) eq ' . "'spedi DE'" .'&$select=ID';
+            $sku = 'spedi DE';
+        } else if ($deliveryCountryCode == 'LI' || $deliveryCountryCode == 'CH' || $deliveryCountryCode == 'RU' || $deliveryCountryCode == 'EGY' || $deliveryCountryCode == 'VE') {
+            $uri = '/api/v1/'.  $this->division .'/logistics/Items?$filter=trim(Code) eq ' . "'spedi 3'" .'&$select=ID';
+            $sku = 'spedi 3';
+        } else {
+            $uri = '/api/v1/'.  $this->division .'/logistics/Items?$filter=trim(Code) eq ' . "'spedi EU'" .'&$select=ID';
+            $sku = 'spedi EU';
+        }
         
-        $itemId = Cache::remember('exact.item.' . '1234567', 1440, function () use ($uri) {
+        $itemId = Cache::remember('exact.item.' . $sku, 1440, function () use ($uri) {
             return $this->get($uri)->d->results;
         });
 
@@ -191,7 +200,7 @@ trait ExactHelperTrait
             $return['Item'] = $itemId[0]->ID;
             $return['Quantity'] = 1;
             $return['NetPrice'] = $cost;
-            $return['VATCode'] = 3;
+            $return['VATCode'] = $sku == 'spedi DE' ? 3 : $sku == 'spedi 3' ? '000' : 11;
             $return['DeliveryDate'] = Carbon::today()->format('Y-m-d');
         }
 
