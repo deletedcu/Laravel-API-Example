@@ -183,12 +183,15 @@ trait ExactHelperTrait
     {
         if ($deliveryCountryCode == 'DE') {
             $uri = '/api/v1/'.  $this->division .'/logistics/Items?$filter=trim(Code) eq ' . "'spedi DE'" .'&$select=ID';
+            $sku = 'spedi DE';
             $code = 3;
         } else if ($deliveryCountryCode == 'LI' || $deliveryCountryCode == 'CH' || $deliveryCountryCode == 'RU' || $deliveryCountryCode == 'EGY' || $deliveryCountryCode == 'VE') {
             $uri = '/api/v1/'.  $this->division .'/logistics/Items?$filter=trim(Code) eq ' . "'spedi 3'" .'&$select=ID';
+            $sku = 'spedi 3';
             $code = '000';
         } else {
             $uri = '/api/v1/'.  $this->division .'/logistics/Items?$filter=trim(Code) eq ' . "'spedi EU'" .'&$select=ID';
+            $sku = 'spedi EU';
             $code = 11;
         }
         
